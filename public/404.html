@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 · Lvovich Online</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/win95.css">
+<style>
+  :root{--px:"Press Start 2P",ui-monospace,monospace}
+  html,body{margin:0;min-height:100%;background:#008080}
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;box-sizing:border-box;font-family:Tahoma,Verdana,'Segoe UI',sans-serif}
+  .w404{width:min(760px,100%);background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:1px 1px 0 #000;padding:3px}
+  .w404 .bar{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;font-size:13px;padding:3px 4px 3px 6px;display:flex;align-items:center;justify-content:space-between}
+  .w404 .bar .x{width:16px;height:14px;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #404040 #404040 #fff;font:bold 10px/12px Tahoma,sans-serif;text-align:center;text-decoration:none}
+  .menu{font-size:12px;padding:3px 4px;display:flex;gap:14px}
+  .menu u{text-decoration:underline}
+  .screen{position:relative;margin:4px;border:2px solid;border-color:#404040 #fff #fff #404040;background:#05061a;overflow:hidden}
+  canvas{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:none}
+  .screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+  .msg{padding:10px 12px 4px;font-size:13px;line-height:1.5}
+  .msg h1{font:12px/1.6 var(--px);margin:0 0 8px;color:#000080}
+  .msg code{background:#fff;border:1px solid #808080;padding:0 4px;font-size:12px;word-break:break-all}
+  .keys{font-size:12px;color:#303030;margin:6px 0 0}
+  .row{display:flex;gap:8px;justify-content:flex-end;padding:8px 12px 10px;flex-wrap:wrap}
+  .btn{font:12px Tahoma,sans-serif;min-width:96px;padding:5px 12px;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px 0 #808080;text-decoration:none;text-align:center;cursor:pointer}
+  .btn:active{border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #808080}
+  .btn:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+  .pad{display:none;gap:8px;padding:0 12px 4px}
+  .pad button{flex:1;font:14px var(--px);padding:14px 0;background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;touch-action:none;user-select:none;-webkit-user-select:none}
+  .pad button.on{border-color:#404040 #fff #fff #404040}
+  @media (hover:none) and (pointer:coarse){.pad{display:flex}.keys{display:none}}
+  .status{font-size:11px;border-top:1px solid #808080;box-shadow:inset 0 1px 0 #fff;margin:0 4px;padding:3px 6px;display:flex;justify-content:space-between;color:#202020}
+</style>
+</head>
+<body>
+<div class="w404" role="main">
+  <div class="bar"><span>Lvovich Online · Error 404</span><a class="x" href="/" aria-label="Close and go home">×</a></div>
+  <div class="menu" aria-hidden="true"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>G</u>o</span><span><u>H</u>elp</span></div>
+  <div class="screen"><canvas id="c" width="320" height="176" aria-label="A small platform game: walk the floppy disk to the HOME door to go back to the home page"></canvas></div>
+  <div class="pad" aria-hidden="true"><button data-k="L">◀</button><button data-k="J">JUMP</button><button data-k="R">▶</button></div>
+  <div class="msg">
+    <h1>WORLD 4-04 · PAGE NOT FOUND</h1>
+    The number you have dialed, <code id="path"></code>, is not in service. Someone may have picked up the phone mid-download.
+    Get the floppy to the <b>HOME</b> door and you'll be reconnected.
+    <p class="keys">← → to walk · Space or ↑ to jump · grab the lost packets on the way</p>
+  </div>
+  <div class="row"><a class="btn" href="/">Skip to home</a><a class="btn" href="/Alen_Lvovich_Resume.pdf">Résumé (PDF)</a></div>
+  <div class="status"><span id="st">Connected at 14,400 bps</span><span id="pk">Packets 0/5</span></div>
+</div>
+<script>
+(()=>{
+const cv=document.getElementById('c'),g=cv.getContext('2d');g.imageSmoothingEnabled=false;
+document.getElementById('path').textContent=location.pathname+location.search||'/';
+const W=320,H=176,T=8,COLS=84,ROWS=22;
+// ---- level: the 404 is the terrain
+const map=[...Array(ROWS)].map(()=>Array(COLS).fill('.'));
+for(let c=0;c<COLS;c++){if((c>=12&&c<=14)||(c>=62&&c<=64))continue;map[20][c]='#';map[21][c]='#'}
+const GLYPH={'4':['1..1.','1..1.','1..1.','11111','...1.','...1.','...1.'],'0':['.111.','1...1','1...1','1...1','1...1','1...1','.111.']};
+const putGlyph=(ch,col)=>GLYPH[ch].forEach((r,y)=>[...r].forEach((p,x)=>{if(p==='1')for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++)map[2+y*2+dy][col+x*2+dx]='B'}));
+putGlyph('4',18);putGlyph('0',33);putGlyph('4',48);
+// little floating ledges to make the climb friendly
+[[9,16],[10,16],[11,16],[29,16],[30,16],[31,16],[44,16],[45,16],[46,16],[59,16],[60,16],[61,16],[66,16],[67,16],[68,16]].forEach(([c,r])=>map[r][c]='=');
+const packets=[[22,18],[30,14],[38,18],[45,14],[67,14]].map(([c,r])=>({x:c*T+2,y:r*T+2,got:false}));
+const door={x:76*T,y:16*T,w:16,h:32};
+const solid=(c,r)=>r>=0&&r<ROWS&&c>=0&&c<COLS&&'#B='.includes(map[r][c]);
+// ---- player
+const P={x:3*T,y:17*T,w:10,h:12,vx:0,vy:0,on:false,face:1,t:0};
+const spawn=()=>{P.x=3*T;P.y=17*T;P.vx=P.vy=0};
+let keys={},cam=0,got=0,won=false,wonT=0,drops=0,shake=0;
+const st=document.getElementById('st'),pk=document.getElementById('pk');
+// ---- sound (tiny square-wave blips, started on first input)
+let ac=null;const beep=(f,d=.08,type='square',slide=0)=>{try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),v=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,ac.currentTime);if(slide)o.frequency.exponentialRampToValueAtTime(slide,ac.currentTime+d);v.gain.setValueAtTime(.05,ac.currentTime);v.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(v).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}};
+// ---- input
+const KM={ArrowLeft:'L',KeyA:'L',ArrowRight:'R',KeyD:'R',Space:'J',ArrowUp:'J',KeyW:'J'};
+addEventListener('keydown',e=>{const k=KM[e.code];if(k){keys[k]=true;e.preventDefault()}if(e.code==='Enter'&&won)location.href='/'});
+addEventListener('keyup',e=>{const k=KM[e.code];if(k)keys[k]=false});
+document.querySelectorAll('.pad button').forEach(b=>{const k=b.dataset.k;const on=v=>e=>{e.preventDefault();keys[k]=v;b.classList.toggle('on',v)};b.addEventListener('pointerdown',on(true));['pointerup','pointercancel','pointerleave'].forEach(t=>b.addEventListener(t,on(false)))});
+let jumpHeld=false;
+// ---- physics
+const collide=(ax)=>{const x0=Math.floor(P.x/T),x1=Math.floor((P.x+P.w-1)/T),y0=Math.floor(P.y/T),y1=Math.floor((P.y+P.h-1)/T);
+  for(let r=y0;r<=y1;r++)for(let c=x0;c<=x1;c++)if(solid(c,r)){
+    if(ax==='x'){if(P.vx>0)P.x=c*T-P.w;else if(P.vx<0)P.x=(c+1)*T;P.vx=0}
+    else{if(P.vy>0){P.y=r*T-P.h;P.on=true;}else if(P.vy<0){P.y=(r+1)*T;if(map[r][c]==='B'){shake=6;beep(220,.06)}}P.vy=0}
+    return}};
+function step(){
+  P.t++;
+  if(!won){
+    const ax=(keys.R?1:0)-(keys.L?1:0);
+    P.vx+=ax*.35;P.vx*=P.on?.78:.9;if(Math.abs(P.vx)<.05)P.vx=0;P.vx=Math.max(-2.2,Math.min(2.2,P.vx));if(ax)P.face=ax;
+    if(keys.J&&!jumpHeld&&P.on){P.vy=-4.6;P.on=false;beep(520,.12,'square',900)}
+    if(!keys.J&&P.vy<-1.5)P.vy=-1.5; // short hop when released
+    jumpHeld=!!keys.J;
+  }else{P.vx=0}
+  P.vy=Math.min(P.vy+.25,5);
+  P.x+=P.vx;collide('x');P.on=false;P.y+=P.vy;collide('y');
+  if(P.x<0)P.x=0;
+  if(P.y>H+20){drops++;beep(300,.4,'sawtooth',60);st.textContent=['NO CARRIER','Line busy… redialing','+++ATH0','Call waiting dropped you'][drops%4];spawn()}
+  for(const p of packets)if(!p.got&&P.x<p.x+5&&P.x+P.w>p.x&&P.y<p.y+5&&P.y+P.h>p.y){p.got=true;got++;pk.textContent=`Packets ${got}/${packets.length}`;beep(880,.07);setTimeout(()=>beep(1320,.09),70)}
+  if(!won&&P.x+P.w>door.x+4&&P.x<door.x+door.w-4&&P.y+P.h>door.y){won=true;wonT=0;st.textContent='CONNECT 56000 · handshaking…';[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.15),i*120))}
+  if(won&&++wonT===150)location.href='/';
+  const target=Math.max(0,Math.min(COLS*T-W,P.x-W*.4));cam+=(target-cam)*.12;
+  if(shake)shake--;
+}
+// ---- drawing
+const stars=[...Array(70)].map((_,i)=>({x:(i*97)%(COLS*T),y:(i*53)%110,s:i%3}));
+function px(x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)}
+const FLOPPY=[ // 10x12, 0=clear
+ '1111111110','1222222221','1233333221','1233343221','1233333221','1222222221','1555555551','1566666551','1566666551','1555555551','0170000710','0110000110'];
+const PAL={1:'#0b0b2a',2:'#1f3fbf',3:'#d8d8e8',4:'#1f3fbf',5:'#1f3fbf',6:'#c0c0c0',7:'#0b0b2a'};
+function drawPlayer(x,y){
+  const run=P.on&&Math.abs(P.vx)>.3?Math.floor(P.t/5)%2:0;
+  FLOPPY.forEach((row,j)=>[...row].forEach((v,i)=>{if(v==='0')return;let ii=P.face<0?9-i:i;if(j>=10&&run){ii+=(j===10?1:-1)*(i<5?1:-1)}px(x+ii,y+j,1,1,PAL[v])}));
+  // eyes on the label
+  const ex=P.face>0?5:2,blink=P.t%180<6;px(x+ex,y+3,1,blink?1:2,'#0b0b2a');px(x+ex+2,y+3,1,blink?1:2,'#0b0b2a');
+}
+function draw(){
+  const sx=shake?((shake%2)?1:-1):0;
+  g.setTransform(1,0,0,1,0,0);px(0,0,W,H,'#05061a');
+  // sky gradient bands
+  ['#0a0c2e','#0c1038','#0f1442','#121a4e'].forEach((c,i)=>px(0,40+i*24,W,24,c));
+  for(const s of stars){const x=((s.x-cam*.3)%(COLS*T)+COLS*T)%(COLS*T);if(x<W)px(x,s.y,1,1,s.s?'#5b6bd6':(P.t+s.x)%60<30?'#fff':'#9aa3ff')}
+  // distant modem towers
+  g.setTransform(1,0,0,1,Math.round(-cam*.5)+sx,0);
+  for(let i=0;i<14;i++){const x=i*70+20;px(x,112,3,48,'#1a2260');px(x-6,118,15,2,'#1a2260');if((P.t+i*20)%80<40)px(x,108,3,3,'#ff4b4b')}
+  g.setTransform(1,0,0,1,Math.round(-cam)+sx,0);
+  // tiles
+  const c0=Math.floor(cam/T),c1=c0+W/T+1;
+  for(let r=0;r<ROWS;r++)for(let c=c0;c<=c1&&c<COLS;c++){const t=map[r][c],x=c*T,y=r*T;
+    if(t==='#'){px(x,y,T,T,r===20?'#00a0a0':'#007070');if(r===20){px(x,y,T,2,'#3fe0d0');px(x+(c*3)%6,y+4,1,1,'#005858')}}
+    else if(t==='B'){px(x,y,T,T,'#FFD23F');px(x,y,T,1,'#fff3a8');px(x,y,1,T,'#fff3a8');px(x,y+T-1,T,1,'#b8860b');px(x+T-1,y,1,T,'#b8860b')}
+    else if(t==='='){px(x,y,T,3,'#c0c0c0');px(x,y,T,1,'#fff');px(x,y+2,T,1,'#808080')}}
+  // packets
+  for(const p of packets)if(!p.got){const b=Math.sin((P.t+p.x)/10)*1.5;px(p.x,p.y+b,5,5,'#ff7ad9');px(p.x+1,p.y+1+b,3,3,'#fff');px(p.x+2,p.y+2+b,1,1,'#ff7ad9')}
+  // door
+  px(door.x-2,door.y-10,door.w+4,10,'#000080');g.fillStyle='#fff';g.font='6px "Press Start 2P",monospace';g.fillText('HOME',door.x-1,door.y-2);
+  px(door.x,door.y,door.w,door.h,'#c0c0c0');px(door.x+2,door.y+2,door.w-4,door.h-2,won?'#FFD23F':'#3a3a8a');px(door.x+door.w-5,door.y+door.h/2,2,2,'#FFD23F');
+  if(won){for(let i=0;i<8;i++){const a=i/8*Math.PI*2+wonT/10,rr=wonT/2;px(door.x+8+Math.cos(a)*rr,door.y+16+Math.sin(a)*rr,2,2,i%2?'#FFD23F':'#ff7ad9')}}
+  // player
+  if(!(won&&wonT>40))drawPlayer(P.x,P.y);
+  // hint sign at start
+  px(40,136,44,16,'#c0c0c0');px(41,137,42,14,'#fff');g.fillStyle='#000080';g.font='5px "Press Start 2P",monospace';g.fillText('HOME ►',45,147);px(60,152,3,8,'#808080');
+  // HUD
+  g.setTransform(1,0,0,1,0,0);
+  g.font='8px "Press Start 2P",monospace';g.fillStyle='#FFD23F';g.fillText('WORLD 4-04',8,14);g.fillStyle='#fff';g.fillText('PKT '+got+'/'+packets.length,W-88,14);
+  if(won){px(0,70,W,36,'rgba(0,0,0,.6)');g.fillStyle='#FFD23F';g.font='10px "Press Start 2P",monospace';g.fillText('RECONNECTED!',W/2-60,88);g.fillStyle='#fff';g.font='6px "Press Start 2P",monospace';g.fillText(got===packets.length?'ALL PACKETS RECOVERED · PERFECT':'HEADING HOME…',got===packets.length?W/2-93:W/2-39,100)}
+}
+let last=0,acc=0;function loop(t){acc+=Math.min(50,t-last||16);last=t;while(acc>=1000/60){step();acc-=1000/60}draw();requestAnimationFrame(loop)}
+(document.fonts?.ready||Promise.resolve()).then(()=>requestAnimationFrame(loop));
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)stars.length=0;
+})();
+</script>
+</body>
+</html>
