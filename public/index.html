@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://alenlvovich.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/win95.css?v=2">
-<link rel="stylesheet" href="/themes.css?v=2">
+<link rel="stylesheet" href="/themes.css?v=3">
 <script>
 // Apply saved display settings before first paint (see Settings in the taskbar).
 window.LO_WALLS={teal:'#008080',w2k:'#3A6EA5',clouds:'radial-gradient(ellipse 22% 9% at 18% 28%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%),radial-gradient(ellipse 28% 10% at 68% 18%,rgba(255,255,255,.9),rgba(255,255,255,0) 70%),radial-gradient(ellipse 24% 9% at 42% 62%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%),radial-gradient(ellipse 30% 10% at 86% 74%,rgba(255,255,255,.8),rgba(255,255,255,0) 70%),linear-gradient(180deg,#2F6FD6,#8DBDF3)',meadow:'radial-gradient(ellipse 95% 45% at 28% 100%,#56A82F 60%,rgba(86,168,47,0) 61%),radial-gradient(ellipse 85% 38% at 88% 102%,#3F9126 60%,rgba(63,145,38,0) 61%),linear-gradient(180deg,#1F62D4 0%,#6FB0F0 50%,#CFE8FB 68%,#78B843 68%)',stars:'radial-gradient(1px 1px at 20px 30px,#FFF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1px 1px at 130px 90px,#CCF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1.5px 1.5px at 70px 150px,#FFF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1px 1px at 170px 20px,#FFD23F,rgba(255,255,255,0)) 0 0/200px 180px,#06072A',platinum:'radial-gradient(#7E7EC4 1px,rgba(0,0,0,0) 1.4px) 0 0/4px 4px,#5B5BA6',dither:'repeating-conic-gradient(#000 0 25%,#FFF 0 50%) 0 0/2px 2px'};
@@ -235,8 +235,8 @@ function viewOnline(){
   return `<div class="desk"><div class="col">${welcome}${imw}</div><div style="flex:1 1 280px;max-width:100%;display:flex;flex-direction:column;gap:20px">${buddy}${profile}</div></div><div class="below">${mail}</div>${viewSettings()}`;
 }
 const THEMES = [
-  ['win95','Windows 95','The classic: teal desktop, navy title bars.','#008080','linear-gradient(90deg,#000080,#1084D0)','#C0C0C0'],
-  ['win2k','Windows 2000','Warmer grey, faded blue title bars.','#3A6EA5','linear-gradient(90deg,#0A246A,#A6CAF0)','#D4D0C8'],
+  ['win95','Windows 95','The original: flat navy title bars, cool grey, teal desktop.','#008080','#000080','#C0C0C0'],
+  ['win2k','Windows 2000','Warm beige-grey, long blue-fade title bars, window icons.','#3A6EA5','linear-gradient(90deg,#0A246A,#3A6EA5 45%,#A6CAF0)','#D4D0C8'],
   ['winxp','Windows XP','Rounded blue windows and a green Start button.','linear-gradient(180deg,#2C6FD8,#78B843 75%)','linear-gradient(180deg,#0997FF,#0050EE)','#ECE9D8'],
   ['mac8','Mac OS 8','Platinum: pinstriped title bars, menu bar on top.','#5B5BA6','repeating-linear-gradient(180deg,#DDD 0 1px,#AAA 1px 2px)','#DDD'],
   ['sys7','System 7','One-bit black and white, the way it shipped.','repeating-conic-gradient(#000 0 25%,#FFF 0 50%) 0 0/2px 2px','repeating-linear-gradient(180deg,#FFF 0 1px,#000 1px 2px)','#FFF']

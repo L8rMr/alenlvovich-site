@@ -1,7 +1,20 @@
 /* Desktop themes for Lvovich Online. Picked in Settings › Appearance and stored per browser. */
 
 /* ---------- Windows 2000 ---------- */
-html[data-theme=win2k]{--face:#D4D0C8;--sh:#404040;--sh2:#808080;--accent:#0A246A;--sel:#0A246A;--ttl:linear-gradient(90deg,#0A246A,#A6CAF0);--ttl-off:linear-gradient(90deg,#808080,#C0C0C0);--font:Tahoma,'Segoe UI',sans-serif}
+/* ---------- Windows 95: flat navy title bars, square and plain ---------- */
+html[data-theme=win95]{--ttl:#000080;--ttl-off:#808080;--ttl-off-fg:#C0C0C0;--font:'Microsoft Sans Serif','MS Sans Serif',Arial,sans-serif}
+html[data-theme=win95] .ttl{padding:3px 4px;font-size:12px}
+html[data-theme=win95] .tbtn{width:16px;height:14px;font-size:9px}
+
+/* ---------- Windows 2000: warm grey, long blue fade, window icons ---------- */
+html[data-theme=win2k]{--face:#D4D0C8;--hi:#FFF;--sh:#404040;--sh2:#808080;--accent:#0A246A;--sel:#0A246A;--link:#0A246A;--ttl:linear-gradient(90deg,#0A246A 0%,#3A6EA5 45%,#A6CAF0 100%);--ttl-off:linear-gradient(90deg,#808080,#D4D0C8);--ttl-off-fg:#D4D0C8;--font:Tahoma,'Segoe UI',sans-serif}
+html[data-theme=win2k] .ttl{padding:5px 5px 5px 6px;font-size:12.5px;letter-spacing:.2px}
+html[data-theme=win2k] .ttl .tt::before{content:"";display:inline-block;width:14px;height:12px;margin-right:6px;vertical-align:-2px;background:linear-gradient(#0A246A 0 3px,#FFF 3px) padding-box;border:1px solid #000;box-shadow:1px 1px 0 rgba(0,0,0,.35)}
+html[data-theme=win2k] .tbtn{width:18px;height:16px;font-family:'Marlett',Tahoma,sans-serif}
+html[data-theme=win2k] .win{box-shadow:1px 1px 0 #000,inset 1px 1px 0 #D4D0C8}
+html[data-theme=win2k] .taskbar{border-top:1px solid #D4D0C8;box-shadow:inset 0 1px 0 #FFF;padding:3px 4px}
+html[data-theme=win2k] #task::before{content:"";display:inline-block;width:16px;height:14px;margin-right:6px;vertical-align:-2px;border-radius:50%;width:14px;background:radial-gradient(circle at 35% 35%,#FFF3A8,#FFD23F 45%,#B8860B);box-shadow:0 0 0 1px #000080}
+html[data-theme=win2k] .buddy.on{background:#0A246A}
 
 /* ---------- Windows XP ---------- */
 html[data-theme=winxp]{--face:#ECE9D8;--hi:#FFF;--sh:#ACA899;--sh2:#ACA899;--edge:transparent;--accent:#0A3F9E;--sel:#316AC5;--link:#0B4FB3;--ttl:linear-gradient(180deg,#0997FF 0%,#0053EE 8%,#0050EE 40%,#06F 88%,#0034C9 100%);--ttl-off:linear-gradient(180deg,#7A96DF,#A6B9EF 40%,#7A96DF);--font:Tahoma,'Segoe UI',sans-serif}
