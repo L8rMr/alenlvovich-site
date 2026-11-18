@@ -11,6 +11,7 @@
 <meta property="og:url" content="https://alenlvovich.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/win95.css?v=2">
+<link rel="preload" as="image" href="/img/signon-dial.webp"><link rel="preload" as="image" href="/img/signon-run.webp"><link rel="preload" as="image" href="/img/signon-cheer.webp">
 <link rel="stylesheet" href="/themes.css?v=6">
 <script src="/display.js?v=2"></script>
 <style>
@@ -39,34 +40,21 @@
 .buddy{width:100%;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 22px;min-height:44px;border:0;text-align:left;background:transparent;color:#000}
 .buddy.on{background:var(--sel);color:var(--sel-fg)}
 .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;border:1px solid #000}
-.step{width:96px;height:96px;display:flex;align-items:center;justify-content:center;border:2px solid;border-color:var(--sh2) var(--hi) var(--hi) var(--sh2);position:relative;overflow:hidden}
-.step svg{width:84px;height:84px;overflow:visible}
-.step .n{position:absolute;left:5px;top:3px;font:bold 12px 'Arial Black',Arial,sans-serif}
-.step .fig{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
-.step .hd{fill:currentColor;stroke:none}
-/* 1 · dialing: signal arcs pulse out of the handset */
-.step .arc{opacity:.15}
-.step.now .arc{animation:arc 1.2s infinite}
-.step.now .a2{animation-delay:.2s}.step.now .a3{animation-delay:.4s}
-@keyframes arc{0%,100%{opacity:.15}40%{opacity:1}}
-.step.done .arc{opacity:1}
-/* 2 · connecting: two-frame run cycle, sprinting toward the door */
-.step .fB{display:none}
-.step.now .fA{animation:fa .32s steps(1) infinite}.step.now .fB{display:inline;animation:fb .32s steps(1) infinite}
-@keyframes fa{50%{opacity:0}}@keyframes fb{0%{opacity:0}50%{opacity:1}}
-.step.now .runner{animation:dash 1.6s linear infinite}
-@keyframes dash{0%{transform:translateX(-14px)}100%{transform:translateX(10px)}}
-.step .spd{opacity:0}.step.now .spd{opacity:.7}
-/* 3 · signed on: the crowd jumps and cheers, confetti falls */
-.step.now .cheer,.step.done .cheer{animation:hop .5s ease-in-out infinite alternate}
-.step .c2{animation-delay:.15s!important}.step .c3{animation-delay:.3s!important}
-@keyframes hop{to{transform:translateY(-5px)}}
-.step .cf{opacity:0}
-.step.now .cf,.step.done .cf{opacity:1;animation:fall 1.4s linear infinite}
-.step .cf:nth-child(2){animation-delay:.3s}.step .cf:nth-child(3){animation-delay:.7s}.step .cf:nth-child(4){animation-delay:1s}.step .cf:nth-child(5){animation-delay:.5s}
-@keyframes fall{0%{transform:translateY(-10px) rotate(0)}100%{transform:translateY(60px) rotate(200deg)}}
-.step.todo{opacity:.55}
-@media (prefers-reduced-motion:reduce){.step *{animation:none!important}}
+.step{width:96px;height:96px;display:flex;align-items:flex-end;justify-content:center;border:2px solid;border-color:var(--sh2) var(--hi) var(--hi) var(--sh2);position:relative;overflow:hidden;background:var(--well)}
+.step .n{position:absolute;left:5px;top:3px;font:bold 12px 'Arial Black',Arial,sans-serif;color:var(--accent);z-index:1}
+/* Sign-on sprites: one strip of frames per scene, stepped through with background-position */
+.spr{display:block;height:92%;background-repeat:no-repeat;background-size:calc(var(--f)*100%) 100%;background-position:0 0;image-rendering:auto}
+.spr.dial{--f:6;aspect-ratio:164/180;background-image:url(/img/signon-dial.webp)}
+.spr.run{--f:8;aspect-ratio:155/180;background-image:url(/img/signon-run.webp)}
+.spr.cheer{--f:8;aspect-ratio:162/150;height:auto;width:96%;margin-bottom:4%;background-image:url(/img/signon-cheer.webp)}
+@keyframes spr6{to{background-position:100% 0}}
+.step.now{background:#FFF6CC}
+.step.done{background:#E3E8FF}
+.step.todo .spr{filter:grayscale(1);opacity:.45}
+.step.now .dial{animation:spr6 .9s steps(6,jump-none) infinite}
+.step.now .run{animation:spr6 .7s steps(8,jump-none) infinite}
+.step.now .cheer,.step.done .cheer{animation:spr6 1s steps(8,jump-none) infinite}
+@media (prefers-reduced-motion:reduce){.spr{animation:none!important}}
 @media (max-width:520px){.grid2{grid-template-columns:1fr}.desk{padding:12px 12px 0}.below{padding:12px}.center{padding:16px 10px}
   .chans{grid-template-columns:repeat(2,minmax(0,1fr))}
   #sn,#pw{width:100%;min-width:0}
@@ -178,18 +166,12 @@ function viewSignon(){
     </div>
   </div></div></div>`;
 }
-// Sign-on scenes, drawn for this site: dial the phone, run to the door, join the cheering crowd.
-const SCENES = [
-  `<svg viewBox="0 0 64 64" aria-hidden="true"><circle class="hd" cx="20" cy="17" r="5.5"/><path class="fig" d="M20 23v17M20 40l-6 15M20 40l6 15M20 28l-7 8M20 28l8-6"/><rect x="26" y="13" width="9" height="5" rx="2" fill="currentColor" transform="rotate(-30 30 16)"/><path class="fig arc a1" d="M38 11a7 7 0 0 1 0 10"/><path class="fig arc a2" d="M42 7a12 12 0 0 1 0 18"/><path class="fig arc a3" d="M46 3a17 17 0 0 1 0 26"/></svg>`,
-  `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="fig spd" d="M4 26h8M2 34h10M6 42h7" stroke-width="2"/><g class="runner"><circle class="hd" cx="34" cy="15" r="5.5"/><path class="fig" d="M33 21l-3 17"/><g class="fA"><path class="fig" d="M30 38l-9 6-4 9M30 38l9 7 1 10M32 26l-9 5M32 26l9-2 5-7"/></g><g class="fB"><path class="fig" d="M30 38l-2 9-6 8M30 38l10 3 6 8M32 26l-8-4M32 26l9 6 3 6"/></g></g><path d="M54 18h8v38h-8z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="56.5" cy="38" r="1.2" fill="currentColor"/></svg>`,
-  `<svg viewBox="0 0 64 64" aria-hidden="true"><g><rect class="cf" x="8" y="2" width="3" height="3" fill="#CC0000"/><rect class="cf" x="22" y="0" width="3" height="3" fill="#00A0A0"/><rect class="cf" x="38" y="3" width="3" height="3" fill="#CC0000"/><rect class="cf" x="52" y="1" width="3" height="3" fill="#00A000"/><rect class="cf" x="30" y="6" width="3" height="3" fill="#FFF"/></g><g class="cheer c1"><circle class="hd" cx="12" cy="26" r="4.5"/><path class="fig" d="M12 31v12M12 43l-4 11M12 43l4 11M12 34l-6-8M12 34l6-8" stroke-width="2.8"/></g><g class="cheer c3"><circle class="hd" cx="52" cy="26" r="4.5"/><path class="fig" d="M52 31v12M52 43l-4 11M52 43l4 11M52 34l-6-8M52 34l6-8" stroke-width="2.8"/></g><g class="cheer c2"><circle class="hd" cx="32" cy="20" r="5.5"/><path class="fig" d="M32 26v15M32 41l-5 14M32 41l5 14M32 30l-8-10M32 30l8-10"/></g></svg>`
-];
+// Sign-on scenes: sprite strips in /img (dial the phone, run to sign on, the crowd cheers).
+const SCENES = ['<i class="spr dial" aria-hidden="true"></i>','<i class="spr run" aria-hidden="true"></i>','<i class="spr cheer" aria-hidden="true"></i>'];
 function viewConnecting(){
   const steps = SL.map((l,i)=>{
     const st = S.step>i?'done':(S.step===i?'now':'todo');
-    const bg = st==='done'?'var(--accent)':(st==='now'?'#FFD23F':'var(--face)');
-    const fg = st==='done'?'#FFD23F':'var(--accent)';
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="step ${st}" style="background:${bg};color:${fg}"><span class="n">${i+1}</span>${SCENES[i]}</div><div style="font-size:12px">${l}</div></div>`;
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="step ${st}"><span class="n">${i+1}</span>${SCENES[i]}</div><div style="font-size:12px">${l}</div></div>`;
   }).join('');
   const pct = Math.round((S.step+1)/4*100);
   return `<div class="center"><div class="win" style="width:100%;max-width:520px">
