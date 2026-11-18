@@ -1,0 +1,138 @@
+/* TrueUp · Modern interface
+   A finance-suite shell: left navigation by the planning → close cycle, a page header with breadcrumb,
+   quiet surfaces, IBM Plex type with tabular figures, and accounting presentation for tables
+   (right-aligned amounts, negatives in parentheses, a rule above totals and a double rule below). */
+
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(../fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+
+html[data-ui=modern]{
+  --bg:#F2F4F7;--panel:#FFFFFF;--ink:#182230;--muted:#5B6676;--line:#E1E5EA;--accent:#1660A8;
+  --red:#B42318;--orange:#B54708;--yellow:#A15C07;--green:#1E7A52;--purple:#6941C6;--teal:#0E7490;--pink:#C11574;--indigo:#3E4FB8;--gray:#667085;
+  --redbg:#FEF0EE;--orangebg:#FEF4E8;--yellowbg:#FEF7E6;--greenbg:#EBF7F0;--purplebg:#F4F0FD;--tealbg:#E7F5F8;--blue:#1660A8;--bluebg:#EAF2FB;--pinkbg:#FDEEF6;--indigobg:#EEF0FB;--graybg:#F2F4F7;
+  --shadow:0 1px 2px rgba(16,24,40,.06);
+  --nav:#0B2134;--nav-ink:#B9C6D3;--nav-hi:#FFFFFF;--nav-on:#13324D;--ledger:#2FB37A;--rule:#182230;
+  --side:244px;
+  color-scheme:light;
+}
+html[data-ui=modern] body{font-family:"Plex",-apple-system,"Segoe UI",sans-serif;font-size:13.5px;background:var(--bg);padding-left:var(--side);font-variant-numeric:tabular-nums}
+html[data-ui=modern] button,html[data-ui=modern] input,html[data-ui=modern] select,html[data-ui=modern] textarea{font-family:inherit}
+
+/* ---------- Left navigation ---------- */
+html[data-ui=modern] header.top{position:fixed;left:0;top:0;bottom:0;width:var(--side);display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:var(--nav);color:var(--nav-ink);overflow-y:auto;overflow-x:visible;z-index:70;scrollbar-width:thin}
+html[data-ui=modern] header.top .home{display:block;padding:20px 20px 14px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.07)}
+html[data-ui=modern] header.top .home h1{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:3px;font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--nav-hi)}
+html[data-ui=modern] header.top .home h1::before{content:"";width:26px;height:26px;margin-bottom:8px;border-radius:6px;background:
+  linear-gradient(var(--ledger),var(--ledger)) 6px 7px/14px 2px no-repeat,
+  linear-gradient(var(--ledger),var(--ledger)) 6px 12px/14px 2px no-repeat,
+  linear-gradient(var(--ledger),var(--ledger)) 6px 17px/9px 2px no-repeat,#123A5A}
+html[data-ui=modern] header.top .tagline{font-size:11.5px;font-weight:400;color:#7F93A8;letter-spacing:0}
+html[data-ui=modern] header.top .brand{display:none}
+html[data-ui=modern] header.top .actions{order:-1;display:block;padding:12px 20px 4px;justify-self:auto}
+html[data-ui=modern] header.top .home{order:-2}
+html[data-ui=modern] .fq{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:#DCE6EF;background:#123A5A;border-radius:999px;padding:4px 10px}
+html[data-ui=modern] .fq span{color:#93A7BB}
+
+html[data-ui=modern] .tabs{flex-direction:column;align-items:stretch;background:none;padding:6px 10px 12px;border-radius:0;gap:1px}
+html[data-ui=modern] .uigrp{font-size:11px;font-weight:600;color:#6F849A;padding:14px 10px 5px;letter-spacing:.02em}
+html[data-ui=modern] .tabs>a,html[data-ui=modern] .navmenu>a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:var(--nav-ink);font-size:13.5px;font-weight:500;box-shadow:none;background:none}
+html[data-ui=modern] .tabs>a:hover,html[data-ui=modern] .navmenu>a:hover{background:rgba(255,255,255,.05);color:var(--nav-hi);text-decoration:none}
+html[data-ui=modern] .tabs>a.on{background:var(--nav-on);color:var(--nav-hi);box-shadow:inset 3px 0 0 var(--ledger)}
+html[data-ui=modern] #tab-count{color:#7F93A8}
+html[data-ui=modern] .tabs>a::before,html[data-ui=modern] .navmenu>a::before{content:"";flex:none;width:16px;height:16px;background:currentColor;opacity:.85;-webkit-mask:var(--ic) center/16px no-repeat;mask:var(--ic) center/16px no-repeat}
+html[data-ui=modern] #tab-analytics{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 14h12M4 12V8m4 4V4m4 8V6' stroke='%23000' stroke-width='1.7' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-items{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 2.5h10v11H3z' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cpath d='M5.5 6l1.5 1.5L10.5 4M5.5 10.5h5' stroke='%23000' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-staffing{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='6' cy='5.5' r='2.5' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cpath d='M1.5 13.5c.6-2.6 2.3-4 4.5-4s3.9 1.4 4.5 4M11 3.5a2.3 2.3 0 010 4.5M12.5 9.6c1.1.6 1.8 1.9 2 3.9' stroke='%23000' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-tracking{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5.8' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cpath d='M8 2.2V8l4.1 4.1' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-ledgr{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 2.5h11v11h-11zM2.5 6h11M2.5 9.5h11M6.5 6v7.5' stroke='%23000' stroke-width='1.4' fill='none'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-forecast{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 12.5l3.5-4 3 2.5L14 4.5' stroke='%23000' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M10.5 4.5H14V8' stroke='%23000' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+html[data-ui=modern] #tab-accruals{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2.5' y='3' width='11' height='10.5' rx='1' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cpath d='M2.5 6.5h11M5.5 1.8v2.4M10.5 1.8v2.4M5.5 9.5l1.5 1.5 3-3' stroke='%23000' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+
+/* Forecast / Accruals groups are always expanded in the rail */
+html[data-ui=modern] .navmenu{flex-direction:column;position:static}
+html[data-ui=modern] .navmenu::after{display:none}
+html[data-ui=modern] .navmenu .car{display:none}
+html[data-ui=modern] .navmenu>a{cursor:default}
+html[data-ui=modern] .navdrop,html[data-ui=modern] .navmenu:hover .navdrop,html[data-ui=modern] .navmenu:focus-within .navdrop{display:block;position:static;min-width:0;padding:0 0 4px 26px;border:0;border-radius:0;background:none;box-shadow:none}
+html[data-ui=modern] .navdrop>a.navtop{padding:6px 10px;border-radius:6px;font-size:13px;font-weight:400;color:var(--nav-ink)}
+html[data-ui=modern] .navdrop>a.navtop:hover,html[data-ui=modern] .navsub a:hover{background:rgba(255,255,255,.05);color:var(--nav-hi);text-decoration:none}
+html[data-ui=modern] #nav-fc a.navtop.on,html[data-ui=modern] .navsub a.on,html[data-ui=modern] .navsub a.uion{color:var(--nav-hi);background:var(--nav-on);box-shadow:inset 3px 0 0 var(--ledger)}
+html[data-ui=modern] .navorg>span{padding:7px 10px 3px;font-size:12px;font-weight:600;color:#7F93A8}
+html[data-ui=modern] .navorg:hover>span{background:none}
+html[data-ui=modern] .navorg>span svg,html[data-ui=modern] .navorg::after{display:none}
+html[data-ui=modern] .navsub,html[data-ui=modern] .navorg:hover .navsub,html[data-ui=modern] .navorg:focus-within .navsub{display:block;position:static;min-width:0;padding:0 0 2px 8px;border:0;border-radius:0;background:none;box-shadow:none}
+html[data-ui=modern] .navsub a{padding:5px 10px;border-radius:6px;font-size:13px;color:var(--nav-ink)}
+
+/* Tools sits at the foot of the rail and opens to the right */
+html[data-ui=modern] .tabs .navtools{margin-top:12px;position:relative}
+html[data-ui=modern] .tabs .navtools>#opts-btn{width:100%;justify-content:flex-start;background:none;color:var(--nav-ink);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:7px 10px;font-weight:500}
+html[data-ui=modern] .tabs .navtools>#opts-btn:hover,html[data-ui=modern] .tabs .navtools>#opts-btn[aria-expanded="true"]{background:rgba(255,255,255,.05);color:var(--nav-hi);border-color:rgba(255,255,255,.25)}
+html[data-ui=modern] .tabs .navtools .optitem>.submenu,html[data-ui=modern] .tabs .navtools .optgrp>.submenu{left:calc(100% + 6px);right:auto}
+html[data-ui=modern] .tabs .navtools>.optmenu,html[data-ui=modern] .top .optmenu{position:fixed;left:calc(var(--side) - 14px)!important;top:auto!important;bottom:16px;right:auto}
+html[data-ui=modern] .uiswitch{margin:auto 16px 16px;display:flex;align-items:center;gap:2px;background:#0F2B44;border-radius:7px;padding:3px}
+html[data-ui=modern] .uisw-l{font-size:11px;color:#6F849A;padding:0 6px}
+html[data-ui=modern] .uiswitch button{flex:1;background:none;color:#93A7BB;padding:5px 8px;border-radius:5px;font-size:12px;font-weight:500}
+html[data-ui=modern] .uiswitch button[aria-pressed=true]{background:#1B4467;color:#FFF}
+
+/* ---------- Page header ---------- */
+html[data-ui=modern] #uibar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 28px;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+html[data-ui=modern] .uicrumbs{font-size:11.5px;color:var(--muted);white-space:pre}
+html[data-ui=modern] .uititle{font-size:19px;font-weight:600;letter-spacing:-.01em;margin-top:1px}
+html[data-ui=modern] #uibar .utilctl{height:auto;margin:0}
+html[data-ui=modern] .gsbtn{background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:7px;min-width:260px;justify-content:flex-start}
+html[data-ui=modern] .gsbtn kbd{margin-left:auto}
+html[data-ui=modern] .utilrow{margin:14px 28px 0}
+html[data-ui=modern] .utilrow:not(:has(.mywork:not([hidden]))){display:none}
+html[data-ui=modern] .wrap{margin:0 28px}
+html[data-ui=modern] .page{padding:14px 28px 56px}
+html[data-ui=modern] .filters{margin:14px 28px 0}
+
+/* ---------- Surfaces ---------- */
+html[data-ui=modern] .panel{border-radius:8px;border:1px solid var(--line);box-shadow:none}
+html[data-ui=modern] .card{border-radius:8px;border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none;padding:14px 16px 12px;position:relative;overflow:hidden}
+html[data-ui=modern] .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cc,var(--accent))}
+html[data-ui=modern] .card:hover{transform:none;border-color:#C4CBD4;box-shadow:0 1px 3px rgba(16,24,40,.08)}
+html[data-ui=modern] .card .k{font-weight:500;color:var(--muted)}
+html[data-ui=modern] .card .v{font-size:24px;font-weight:600;letter-spacing:-.015em}
+html[data-ui=modern] .fcard{border-radius:8px;background:var(--panel)}
+html[data-ui=modern] .fcard b{font-weight:600}
+
+/* Controls */
+html[data-ui=modern] button{border-radius:6px;font-weight:500}
+html[data-ui=modern] button.ghost{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+html[data-ui=modern] button.ghost:hover{border-color:#C4CBD4}
+html[data-ui=modern] select,html[data-ui=modern] input[type=text],html[data-ui=modern] input[type=search],html[data-ui=modern] input[type=number],html[data-ui=modern] input:not([type]){border-radius:6px;border-color:var(--line)}
+html[data-ui=modern] .seg{border-radius:6px}
+html[data-ui=modern] .seg button.on{background:var(--nav);color:#FFF}
+html[data-ui=modern] .tag,html[data-ui=modern] .chip,html[data-ui=modern] .fchip{border-radius:4px}
+
+/* ---------- Tables: accounting presentation ---------- */
+html[data-ui=modern] table{font-size:12.5px}
+html[data-ui=modern] th{background:#F7F8FA;color:#475467;font-weight:600;font-size:12px;border-bottom:1px solid #CFD5DD;padding:8px 10px}
+html[data-ui=modern] td{padding:7px 10px;border-bottom:1px solid #EDF0F3}
+html[data-ui=modern] td.r,html[data-ui=modern] th.r{font-variant-numeric:tabular-nums lining-nums}
+html[data-ui=modern] .acct-neg{color:var(--red)}
+html[data-ui=modern] tr.grand>td,html[data-ui=modern] tr.total>td,html[data-ui=modern] tr.tot>td,html[data-ui=modern] tfoot td{font-weight:600;border-top:1px solid var(--rule);border-bottom:3px double var(--rule);background:#FAFBFC}
+html[data-ui=modern] .tablewrap tbody tr:hover>td,html[data-ui=modern] .hwrap tr:hover>td{background:#F3F7FC!important}
+
+/* Narrow screens: the rail becomes a top strip again */
+@media (max-width:1000px){
+  html[data-ui=modern] body{padding-left:0}
+  html[data-ui=modern] header.top{position:static;width:auto;flex-direction:row;flex-wrap:wrap;align-items:center;overflow:visible}
+  html[data-ui=modern] header.top .home{border:0;padding:12px 16px}
+  html[data-ui=modern] header.top .home h1::before{display:none}
+  html[data-ui=modern] .uigrp,html[data-ui=modern] .uiswitch .uisw-l{display:none}
+  html[data-ui=modern] .tabs{flex-direction:row;flex-wrap:wrap;width:100%;padding:4px 8px}
+  html[data-ui=modern] .navdrop,html[data-ui=modern] .navsub{display:none}
+  html[data-ui=modern] .uiswitch{margin:6px 12px}
+  html[data-ui=modern] #uibar{padding:10px 14px}
+  html[data-ui=modern] .gsbtn{min-width:0}
+  html[data-ui=modern] .page,html[data-ui=modern] .filters{padding-left:12px;padding-right:12px;margin-left:0;margin-right:0}
+}
+html[data-ui=modern] .tabs .navtools>#opts-btn{background:none!important}
+html[data-ui=modern] .tabs .navtools>#opts-btn:hover,html[data-ui=modern] .tabs .navtools>#opts-btn[aria-expanded="true"]{background:rgba(255,255,255,.06)!important}
+html[data-ui=modern] .tabs a,html[data-ui=modern] #tab-accruals,html[data-ui=modern] #tab-forecast{font-weight:500!important}
+html[data-ui=modern] .navsub a,html[data-ui=modern] .navdrop>a.navtop{font-weight:400!important}

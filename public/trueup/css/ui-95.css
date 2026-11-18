@@ -1,0 +1,138 @@
+/* TrueUp · 1995 interface
+   The same program as a 1995 Windows business application: title bar, menu bar, toolbar, MS Sans Serif,
+   beveled 3-D controls, white grid tables, a status bar, and a 16-colour palette for charts. */
+
+/* chrome that only exists in this theme */
+#w95title,#w95status{display:none}
+
+@font-face{font-family:"W95";src:url(../fonts/ms_sans_serif.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"W95";src:url(../fonts/ms_sans_serif_bold.woff2) format("woff2");font-weight:700}
+
+html[data-ui=w95]{
+  --bg:#C0C0C0;--panel:#FFFFFF;--ink:#000000;--muted:#404040;--line:#808080;--accent:#000080;
+  --red:#C00000;--orange:#806000;--yellow:#806000;--green:#008000;--purple:#800080;--teal:#008080;--pink:#800080;--indigo:#000080;--gray:#808080;
+  --redbg:#FFE0E0;--orangebg:#FFFFE1;--yellowbg:#FFFFE1;--greenbg:#E0F0E0;--purplebg:#F0E0F0;--tealbg:#E0F0F0;--blue:#000080;--bluebg:#E0E0F0;--pinkbg:#F0E0F0;--indigobg:#E0E0F0;--graybg:#DFDFDF;
+  --shadow:none;
+  --face:#C0C0C0;--hi:#FFFFFF;--lt:#DFDFDF;--sh:#808080;--dk:#000000;
+  --raised:inset -1px -1px var(--dk),inset 1px 1px var(--hi),inset -2px -2px var(--sh),inset 2px 2px var(--lt);
+  --sunken:inset -1px -1px var(--hi),inset 1px 1px var(--sh),inset -2px -2px var(--lt),inset 2px 2px var(--dk);
+  --pressed:inset -1px -1px var(--hi),inset 1px 1px var(--dk),inset -2px -2px var(--lt),inset 2px 2px var(--sh);
+  color-scheme:light;
+}
+html[data-ui=w95] *{border-radius:0!important;text-shadow:none!important;transition:none!important;animation-duration:0s!important}
+html[data-ui=w95] body{font-family:"W95","Microsoft Sans Serif",Tahoma,sans-serif;font-size:11px;line-height:1.35;background:#808080;color:#000;padding:44px 0 26px;-webkit-font-smoothing:none;font-smooth:never}
+html[data-ui=w95] button,html[data-ui=w95] input,html[data-ui=w95] select,html[data-ui=w95] textarea{font-family:inherit;font-size:11px}
+html[data-ui=w95] h1,html[data-ui=w95] h2,html[data-ui=w95] h3{font-weight:700;letter-spacing:0}
+html[data-ui=w95] h2{font-size:11px}
+html[data-ui=w95] a{color:#000080;font-weight:400;text-decoration:underline}
+
+/* ---------- Title bar ---------- */
+html[data-ui=w95] #w95title{display:flex;position:fixed;top:0;left:0;right:0;height:20px;z-index:200;align-items:center;gap:4px;padding:0 2px 0 4px;background:#000080;color:#FFF;font-weight:700;font-size:11px}
+html[data-ui=w95] .w95-ico{width:14px;height:14px;background:linear-gradient(#FFF 0 0) 3px 4px/8px 1px no-repeat,linear-gradient(#FFF 0 0) 3px 7px/8px 1px no-repeat,linear-gradient(#FFF 0 0) 3px 10px/5px 1px no-repeat,#008080;box-shadow:inset 0 0 0 1px #000}
+html[data-ui=w95] .w95-t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-ui=w95] .w95-btns{display:flex;gap:2px}
+html[data-ui=w95] .w95-btns i{width:16px;height:14px;background:var(--face);color:#000;font-style:normal;font-size:10px;line-height:13px;text-align:center;box-shadow:var(--raised)}
+html[data-ui=w95] .w95-btns i:last-child{margin-left:2px}
+
+/* ---------- Menu bar (the app's navigation) ---------- */
+html[data-ui=w95] header.top{position:fixed;top:20px;left:0;right:0;height:24px;z-index:150;display:flex;align-items:center;gap:0;padding:0 2px;background:var(--face);border-bottom:1px solid var(--sh);box-shadow:0 1px 0 var(--hi)}
+html[data-ui=w95] header.top .home,html[data-ui=w95] header.top .brand,html[data-ui=w95] header.top .actions,html[data-ui=w95] .uigrp{display:none}
+html[data-ui=w95] .tabs{display:flex;flex-direction:row;align-items:center;gap:0;padding:0;background:none}
+html[data-ui=w95] .tabs>a,html[data-ui=w95] .navmenu>a,html[data-ui=w95] .tabs .navtools>#opts-btn{display:inline-flex;align-items:center;height:20px;padding:0 7px!important;color:#000;font-size:11px;font-weight:400!important;text-decoration:none;background:none;box-shadow:none;border:0;cursor:default}
+html[data-ui=w95] .tabs>a:hover,html[data-ui=w95] .navmenu:hover>a,html[data-ui=w95] .navmenu:focus-within>a,html[data-ui=w95] .tabs .navtools>#opts-btn:hover,html[data-ui=w95] .tabs .navtools>#opts-btn[aria-expanded=true]{background:#000080;color:#FFF;text-decoration:none}
+html[data-ui=w95] .tabs>a.on{box-shadow:var(--pressed)}
+html[data-ui=w95] .tabs>a.on:hover{box-shadow:none}
+html[data-ui=w95] #tab-count{color:inherit}
+html[data-ui=w95] .car,html[data-ui=w95] .subcar{display:none}
+html[data-ui=w95] .navmenu{position:relative}
+html[data-ui=w95] .navdrop,html[data-ui=w95] .navsub,html[data-ui=w95] .optmenu,html[data-ui=w95] .expmenu,html[data-ui=w95] .submenu{background:var(--face)!important;border:0!important;box-shadow:var(--raised),2px 2px 0 rgba(0,0,0,.45)!important;padding:3px!important;min-width:170px}
+html[data-ui=w95] .navdrop{top:100%;left:0}
+html[data-ui=w95] .navsub{left:100%;top:-3px}
+html[data-ui=w95] .navdrop>a.navtop,html[data-ui=w95] .navsub a,html[data-ui=w95] .navorg>span,html[data-ui=w95] .expmenu button,html[data-ui=w95] .optrow{display:flex;padding:3px 20px 3px 18px;color:#000;font-size:11px;font-weight:400;text-decoration:none;background:none;box-shadow:none;border:0;position:relative}
+html[data-ui=w95] .navorg>span::after,html[data-ui=w95] .optitem>.optrow::after{content:"▶";position:absolute;right:5px;font-size:7px;top:5px}
+html[data-ui=w95] .navdrop>a.navtop:hover,html[data-ui=w95] .navsub a:hover,html[data-ui=w95] .navorg:hover>span,html[data-ui=w95] .expmenu button:hover:not(:disabled),html[data-ui=w95] .optrow:hover{background:#000080!important;color:#FFF!important}
+html[data-ui=w95] .expmenu button:hover span,html[data-ui=w95] .optrow:hover span{color:#FFF}
+html[data-ui=w95] .expmenu button b,html[data-ui=w95] .optrow b{font-weight:400;font-size:11px}
+html[data-ui=w95] .expmenu button span{font-size:10px}
+html[data-ui=w95] .optsep{height:0;border-top:1px solid var(--sh);border-bottom:1px solid var(--hi);margin:3px 1px}
+html[data-ui=w95] #nav-fc a.navtop.on,html[data-ui=w95] .navsub a.on,html[data-ui=w95] .navsub a.uion{font-weight:700;color:#000}
+html[data-ui=w95] .navorg>span svg{display:none}
+html[data-ui=w95] .tabs .navtools .optitem>.submenu,html[data-ui=w95] .tabs .navtools .optgrp>.submenu{left:100%;right:auto;top:-3px}
+html[data-ui=w95] .tabs .navtools>.optmenu,html[data-ui=w95] .top .optmenu{top:100%!important;left:0!important;bottom:auto}
+
+/* interface switch lives at the right end of the menu bar */
+html[data-ui=w95] .uiswitch{margin-left:auto;display:flex;align-items:center;gap:3px;padding-right:2px}
+html[data-ui=w95] .uisw-l{font-size:11px;margin-right:2px}
+html[data-ui=w95] .uiswitch button{background:var(--face);color:#000;box-shadow:var(--raised);padding:1px 8px;height:18px;font-size:11px;font-weight:400}
+html[data-ui=w95] .uiswitch button[aria-pressed=true]{box-shadow:var(--pressed);background:repeating-conic-gradient(var(--face) 0 25%,#FFF 0 50%) 0 0/2px 2px}
+
+/* ---------- Toolbar ---------- */
+html[data-ui=w95] #uibar{position:sticky;top:44px;z-index:120;display:flex;align-items:center;gap:8px;padding:3px 6px;background:var(--face);border-bottom:1px solid var(--sh);box-shadow:0 1px 0 var(--hi)}
+html[data-ui=w95] .uicrumbs{display:none}
+html[data-ui=w95] .uititle{font-size:11px;font-weight:700;padding:2px 8px;box-shadow:var(--sunken);background:#FFF;min-width:160px}
+html[data-ui=w95] #uibar .utilctl{margin-left:auto;height:auto;gap:4px}
+html[data-ui=w95] .gsbtn,html[data-ui=w95] .hl{background:var(--face)!important;color:#000!important;box-shadow:var(--raised);border:0!important;height:22px;padding:0 8px;font-size:11px}
+html[data-ui=w95] .gsbtn kbd{background:none;border:0;font-size:10px;color:#404040}
+html[data-ui=w95] .utilrow{margin:6px 8px 0}
+html[data-ui=w95] .utilrow:not(:has(.mywork:not([hidden]))){display:none}
+
+/* ---------- Client area ---------- */
+html[data-ui=w95] .page{margin:6px 8px;padding:8px;background:var(--face);box-shadow:var(--raised)}
+html[data-ui=w95] .filters{margin:6px 8px 0;padding:6px 8px;background:var(--face);box-shadow:var(--raised)}
+html[data-ui=w95] #note.wrap{margin:0 8px}
+html[data-ui=w95] .filters label,html[data-ui=w95] .filters .lbl{text-transform:none;letter-spacing:0;font-size:11px;color:#000}
+html[data-ui=w95] .panel{background:var(--face);border:0;box-shadow:inset -1px -1px var(--hi),inset 1px 1px var(--sh),inset -2px -2px var(--sh),inset 2px 2px var(--hi);padding:10px 12px}
+html[data-ui=w95] .panel .ph h2{font-size:11px}
+html[data-ui=w95] .card,html[data-ui=w95] .fcard{background:var(--face);border:0;box-shadow:var(--raised);border-top:0;padding:8px 10px}
+html[data-ui=w95] .card::before{content:"";display:block;height:3px;margin:-8px -10px 6px;background:var(--cc,#000080)}
+html[data-ui=w95] .card:hover{transform:none;box-shadow:var(--raised)}
+html[data-ui=w95] .card:active{box-shadow:var(--pressed)}
+html[data-ui=w95] .card .k,html[data-ui=w95] .fcard span{color:#000;font-weight:400;font-size:11px}
+html[data-ui=w95] .card .v{font-size:18px;font-weight:700;letter-spacing:0;font-family:"W95",sans-serif}
+html[data-ui=w95] .card .d{color:#404040;font-size:10px}
+html[data-ui=w95] .fcard b{font-size:14px}
+
+/* Controls */
+html[data-ui=w95] button{background:var(--face);color:#000;border:0;box-shadow:var(--raised);padding:3px 12px;font-weight:400;min-height:22px}
+html[data-ui=w95] button:active:not(:disabled){box-shadow:var(--pressed)}
+html[data-ui=w95] button:not(.ghost):not(.seg button):not([role=menuitem]):not(.optrow):not(.tbtn):focus-visible{outline:1px dotted #000;outline-offset:-4px}
+html[data-ui=w95] button.ghost{background:var(--face);color:#000;border:0}
+html[data-ui=w95] button:disabled{color:#808080;opacity:1;text-shadow:1px 1px #FFF!important}
+html[data-ui=w95] select,html[data-ui=w95] input[type=text],html[data-ui=w95] input[type=search],html[data-ui=w95] input[type=number],html[data-ui=w95] input[type=date],html[data-ui=w95] input:not([type]),html[data-ui=w95] textarea{background:#FFF;color:#000;border:0!important;box-shadow:var(--sunken);height:21px;padding:2px 4px;font-size:11px}
+html[data-ui=w95] textarea{height:auto}
+html[data-ui=w95] .seg{border:0;box-shadow:none;background:none;gap:0}
+html[data-ui=w95] .seg button{background:var(--face);color:#000;border:0;box-shadow:var(--raised);padding:3px 10px;font-size:11px}
+html[data-ui=w95] .seg button.on{box-shadow:var(--pressed);background:repeating-conic-gradient(var(--face) 0 25%,#FFF 0 50%) 0 0/2px 2px;color:#000;font-weight:700}
+html[data-ui=w95] .tag,html[data-ui=w95] .chip,html[data-ui=w95] .fchip{border:1px solid #000;background:#FFF;color:#000}
+
+/* ---------- Grid tables ---------- */
+html[data-ui=w95] .tablewrap,html[data-ui=w95] .hwrap{background:#FFF;box-shadow:var(--sunken);padding:2px;border:0}
+html[data-ui=w95] table{font-size:11px;background:#FFF}
+html[data-ui=w95] th{background:var(--face);color:#000;font-weight:400;font-size:11px;box-shadow:var(--raised);border:0;padding:3px 6px}
+html[data-ui=w95] td{padding:2px 6px;border:1px solid #DFDFDF;border-top:0;border-left:0}
+html[data-ui=w95] .acct-neg{color:#C00000}
+html[data-ui=w95] tr.grand>td,html[data-ui=w95] tr.total>td,html[data-ui=w95] tr.tot>td,html[data-ui=w95] tfoot td{font-weight:700;border-top:1px solid #000;border-bottom:3px double #000;background:#FFF}
+html[data-ui=w95] .tablewrap tbody tr:hover>td,html[data-ui=w95] .hwrap tr:hover>td{background:#000080!important;color:#FFF!important}
+html[data-ui=w95] .tablewrap tbody tr:hover>td *,html[data-ui=w95] .hwrap tr:hover>td *{color:#FFF!important}
+
+/* ---------- Status bar ---------- */
+html[data-ui=w95] #w95status{display:flex;position:fixed;left:0;right:0;bottom:0;height:24px;z-index:200;gap:2px;padding:2px;background:var(--face);border-top:1px solid var(--hi);font-size:11px}
+html[data-ui=w95] #w95status span{box-shadow:inset -1px -1px var(--hi),inset 1px 1px var(--sh);padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-ui=w95] #w95status .s1{flex:0 0 90px}
+html[data-ui=w95] #w95status .s2{flex:1}
+html[data-ui=w95] #w95status .s3{flex:0 1 380px}
+html[data-ui=w95] #w95status .s4{flex:0 0 44px;text-align:center}
+
+/* Scrollbars, the 1995 way (WebKit/Blink) */
+html[data-ui=w95] ::-webkit-scrollbar{width:16px;height:16px;background:repeating-conic-gradient(var(--face) 0 25%,#FFF 0 50%) 0 0/2px 2px}
+html[data-ui=w95] ::-webkit-scrollbar-thumb{background:var(--face);box-shadow:var(--raised)}
+html[data-ui=w95] ::-webkit-scrollbar-button{display:block;height:16px;width:16px;background:var(--face);box-shadow:var(--raised)}
+
+@media (max-width:900px){
+  html[data-ui=w95] header.top{height:auto;flex-wrap:wrap;position:sticky;top:20px}
+  html[data-ui=w95] body{padding-top:20px}
+  html[data-ui=w95] #uibar{position:static}
+  html[data-ui=w95] .uisw-l{display:none}
+  html[data-ui=w95] #w95status .s3,html[data-ui=w95] #w95status .s4{display:none}
+}
+html[data-ui=w95] .tabs a,html[data-ui=w95] .tabs .navtools>#opts-btn,html[data-ui=w95] #tab-accruals,html[data-ui=w95] #tab-forecast{font-weight:400!important}
