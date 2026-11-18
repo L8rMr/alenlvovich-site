@@ -9,37 +9,37 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/win95.css">
+<link rel="stylesheet" href="/win95.css?v=2">
+<link rel="stylesheet" href="/themes.css?v=4">
+<script src="/display.js?v=1"></script>
 <style>
   :root{--px:"Press Start 2P",ui-monospace,monospace}
-  html,body{margin:0;min-height:100%;background:#008080}
-  body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;box-sizing:border-box;font-family:Tahoma,Verdana,'Segoe UI',sans-serif}
-  .w404{width:min(760px,100%);background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:1px 1px 0 #000;padding:3px}
-  .w404 .bar{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;font-size:13px;padding:3px 4px 3px 6px;display:flex;align-items:center;justify-content:space-between}
-  .w404 .bar .x{width:16px;height:14px;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #404040 #404040 #fff;font:bold 10px/12px Tahoma,sans-serif;text-align:center;text-decoration:none}
+  html,body{margin:0;min-height:100%}
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;box-sizing:border-box;font-family:var(--font)}
+  .w404{width:min(760px,100%);padding:3px}
+  
+  .w404 .ttl .tbtn{text-decoration:none}
   .menu{font-size:12px;padding:3px 4px;display:flex;gap:14px}
   .menu u{text-decoration:underline}
-  .screen{position:relative;margin:4px;border:2px solid;border-color:#404040 #fff #fff #404040;background:#05061a;overflow:hidden}
+  .screen{position:relative;margin:4px;border:2px solid;border-color:var(--sh) var(--hi) var(--hi) var(--sh);background:#05061a;overflow:hidden}
   canvas{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:none}
   .screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
   .msg{padding:10px 12px 4px;font-size:13px;line-height:1.5}
-  .msg h1{font:12px/1.6 var(--px);margin:0 0 8px;color:#000080}
-  .msg code{background:#fff;border:1px solid #808080;padding:0 4px;font-size:12px;word-break:break-all}
-  .keys{font-size:12px;color:#303030;margin:6px 0 0}
+  .msg h1{font:12px/1.6 var(--px);margin:0 0 8px;color:var(--accent)}
+  .msg code{background:var(--well);border:1px solid var(--sh2);padding:0 4px;font-size:12px;word-break:break-all}
+  .keys{font-size:12px;opacity:.8;margin:6px 0 0}
   .row{display:flex;gap:8px;justify-content:flex-end;padding:8px 12px 10px;flex-wrap:wrap}
-  .btn{font:12px Tahoma,sans-serif;min-width:96px;padding:5px 12px;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px 0 #808080;text-decoration:none;text-align:center;cursor:pointer}
-  .btn:active{border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #808080}
-  .btn:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+  .btn{font-size:12px;min-width:96px;text-decoration:none;text-align:center;padding:5px 12px}
   .pad{display:none;gap:8px;padding:0 12px 4px}
-  .pad button{flex:1;font:14px var(--px);padding:14px 0;background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;touch-action:none;user-select:none;-webkit-user-select:none}
-  .pad button.on{border-color:#404040 #fff #fff #404040}
+  .pad button{flex:1;font:14px var(--px);padding:14px 0;background:var(--face);color:var(--text);border:2px solid;border-color:var(--hi) var(--sh) var(--sh) var(--hi);touch-action:none;user-select:none;-webkit-user-select:none}
+  .pad button.on{border-color:var(--sh) var(--hi) var(--hi) var(--sh)}
   @media (hover:none) and (pointer:coarse){.pad{display:flex}.keys{display:none}}
-  .status{font-size:11px;border-top:1px solid #808080;box-shadow:inset 0 1px 0 #fff;margin:0 4px;padding:3px 6px;display:flex;justify-content:space-between;color:#202020}
+  .status{font-size:11px;border-top:1px solid var(--sh2);box-shadow:inset 0 1px 0 var(--hi);margin:0 4px;padding:3px 6px;display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
-<div class="w404" role="main">
-  <div class="bar"><span>Lvovich Online · Error 404</span><a class="x" href="/" aria-label="Close and go home">×</a></div>
+<div class="win w404" role="main">
+  <div class="ttl"><span><span class="tt">Lvovich Online · Error 404</span></span><span class="tb"><a class="tbtn" href="/" aria-label="Close and go home">×</a></span></div>
   <div class="menu" aria-hidden="true"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>G</u>o</span><span><u>H</u>elp</span></div>
   <div class="screen"><canvas id="c" width="320" height="176" aria-label="A small platform game: walk the floppy disk to the HOME door to go back to the home page"></canvas></div>
   <div class="pad" aria-hidden="true"><button data-k="L">◀</button><button data-k="J">JUMP</button><button data-k="R">▶</button></div>
@@ -49,7 +49,7 @@
     Get the floppy to the <b>HOME</b> door and you'll be reconnected.
     <p class="keys">← → to walk · Space or ↑ to jump · grab the lost packets on the way</p>
   </div>
-  <div class="row"><a class="btn" href="/">Skip to home</a><a class="btn" href="/Alen_Lvovich_Resume.pdf">Résumé (PDF)</a></div>
+  <div class="row"><a class="bev btn" href="/">Skip to home</a><a class="bev btn" href="/Alen_Lvovich_Resume.pdf">Résumé (PDF)</a></div>
   <div class="status"><span id="st">Connected at 14,400 bps</span><span id="pk">Packets 0/5</span></div>
 </div>
 <script>

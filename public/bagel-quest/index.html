@@ -6,13 +6,15 @@
 <title>Bagel Quest — Lvovich Online</title>
 <meta name="description" content="Jackie & Bialy: Bagel Quest. A Pokémon-style RPG about hunting the best bagel in New York's five boroughs. Play it in your browser.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='26' fill='%23D9A55B'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23008080'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/win95.css">
+<link rel="stylesheet" href="/win95.css?v=2">
+<link rel="stylesheet" href="/themes.css?v=4">
+<script src="/display.js?v=1"></script>
 <style>
 .wrap{flex:1;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .gamewin{width:100%;max-width:1100px}
 .menu{display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:2px 4px;border-bottom:1px solid #808080}
 .menu a,.menu button{display:inline-flex;align-items:center;height:30px;margin:0;padding:0 10px;font:inherit;font-size:13px;line-height:1;color:#000;text-decoration:none;background:none;border:0;cursor:pointer}
-.menu a:hover,.menu button:hover{background:#000080;color:#FFF}
+.menu a:hover,.menu button:hover{background:var(--sel);color:var(--sel-fg)}
 .screen{position:relative;background:#000;aspect-ratio:16/9;width:100%}
 .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#000 radial-gradient(circle at 50% 40%,#3b2a12,#000 70%);color:#FFD23F;text-align:center;padding:20px}
@@ -26,7 +28,7 @@
 <body>
 <main class="wrap" id="desk">
   <section class="win gamewin" data-win="game">
-    <div class="ttl" data-drag><span>BAGELQST.EXE — Jackie &amp; Bialy: Bagel Quest</span><span class="tb"><a class="tbtn" href="/" aria-label="Close and go back to Lvovich Online" style="text-decoration:none;color:#000">×</a></span></div>
+    <div class="ttl" data-drag><span><span class="tt">BAGELQST.EXE — Jackie &amp; Bialy: Bagel Quest</span></span><span class="tb"><a class="tbtn" href="/" aria-label="Close and go back to Lvovich Online" style="text-decoration:none;color:var(--text)">×</a></span></div>
     <nav class="menu" aria-label="Game menu">
       <a href="/">← Lvovich Online</a>
       <button id="fs" type="button">Full screen</button>

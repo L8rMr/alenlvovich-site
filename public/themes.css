@@ -93,3 +93,4 @@ html.crt body::after{content:"";position:fixed;inset:0;pointer-events:none;z-ind
 .dp-row{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
 .dp-foot{display:flex;justify-content:space-between;gap:8px;padding:10px;flex-wrap:wrap}
 html.big body{zoom:1.15}
+html[data-theme=mac8] #gear,html[data-theme=sys7] #gear{font-size:10px;width:auto;padding:0 2px}
