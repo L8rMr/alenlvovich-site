@@ -45,7 +45,7 @@
 .osd{position:absolute;top:6%;right:7%;font-family:'Courier New',monospace;font-weight:bold;color:#3dff6e;font-size:clamp(18px,4.5vw,40px);text-shadow:0 0 6px #3dff6e,2px 2px 0 #000;letter-spacing:2px;opacity:0;transition:opacity .3s}
 .osd small{display:block;font-size:.42em;letter-spacing:1px;text-align:right}
 .osd.show{opacity:1}
-.nosig{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:bold;color:#fff;font-size:clamp(16px,3.6vw,32px);text-shadow:2px 2px 0 #000;letter-spacing:3px}
+.nosig{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Courier New',monospace;font-weight:bold;color:#fff;font-size:clamp(16px,3.6vw,32px);text-shadow:2px 2px 0 #000;letter-spacing:3px}
 .nosig.show{display:flex}
 .mute{position:absolute;left:6%;bottom:7%;font-family:'Courier New',monospace;color:#3dff6e;font-size:clamp(11px,2vw,16px);text-shadow:0 0 6px #3dff6e;background:rgba(0,0,0,.35);border:0;padding:6px 8px;cursor:pointer;display:none}
 .mute.show{display:block;animation:blink2 1s steps(1) infinite}
@@ -245,7 +245,7 @@ function tune(i){
   if (!on) return;
   showOSD('CH '+c.n, c.name, 3500);
   snowAmt = .9; hiss(1); ok = false;
-  nosig.innerHTML = 'TUNING…<br><small style="font-size:.5em;letter-spacing:1px">channels can take a few seconds</small>'; nosig.style.textAlign='center'; nosig.classList.add('show');
+  nosig.innerHTML = '<span>TUNING…</span><small style="font-size:.5em;letter-spacing:1px;margin-top:8px">channels can take a few seconds</small>'; nosig.classList.add('show');
   const url = BASE + '/channel/' + encodeURIComponent(c.n) + '.m3u8?mode=segmenter';
   if (hls){ hls.destroy(); hls=null; }
   vid.removeAttribute('src');
