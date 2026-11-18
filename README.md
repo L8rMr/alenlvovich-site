@@ -9,8 +9,8 @@ Edit anything in [`public/`](public/) and commit to `main`. The site picks up th
 - `public/index.html` is the whole site: HTML, CSS and JS in one file.
 - `public/Alen_Lvovich_Resume.pdf` is the résumé the "Download résumé" button links to.
 - `public/win95.css` and `public/win95.js` hold the shared Windows 95 look and the draggable windows.
-- `public/bagel-quest/` is the Bagel Quest page. It frames the live game from `bagel.lvovichtv.com`, which deploys from the `L8rMr/bagel-quest` repo.
-- `public/tv/` is LvovichTV: a CRT set with a channel dial, volume, power, degauss, smack and a service menu. It plays ErsatzTV channels through `/iptv/`.
+- `public/bagel-quest/` is the Bagel Quest page (`classic/` is the original single-file version). It frames the live game from `bagel.lvovichtv.com`, which deploys from the `L8rMr/bagel-quest` repo.
+- `public/tv/` is LvovichTV: a CRT set with a channel dial, volume, power, degauss, smack and a service menu. It plays ErsatzTV channels through `/iptv/`, which nginx proxies to ErsatzTV on the PC (port 8409).
 - `nginx/default.conf` is the web server config. nginx reloads within a minute when it changes.
 
 ## How it's hosted

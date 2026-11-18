@@ -10,8 +10,8 @@
 <style>
 .wrap{flex:1;padding:20px;display:flex;justify-content:center;align-items:flex-start}
 .gamewin{width:100%;max-width:1100px}
-.menu{display:flex;gap:2px;padding:2px 4px;font-size:13px;border-bottom:1px solid #808080}
-.menu a,.menu button{padding:4px 10px;color:#000;text-decoration:none;background:none;border:0;min-height:30px}
+.menu{display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:2px 4px;border-bottom:1px solid #808080}
+.menu a,.menu button{display:inline-flex;align-items:center;height:30px;margin:0;padding:0 10px;font:inherit;font-size:13px;line-height:1;color:#000;text-decoration:none;background:none;border:0;cursor:pointer}
 .menu a:hover,.menu button:hover{background:#000080;color:#FFF}
 .screen{position:relative;background:#000;aspect-ratio:16/9;width:100%}
 .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -30,7 +30,7 @@
     <nav class="menu" aria-label="Game menu">
       <a href="/">← Lvovich Online</a>
       <button id="fs" type="button">Full screen</button>
-      <a href="https://bagel.lvovichtv.com/classic/" target="_blank" rel="noopener">Classic version</a>
+      <a href="/bagel-quest/classic/">Classic version</a>
       <a href="https://bagel.lvovichtv.com/" target="_blank" rel="noopener">Open in new tab</a>
     </nav>
     <div style="padding:6px">
