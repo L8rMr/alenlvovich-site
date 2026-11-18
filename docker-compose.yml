@@ -1,6 +1,6 @@
 # alenlvovich.com — self-hosted, auto-updating from GitHub.
 # "puller" clones this repo into a shared volume and runs `git pull` every 60s.
-# "site" serves the repo's public/ folder with nginx on localhost:8099,
+# "site" serves public/ using nginx/default.conf (auto-reloaded on change) with nginx on localhost:8099,
 # which the Cloudflare Tunnel (lvovichtv) publishes as alenlvovich.com.
 services:
   puller:
@@ -21,7 +21,11 @@ services:
     depends_on: [puller]
     entrypoint: ["/bin/sh", "-c"]
     command: >-
-      "sed -i 's#/usr/share/nginx/html#/repo/public#' /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+      "cp /repo/nginx/default.conf /etc/nginx/conf.d/default.conf && nginx &&
+       while sleep 60; do cmp -s /repo/nginx/default.conf /etc/nginx/conf.d/default.conf ||
+       { cp /repo/nginx/default.conf /etc/nginx/conf.d/default.conf && nginx -s reload; }; done"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "127.0.0.1:8099:80"
     volumes:

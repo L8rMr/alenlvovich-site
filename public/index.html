@@ -10,25 +10,14 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alenlvovich.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/win95.css">
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;background:#008080}
-body{color:#000;font-family:Tahoma,Verdana,'Segoe UI',sans-serif;font-size:14px;min-height:100vh;display:flex;flex-direction:column}
-a{color:#0000CC}a:hover{color:#CC0000}
-button,select,input{font:inherit;cursor:pointer}
-a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:1px dotted #000;outline-offset:2px}
-.win{background:#C0C0C0;border:2px solid;border-color:#FFF #404040 #404040 #FFF;box-shadow:1px 1px 0 #000}
-.ttl{background:linear-gradient(90deg,#000080,#1084D0);color:#FFF;font-weight:bold;padding:4px 6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
-.tb{display:flex;gap:2px}
-.tbtn{width:20px;height:18px;padding:0;background:#C0C0C0;border:2px solid;border-color:#FFF #404040 #404040 #FFF;color:#000;font-size:11px;line-height:1;font-weight:bold}
-.bev{background:#C0C0C0;border:2px solid;border-color:#FFF #404040 #404040 #FFF;box-shadow:1px 1px 0 #000;color:#000;padding:6px 16px;min-height:32px}
-.bev:active,.bev.on{border-color:#404040 #FFF #FFF #404040}
-.well{background:#FFF;border:2px solid;border-color:#808080 #FFF #FFF #808080}
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 16px}
-.desk{flex:1;padding:24px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1280px;margin:0 auto;width:100%}
+.desk{padding:24px 24px 0;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1280px;margin:0 auto;width:100%}
 .col{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.below{padding:20px 24px 24px;max-width:1280px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;align-items:center}
-.chans{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.chans{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
 .chan{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;min-height:88px}
 .chan i{width:34px;height:34px;color:#FFF;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-size:13px;font-style:normal;border:1px solid #000}
 .buddy{width:100%;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 22px;min-height:44px;border:0;text-align:left;background:transparent;color:#000}
@@ -38,32 +27,34 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 @keyframes blink{50%{opacity:.2}}
 .lit{animation:blink .45s steps(1) 3}
 @media (prefers-reduced-motion:reduce){.lit{animation:none}}
-@media (max-width:520px){.grid2{grid-template-columns:1fr}.desk{padding:12px}}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}.desk{padding:12px 12px 0}.below{padding:12px}}
 </style>
 </head>
 <body>
 <main id="app" style="flex:1;display:flex;flex-direction:column"></main>
-<div style="background:#C0C0C0;border-top:2px solid #FFF;padding:4px 6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px">
-  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+<div class="taskbar">
+  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;min-width:0">
     <button class="bev" id="task" style="font-weight:bold;padding:2px 10px;min-height:32px">Sign On</button>
+    <span id="tasks" style="display:flex;gap:4px;flex-wrap:wrap"></span>
     <span id="conn" style="padding:0 6px">Lvovich Online: not connected</span>
   </div>
-  <div id="clock" style="border:1px solid;border-color:#808080 #FFF #FFF #808080;padding:4px 10px"></div>
+  <div id="clock" class="tray"></div>
 </div>
 
+<script src="/win95.js"></script>
 <script>
 (function(){
 const RESUME_URL = '/Alen_Lvovich_Resume.pdf';
-const S = { stage:'signon', step:0, im:0, ch:0, mail:false, who:'Recruiter99' };
+const S = { stage:'signon', step:0, im:0, ch:0, mail:false, who:'Recruiter99', closed:{} };
 let timers = [];
 const app = document.getElementById('app');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const tb = '<span class="tb" aria-hidden="true"><span class="tbtn" style="display:inline-flex;align-items:center;justify-content:center">_</span><span class="tbtn" style="display:inline-flex;align-items:center;justify-content:center">×</span></span>';
+const SERVICES = 'Apple TV, the Sports app, MLS, Friday Night Baseball and Apple Books';
 
 const IM = [
   { co:'Apple', status:'Online since 2024', dot:'#00C000', lines:[
     ['r','so what do you do at Apple?'],
-    ['a','i run the content budget behind Music, Podcasts, TV+, MLS and MLB. about $55M'],
+    ['a','i run the content budget behind '+SERVICES+'. about $55M'],
     ['r','how close does the forecast land'],
     ['a','within 2% of actuals now. it used to miss by 25%'],
     ['a','rebuilt how we forecast and found $5M+ along the way'],
@@ -90,28 +81,35 @@ const IM = [
     ['a','english and russian'] ]}
 ];
 const CH = [
-  { mono:'RGI', color:'#CC3300', name:'RetroGaming Insider', desc:'My mail-in console modding and resale business, with a store I built myself: pricing, checkout, orders and inventory.' },
-  { mono:'EL', color:'#000080', name:'EdgeLog', desc:'A trade journal that imports broker CSVs and grades every trade against written rules. Reconciliation, aimed at the market.' },
-  { mono:'ST', color:'#006600', name:'Signal Terminal', desc:'A personal market terminal and morning brief, with a realtime stock scanner.' },
-  { mono:'BQ', color:'#B8860B', name:'Bagel Quest', desc:'A Pokémon-style game about my wife, our sheepadoodle and the best bagel in the five boroughs.' },
-  { mono:'TV', color:'#660099', name:'LvovichTV', desc:'A TV station with live, always-on channels that only broadcasts to my house.' },
-  { mono:'V', color:'#008080', name:'Vasya', desc:'A voice assistant for Even Realities smart glasses.' }
+  { mono:'RGI', color:'#CC3300', name:'RetroGaming Insider',
+    desc:'My mail-in console modding and resale business, with a store I built myself: pricing, checkout, orders and inventory.',
+    link:{ href:'https://retrogaminginsider.com', label:'Visit retrogaminginsider.com', ext:true } },
+  { mono:'BQ', color:'#B8860B', name:'Bagel Quest',
+    desc:'A Pokémon-style game about my wife, our sheepadoodle and the best bagel in the five boroughs. Plays right in your browser.',
+    link:{ href:'/bagel-quest/', label:'Play Bagel Quest' } },
+  { mono:'TV', color:'#660099', name:'LvovichTV',
+    desc:'My own TV station: live, always-on channels with era-matched commercials, playing on a CRT you can tune, degauss and smack.',
+    link:{ href:'/tv/', label:'Turn on LvovichTV' } }
 ];
 const SL = ['Dialing','Connecting','Checking password'];
 const ST = ['Dialing 1-555-HIRE-ALN…','Connected at 56,000 bps. Handshaking…','Checking password…','Welcome! Loading your desktop…'];
+const WINS = { welcome:'Welcome', im:'Instant Message', buddy:'Buddy List', mail:'Read Mail' };
 
 function set(p){ Object.assign(S,p); render(); }
-function go(stage){ timers.forEach(clearTimeout); timers=[]; set({stage, step:0}); }
+function go(stage){ timers.forEach(clearTimeout); timers=[]; S.closed={}; set({stage, step:0}); }
 function signOn(){
   const sel = document.getElementById('sn'); if (sel) S.who = sel.value;
   go('connecting');
   [1,2,3].forEach((n,i)=>timers.push(setTimeout(()=>set({step:n}), 900*(i+1))));
   timers.push(setTimeout(()=>set({stage:'online'}), 3600));
 }
+const bar = (title, id) => `<div class="ttl" data-drag><span>${title}</span><span class="tb"><button class="tbtn" aria-label="Minimize ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">_</button><button class="tbtn" aria-label="Close ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">×</button></span></div>`;
+const fixed = title => `<div class="ttl"><span>${title}</span><span class="tb" aria-hidden="true"><span class="tbtn">_</span><span class="tbtn">×</span></span></div>`;
+const win = (id, style, inner) => S.closed[id] ? '' : `<section class="win" data-win="${id}" style="${style||''}">${inner}</section>`;
 
 function viewSignon(){
   return `<div class="center"><div class="win" style="width:100%;max-width:460px">
-  <div class="ttl"><span>Sign On</span>${tb}</div>
+  ${fixed('Sign On')}
   <div style="padding:20px;display:flex;flex-direction:column;gap:16px">
     <div style="display:flex;align-items:center;gap:14px;background:#000080;padding:16px;border:2px solid;border-color:#808080 #FFF #FFF #808080">
       <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Lvovich Online logo"><circle cx="32" cy="32" r="20" fill="#FFD23F"/><path d="M12 32 h40 M32 12 c-10 10 -10 30 0 40 M32 12 c10 10 10 30 0 40" fill="none" stroke="#000080" stroke-width="2"/><ellipse cx="32" cy="32" rx="30" ry="10" fill="none" stroke="#FFF" stroke-width="3" transform="rotate(-25 32 32)"/></svg>
@@ -138,7 +136,7 @@ function viewConnecting(){
   }).join('');
   const pct = Math.round((S.step+1)/4*100);
   return `<div class="center"><div class="win" style="width:100%;max-width:520px">
-  <div class="ttl"><span>Lvovich Online — Connecting</span>${tb}</div>
+  ${fixed('Lvovich Online — Connecting')}
   <div style="padding:24px;display:flex;flex-direction:column;gap:20px">
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:center">${steps}</div>
     <div class="well" style="padding:8px 10px;font-size:13px" role="status" aria-live="polite">${ST[S.step]}</div>
@@ -151,33 +149,20 @@ function viewOnline(){
   const chans = CH.map((c,i)=>`<button class="bev chan ${S.ch===i?'on':''}" data-a="ch" data-i="${i}" aria-pressed="${S.ch===i}"><i aria-hidden="true" style="background:${c.color}">${c.mono}</i><span style="font-size:12px;text-align:center;line-height:1.2">${c.name}</span></button>`).join('');
   const lines = im.lines.map(([w,t])=>`<div><b style="color:${w==='a'?'#0000CC':'#CC0000'}">${w==='a'?'AlenL':esc(S.who)}:</b> ${esc(t)}</div>`).join('');
   const buddies = IM.map((b,i)=>`<button class="buddy ${S.im===i?'on':''}" data-a="im" data-i="${i}" aria-pressed="${S.im===i}"><span class="dot" aria-hidden="true" style="background:${b.dot}"></span><span style="display:flex;flex-direction:column"><b>${b.co}</b><span style="font-size:12px">${b.status}</span></span></button>`).join('');
-  const mail = S.mail ? `<div class="win">
-    <div class="ttl"><span>Read Mail — Let's talk</span><button class="tbtn" aria-label="Close mail" data-a="closemail">×</button></div>
-    <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
-      <div style="display:grid;grid-template-columns:70px minmax(0,1fr);gap:4px 8px;font-size:13px"><span>From:</span><span>AlenL</span><span>To:</span><span>${esc(S.who)}</span><span>Subject:</span><b>Let's talk</b></div>
-      <div class="well" style="padding:16px;line-height:1.6">
-        <p style="margin:0 0 12px">Hi ${esc(S.who)},</p>
-        <p style="margin:0 0 12px">Thanks for dialing in. If your team needs someone who can run the budget and build the tool that tracks it, I'd like to hear about it.</p>
-        <p style="margin:0 0 4px">E-mail: <a href="mailto:alenlvovich@gmail.com">alenlvovich@gmail.com</a></p>
-        <p style="margin:0 0 4px">LinkedIn: <a href="https://linkedin.com/in/alenlvovich">linkedin.com/in/alenlvovich</a></p>
-        <p style="margin:0 0 12px">GitHub: <a href="https://github.com/L8rMr">github.com/L8rMr</a></p>
-        <p style="margin:0">Alen</p>
-      </div></div></div>` : '';
-  return `<div class="desk">
-  <div class="col">
-    <div class="win">
-      <div class="ttl"><span>Welcome, ${esc(S.who)}!</span>${tb}</div>
+  const link = ch.link ? ` <a href="${ch.link.href}"${ch.link.ext?' target="_blank" rel="noopener"':''}>${ch.link.label}</a>` : '';
+
+  const welcome = win('welcome','',`${bar('Welcome, '+esc(S.who)+'!','welcome')}
       <div style="padding:14px;display:flex;flex-wrap:wrap;gap:14px">
         <div class="well" style="flex:2 1 320px;padding:18px;display:flex;flex-direction:column;gap:10px">
           <div style="font-size:12px;color:#CC0000;font-weight:bold">Top story</div>
           <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15">Long Island finance pro gets a $55M forecast to land within 2%</h1>
-          <p style="margin:0;line-height:1.55">Alen Lvovich manages the content budget behind Apple Music, Podcasts, TV+, MLS and MLB. Before that: ten years of budgets, client P&amp;Ls and media payables in advertising. Open his work history in the Buddy List to get the full story.</p>
+          <p style="margin:0;line-height:1.55">Alen Lvovich manages the content budget behind ${SERVICES}. Before that: ten years of budgets, client P&amp;Ls and media payables in advertising. Open his work history in the Buddy List to get the full story.</p>
         </div>
         <div style="flex:1 1 200px;display:flex;flex-direction:column;gap:10px">
           <button class="bev" data-a="mail" style="display:flex;align-items:center;gap:10px;padding:12px;text-align:left;min-height:64px">
             <svg width="36" height="28" viewBox="0 0 36 28" aria-hidden="true"><rect x="1" y="1" width="34" height="26" fill="#FFF" stroke="#000"/><path d="M1 1 L18 16 L35 1" fill="none" stroke="#000"/><circle cx="31" cy="5" r="5" fill="#CC0000"/></svg>
             <span><b>You have mail</b><br><span style="font-size:12px">1 new message</span></span></button>
-          <a class="bev" href="${RESUME_URL}" style="display:flex;align-items:center;gap:10px;padding:12px;text-decoration:none;min-height:64px">
+          <a class="bev" href="${RESUME_URL}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:12px;text-decoration:none;min-height:64px">
             <svg width="28" height="32" viewBox="0 0 28 32" aria-hidden="true"><path d="M1 1 h18 l8 8 v22 h-26 z" fill="#FFF" stroke="#000"/><path d="M6 14 h16 M6 19 h16 M6 24 h12" stroke="#000080"/></svg>
             <span><b>Download résumé</b><br><span style="font-size:12px">PDF, 1 page</span></span></a>
         </div>
@@ -185,20 +170,16 @@ function viewOnline(){
       <div style="padding:0 14px 14px">
         <div style="font-weight:bold;margin-bottom:8px">Channels: things I build after hours</div>
         <div class="chans">${chans}</div>
-        <div class="well" style="margin-top:10px;padding:12px 14px;line-height:1.5"><b>${ch.name}:</b> ${ch.desc}</div>
-      </div>
-    </div>
-    ${mail}
-    <div class="win">
-      <div class="ttl"><span>Instant Message: ${im.co}</span>${tb}</div>
+        <div class="well" style="margin-top:10px;padding:12px 14px;line-height:1.5"><b>${ch.name}:</b> ${esc(ch.desc)}${link}</div>
+      </div>`);
+
+  const imw = win('im','',`${bar('Instant Message: '+im.co,'im')}
       <div style="padding:10px">
         <div class="well" role="log" aria-label="Conversation" style="padding:12px 14px;min-height:220px;display:flex;flex-direction:column;gap:6px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.45">${lines}</div>
         <div style="display:flex;gap:8px;margin-top:8px"><div class="well" style="flex:1;padding:6px 8px;color:#555;font-size:13px">AlenL is typing…</div><button class="bev" data-a="mail">Send</button></div>
-      </div>
-    </div>
-  </div>
-  <div class="win" style="flex:1 1 260px;max-width:100%">
-    <div class="ttl"><span>Buddy List</span>${tb}</div>
+      </div>`);
+
+  const buddy = win('buddy','flex:1 1 260px;max-width:100%',`${bar('Buddy List','buddy')}
     <div style="padding:10px;display:flex;flex-direction:column;gap:10px">
       <div class="well" style="padding:10px 12px"><b>AlenL</b><div style="font-size:12px;color:#444;margin-top:2px">Away message: at work. probably reconciling something.</div></div>
       <div class="well" style="padding:8px 0">
@@ -208,13 +189,39 @@ function viewOnline(){
         <a href="https://linkedin.com/in/alenlvovich" style="display:block;padding:8px 12px 8px 22px">LinkedIn</a>
         <a href="https://github.com/L8rMr" style="display:block;padding:8px 12px 8px 22px">GitHub</a>
       </div>
-      <div style="font-size:12px">Tip: click a buddy to open an instant message.</div>
-    </div>
-  </div>
-  </div>`;
+      <div style="font-size:12px">Tip: click a buddy to open an instant message. Drag any window by its title bar.</div>
+    </div>`);
+
+  const mail = S.mail ? win('mail','',`${bar("Read Mail — Let's talk",'mail')}
+    <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:grid;grid-template-columns:70px minmax(0,1fr);gap:4px 8px;font-size:13px"><span>From:</span><span>AlenL</span><span>To:</span><span>${esc(S.who)}</span><span>Subject:</span><b>Let's talk</b></div>
+      <div class="well" style="padding:16px;line-height:1.6;max-width:760px">
+        <p style="margin:0 0 12px">Hi ${esc(S.who)},</p>
+        <p style="margin:0 0 12px">Thanks for dialing in. If your team needs someone who can run the budget and build the tool that tracks it, I'd like to hear about it.</p>
+        <p style="margin:0 0 4px">E-mail: <a href="mailto:alenlvovich@gmail.com">alenlvovich@gmail.com</a></p>
+        <p style="margin:0 0 4px">LinkedIn: <a href="https://linkedin.com/in/alenlvovich">linkedin.com/in/alenlvovich</a></p>
+        <p style="margin:0 0 12px">GitHub: <a href="https://github.com/L8rMr">github.com/L8rMr</a></p>
+        <p style="margin:0">Alen</p>
+      </div></div>`) : '';
+
+  return `<div class="desk"><div class="col">${welcome}${imw}</div>${buddy}</div><div class="below">${mail}</div>`;
+}
+function renderTasks(){
+  const t = document.getElementById('tasks'); t.innerHTML='';
+  if (S.stage!=='online') return;
+  Object.keys(WINS).forEach(id=>{
+    if (id==='mail' && !S.mail) return;
+    const b = document.createElement('button');
+    b.className = 'bev'+(S.closed[id]?'':' on'); b.textContent = WINS[id];
+    b.style.cssText = 'padding:2px 8px;min-height:32px;font-size:12px';
+    b.onclick = ()=>{ S.closed[id] = !S.closed[id]; render(); };
+    t.appendChild(b);
+  });
 }
 function render(){
   app.innerHTML = S.stage==='signon' ? viewSignon() : S.stage==='connecting' ? viewConnecting() : viewOnline();
+  Win95.restore(app);
+  renderTasks();
   document.getElementById('task').textContent = S.stage==='online' ? 'Sign Off' : 'Sign On';
   document.getElementById('conn').textContent = S.stage==='online' ? 'Lvovich Online: connected at 56K' : 'Lvovich Online: not connected';
 }
@@ -224,15 +231,14 @@ app.addEventListener('click', e=>{
   if(a==='signon') signOn();
   else if(a==='skip') go('online');
   else if(a==='ch') set({ch:i});
-  else if(a==='im') set({im:i});
-  else if(a==='mail') set({mail:true});
-  else if(a==='closemail') set({mail:false});
+  else if(a==='im') { S.closed.im=false; set({im:i}); }
+  else if(a==='mail') { S.closed.mail=false; set({mail:true}); setTimeout(()=>{const m=app.querySelector('[data-win=mail]'); if(m) m.scrollIntoView({behavior:'smooth',block:'center'});},50); }
+  else if(a==='close') { S.closed[b.dataset.w]=true; render(); }
 });
 app.addEventListener('change', e=>{ if(e.target.id==='sn') S.who = e.target.value; });
 document.getElementById('task').addEventListener('click', ()=> S.stage==='online' ? go('signon') : signOn());
-const clk = document.getElementById('clock');
-const tick = ()=> clk.textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-tick(); setInterval(tick, 30000);
+Win95.enableDrag(app);
+Win95.clock(document.getElementById('clock'));
 render();
 })();
 </script>
