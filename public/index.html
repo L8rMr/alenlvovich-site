@@ -12,7 +12,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/win95.css?v=2">
 <link rel="stylesheet" href="/themes.css?v=4">
-<script src="/display.js?v=1"></script>
+<script src="/display.js?v=2"></script>
 <style>
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 16px}
 .desk{padding:24px 24px 0;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1280px;margin:0 auto;width:100%}
@@ -236,7 +236,7 @@ const THEMES = [
 ];
 const WALLS = [['teal','Teal'],['w2k','Blue'],['clouds','Clouds'],['meadow','Meadow'],['stars','Starfield'],['platinum','Platinum'],['dither','Dither']];
 function bringSettingsFront(){ const w = app.querySelector('[data-win=settings]'); if (w) Win95.front(w); }
-function saveDisplay(p){ Object.assign(window.LO_SET,p); window.LO_APPLY(); render(); }
+function saveDisplay(p){ Object.assign(window.LO_SET,p); window.LO_APPLY(); window.LO_SAVE(); render(); }
 function viewSettings(){
   if (!S.settings) return '';
   const v = window.LO_SET, mac = v.theme==='mac8'||v.theme==='sys7';
@@ -300,7 +300,7 @@ app.addEventListener('click', e=>{
   else if(a==='dp-tab') set({dpTab:b.dataset.t});
   else if(a==='dp-wall') saveDisplay({wall:b.dataset.w});
   else if(a==='dp-theme') saveDisplay({theme:b.dataset.t, wall:window.LO_THEME_WALL[b.dataset.t]});
-  else if(a==='dp-reset') saveDisplay({theme:'win95',wall:'teal',color:'#008080',crt:false,big:false});
+  else if(a==='dp-reset') saveDisplay(Object.assign({},window.LO_DEFAULTS));
   else if(a==='dp-ok') set({settings:false});
 });
 app.addEventListener('change', e=>{
@@ -309,7 +309,7 @@ app.addEventListener('change', e=>{
   else if(e.target.id==='dp-big') saveDisplay({big:e.target.checked});
   else if(e.target.id==='dp-color') saveDisplay({wall:'custom',color:e.target.value});
 });
-app.addEventListener('input', e=>{ if(e.target.id==='dp-color'){ window.LO_SET.wall='custom'; window.LO_SET.color=e.target.value; window.LO_APPLY(); const scr=app.querySelector('.dp-scr'); if(scr) scr.style.background=e.target.value; } });
+app.addEventListener('input', e=>{ if(e.target.id==='dp-color'){ window.LO_SET.wall='custom'; window.LO_SET.color=e.target.value; window.LO_APPLY(); window.LO_SAVE(); const scr=app.querySelector('.dp-scr'); if(scr) scr.style.background=e.target.value; } });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && S.settings) set({settings:false}); });
 document.getElementById('task').addEventListener('click', ()=> S.stage==='online' ? go('signon') : signOn());
 Win95.enableDrag(app);
