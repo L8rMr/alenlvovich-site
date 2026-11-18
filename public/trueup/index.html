@@ -3,251 +3,307 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TrueUp demo — Lvovich Online</title>
-<meta name="description" content="TrueUp: a budget audit, forecasting and quarter-end accruals platform built by Alen Lvovich. Interactive demo on fictional data.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F3A5F'/%3E%3Cpath d='M16 34 L28 46 L48 20' stroke='%23FFD23F' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/win95.css">
-<style>
-.wrap{flex:1;padding:18px;display:flex;justify-content:center;align-items:flex-start}
-.appwin{width:100%;max-width:1240px}
-.app{--ink:#17202B;--muted:#5B6573;--line:#E3E7EC;--bg:#F6F8FA;--navy:#1F3A5F;--gold:#E8B400;--red:#C2362B;--amber:#B25E00;--green:#1D7A46;--blue:#2457C5;
-  background:#FFF;color:var(--ink);font:14px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:640px;display:flex;flex-direction:column}
-.app button{font:inherit}
-.top{display:flex;align-items:center;gap:16px;padding:12px 18px;background:var(--navy);color:#FFF;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.2px}
-.logo i{width:28px;height:28px;border-radius:7px;background:#FFF;display:inline-flex;align-items:center;justify-content:center}
-.org{display:flex;background:rgba(255,255,255,.12);border-radius:8px;padding:3px;gap:2px}
-.org button{border:0;background:none;color:#DCE6F2;padding:6px 12px;border-radius:6px;cursor:pointer;min-height:32px}
-.org button[aria-pressed=true]{background:#FFF;color:var(--navy);font-weight:600}
-.badge{margin-left:auto;font-size:12px;background:var(--gold);color:#1B1B1B;padding:4px 10px;border-radius:999px;font-weight:600}
-.tabs{display:flex;gap:4px;padding:0 18px;border-bottom:1px solid var(--line);background:#FFF;overflow-x:auto}
-.tabs button{border:0;background:none;padding:12px 14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;font-weight:600;white-space:nowrap;min-height:44px}
-.tabs button[aria-selected=true]{color:var(--navy);border-color:var(--gold)}
-.tabs .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:#FDE7E5;color:var(--red);font-size:12px;line-height:20px}
-.body{padding:18px;background:var(--bg);flex:1}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
-.card{background:#FFF;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.card .k{font-size:12px;color:var(--muted);font-weight:600}
-.card .v{font-size:24px;font-weight:700;margin-top:4px;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
-.card .s{font-size:12px;color:var(--muted);margin-top:2px}
-.panel{background:#FFF;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
-.panel h2{margin:0 0 4px;font-size:16px}
-.panel p.sub{margin:0 0 12px;color:var(--muted);font-size:13px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-.step{border:1px solid var(--line);border-radius:10px;padding:14px;background:#FFF;text-align:left;cursor:pointer;color:var(--ink)}
-.step:hover{border-color:var(--navy);box-shadow:0 2px 0 var(--navy)}
-.step b{display:block;font-size:15px;margin-bottom:4px}
-.step span{color:var(--muted);font-size:13px}
-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th{font-size:12px;color:var(--muted);text-align:left;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:#FAFBFC;position:sticky;top:0}
-td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
-td.num,th.num{text-align:right}
-tr.grp td{background:#F1F4F8;font-weight:700;color:var(--navy)}
-tr.tot td{font-weight:700;border-top:2px solid var(--ink)}
-.neg{color:var(--red);font-weight:600}
-.scroll{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:8px}
-.jin{width:110px;text-align:right;padding:5px 8px;border:1px solid #D7C27A;background:#FFF9E3;border-radius:6px;font:inherit;font-variant-numeric:tabular-nums}
-.bar{height:8px;border-radius:4px;background:#E6EBF1;position:relative;min-width:120px}
-.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--navy)}
-.bar i.over{background:var(--red)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.chip{border:1px solid var(--line);background:#FFF;border-radius:999px;padding:6px 12px;cursor:pointer;min-height:34px;color:var(--ink)}
-.chip[aria-pressed=true]{background:var(--navy);color:#FFF;border-color:var(--navy)}
-.sev{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
-.sev.High{background:#FDE7E5;color:var(--red)}.sev.Medium{background:#FFF0DC;color:var(--amber)}.sev.Low{background:#E8EEF8;color:var(--blue)}
-.btn{border:1px solid var(--navy);background:var(--navy);color:#FFF;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600;min-height:38px}
-.btn.ghost{background:#FFF;color:var(--navy)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.sp{flex:1}
-.sub-tabs{display:flex;gap:6px;margin-bottom:12px}
-.resolved td{opacity:.5}
-.note{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;resize:vertical}
-.auto{font-size:13px;color:var(--muted);margin:4px 0 8px}
-.toast{position:fixed;left:50%;bottom:56px;transform:translateX(-50%);background:#17202B;color:#FFF;padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99}
-.toast.show{opacity:1}
-.stamp{display:inline-block;border:2px solid var(--green);color:var(--green);font-weight:800;letter-spacing:1px;padding:4px 10px;border-radius:6px;transform:rotate(-3deg)}
-input[type=range]{width:120px;accent-color:var(--navy)}
-@media (max-width:700px){.wrap{padding:6px}.body{padding:10px}.card .v{font-size:20px}}
-</style>
+<title>TrueUp</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-<main class="wrap" id="desk">
-  <section class="win appwin" data-win="trueup">
-    <div class="ttl" data-drag><span>TRUEUP.EXE — TrueUp budget platform (demo)</span><span class="tb"><a class="tbtn" href="/" aria-label="Close and go back to Lvovich Online" style="text-decoration:none;color:#000">×</a></span></div>
-    <div class="app" id="app"></div>
-    <div style="padding:4px 6px;font-size:12px;display:flex;gap:4px"><span class="well" style="flex:1;padding:2px 6px;background:#C0C0C0">A recreation of a tool Alen built at work, rebuilt from scratch on a made-up company. No real data, names or code.</span></div>
+<body data-route="analytics">
+<header class="top">
+  <a class="home" href="#/" title="Home"><h1>TrueUp <span class="tagline">Demo build · fictional data</span></h1></a>
+  <div class="brand">
+    <div class="tlrow">
+
+    </div>
+  </div>
+  <nav class="tabs">
+    <a href="#/analytics" id="tab-analytics">Dashboard</a>
+    <a href="#/items" id="tab-items">Project Audit</a>
+    <a href="#/staffing" id="tab-staffing">Staffing Audit</a>
+    <a href="#/tracking" id="tab-tracking">Budget Tracker</a>
+    <a href="#/ledgr" id="tab-ledgr" hidden>Actuals</a>
+    <div class="navmenu" id="nav-fc">
+      <a id="tab-forecast" aria-haspopup="true" role="button" tabindex="0">Forecast <svg class="car" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="navdrop" role="menu">
+        <a href="#/forecast" class="navtop" data-fcv="content|content">Content</a>
+        <a href="#/forecast" class="navtop" data-fcv="marketing|">Marketing</a>
+        <a href="#/changes" class="navtop" id="nav-chg">Change Log</a>
+      </div>
+    </div>
+    <div class="navmenu" id="nav-acc">
+      <a id="tab-accruals" aria-haspopup="true" role="button" tabindex="0">Accruals <svg class="car" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="navdrop" role="menu">
+        <div class="navorg"><span>Content<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="navsub"><a href="#/accruals/content/po">PO Accrual</a><a href="#/accruals/content/crew">Crew Accrual</a><a href="#/accruals/content/flash">Flash</a><a href="#/accruals/content/pl">P&amp;L</a><a href="#/accruals/content/fa">Finance Actuals</a></div></div>
+        <div class="navorg"><span>Marketing<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="navsub"><a href="#/accruals/marketing/po">PO Accrual</a><a href="#/accruals/marketing/crew">Crew Accrual</a><a href="#/accruals/marketing/flash">Flash</a><a href="#/accruals/marketing/pl">P&amp;L</a><a href="#/accruals/marketing/fa">Finance Actuals</a></div></div>
+      </div>
+    </div>
+      <div class="exp opts navtools" id="opts">
+      <button id="opts-btn" aria-haspopup="menu" aria-expanded="false">Tools <svg class="car" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="expmenu optmenu" id="optmenu" role="menu" hidden>
+        <div class="optitem" id="opt-exp" role="none">
+          <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Export</b><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="expmenu submenu" id="expmenu" role="menu">
+            <div class="optitem optgrp" id="exp-audit" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Audit</b><span>Data in view and the Atlas change list</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-x="csv"><b>Data (CSV)</b><span id="exp-csv-sub">Everything on this tab, all fields</span></button>
+                <button role="menuitem" data-x="cl"><b>Change list (Excel)</b><span>Atlas edits to make, from the current filters</span></button>
+              </div>
+            </div>
+            <div class="optitem optgrp" id="exp-content" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Content</b><span>Forecast, accruals, Flash, P&amp;L, Finance Actuals</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-x="fc" class="fcx"><b>Forecast (Excel)</b><span>Summary, Finance Commentary + Calculation</span></button>
+                <div class="optsep accx" role="separator"></div>
+                <button role="menuitem" data-ax="content-po" class="accx"><b>PO Accrual (Excel)</b><span>Working file for the quarter shown on Accruals</span></button>
+                <button role="menuitem" data-ax="content-crew" class="accx"><b>Crew Accrual (Excel)</b><span>Summary, line item text, one tab per bucket</span></button>
+                <button role="menuitem" data-ax="content-flash" class="accx"><b>Flash (Excel)</b><span>Summary + one tab per budget manager</span></button>
+                <button role="menuitem" data-ax="content-pl" class="accx"><b>P&amp;L deck (Keynote / PowerPoint)</b><span>Slides, titles and commentary as set on the P&amp;L page</span></button>
+                <button role="menuitem" data-ax="content-fa" class="accx"><b>Finance Actuals (Excel)</b><span>Actuals by LOB vs M3, XLOB merged, Studio Ops separate</span></button>
+              </div>
+            </div>
+            <div class="optitem optgrp" id="exp-marketing" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Marketing</b><span>Forecast, accruals, Flash, P&amp;L, Finance Actuals</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-x="fm" class="fcx"><b>Forecast (Excel)</b><span>Summary, Finance Commentary + Calculation</span></button>
+                <div class="optsep accx" role="separator"></div>
+                <button role="menuitem" data-ax="marketing-po" class="accx"><b>PO Accrual (Excel)</b><span>Working file for the quarter shown on Accruals</span></button>
+                <button role="menuitem" data-ax="marketing-crew" class="accx"><b>Crew Accrual (Excel)</b><span>Staffline + Crewport, LOB split, line item text</span></button>
+                <button role="menuitem" data-ax="marketing-flash" class="accx"><b>Flash (Excel)</b><span>US Flash by natural class › LOB</span></button>
+                <button role="menuitem" data-ax="marketing-pl" class="accx"><b>P&amp;L deck (Keynote / PowerPoint)</b><span>Natural class, initiative and function breakdowns</span></button>
+                <button role="menuitem" data-ax="marketing-fa" class="accx"><b>Finance Actuals (Excel)</b><span>Natural class blocks, Bundle+ broken out</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="optitem" id="up" role="none" hidden>
+          <button role="menuitem" aria-haspopup="menu" class="optrow" id="upload-btn"><b>Upload</b><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="expmenu submenu" id="upmenu" role="menu">
+            <div class="optitem optgrp" id="up-audit" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Audit</b><span>Atlas export</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-u="atlas" id="up-atlas"><b>Atlas export</b><span>New export_all CSV · refreshes audit + forecast allocations</span></button>
+              </div>
+            </div>
+            <div class="optitem optgrp upbm" id="up-content" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Content</b><span>Actuals, forecast workbook, GRID, Master PO List</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-u="ledgr" class="upbm"><b>Actuals</b><span>Content Actuals CSV</span></button>
+                <button role="menuitem" data-u="wb" class="upbm"><b>Forecast workbook</b><span>Content P+D workbook · submitted forecast, actuals, comments</span></button>
+                <div class="optsep accu" role="separator"></div>
+                <button role="menuitem" data-au="content-grid" class="accu"><b>GRID</b><span>Open POs + Pending PRs · for the Accruals quarter shown</span></button>
+                <button role="menuitem" data-au="content-master" class="accu"><b>Master PO List</b><span>PO → LOB / budget item / function / quarter mapping</span></button>
+              </div>
+            </div>
+            <div class="optitem optgrp upbm" id="up-marketing" role="none">
+              <button role="menuitem" aria-haspopup="menu" class="optrow"><b>Marketing</b><span>Actuals, forecast workbook, GRID, PO ref table</span><svg class="subcar" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="expmenu submenu" role="menu">
+                <button role="menuitem" data-u="ledgr" class="upbm"><b>Actuals</b><span>Marketing Actuals CSV</span></button>
+                <button role="menuitem" data-u="wb" class="upbm"><b>Forecast workbook</b><span>Marketing forecast workbook · submitted forecast, actuals, comments</span></button>
+                <div class="optsep accu" role="separator"></div>
+                <button role="menuitem" data-au="marketing-grid" class="accu"><b>GRID</b><span>Luis's report · for the Accruals quarter shown</span></button>
+                <button role="menuitem" data-au="marketing-ref" class="accu"><b>PO ref table</b><span>POs on several Atlas IDs (PO#, Atlas ID, Type)</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="optrow optlink" role="menuitem" id="opt-refresh" hidden><b>Refresh Atlas data</b></button>
+        <div class="optsep" role="separator"></div>
+        <a href="#/guide" id="tab-guide" class="optrow optlink" role="menuitem"><b>Guide</b></a>
+        <a href="#/config" class="optrow optlink" role="menuitem" id="opt-cfg"><b>Configuration</b></a>
+        <div class="optsep" role="separator"></div>
+        <button type="button" class="optrow optlink" role="menuitem" id="opt-health" aria-expanded="false"><b>Data health</b><span class="hlsum" id="hl-sum"></span><svg class="hlcar" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        <div class="hlinline" id="hl-inline" hidden></div>
+      </div>
+    </div>
+  </nav>
+  <div class="actions">
+    <div class="fq" id="fq" tabindex="0"></div>
+    <button type="button" id="ask-btn" class="askbtn" hidden title="Ask a question about the data"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5c3.6 0 6.5 2.4 6.5 5.4S11.6 12.3 8 12.3c-.6 0-1.2-.1-1.8-.2L3 14v-3c-1-1-1.5-2.2-1.5-3.6C1.5 3.9 4.4 1.5 8 1.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="5.3" cy="7" r=".9" fill="currentColor"/><circle cx="8" cy="7" r=".9" fill="currentColor"/><circle cx="10.7" cy="7" r=".9" fill="currentColor"/></svg>Ask</button>
+  </div>
+</header>
+<div class="utilrow"><div id="mywork" class="mywork" hidden></div><div class="utilctl">
+    <div class="hlw hlhide"><button type="button" class="hl green" id="hl" aria-haspopup="dialog" onclick="window.Health&&Health.open()"><i></i><span>Data</span></button><div class="hlpop" id="hl-pop" role="dialog" aria-label="Data health" hidden></div></div>
+    <button type="button" class="gsbtn" id="gs-btn" onclick="window.GlobalSearch&&GlobalSearch.open()" title="Search everything (⌘K or /)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+
+  </div></div>
+
+<section class="filters" id="filters"></section>
+<div id="note" class="wrap"></div>
+
+<main id="page-analytics" class="page"></main>
+
+<main id="page-items" class="page">
+  <div class="aubar"><button type="button" class="ghost" id="au-fold">Collapse all charts</button><button type="button" id="au-jump"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Jump to audit items</button></div>
+  <div data-sec="cards" data-sec-label="Summary cards"><section class="cards" id="cards"></section>
+  <div class="legend" id="legend"></div></div>
+
+  <section class="grid2">
+    <div class="panel" data-sec="func" data-sec-label="By function">
+      <div class="ph"><h2>By function</h2><span class="hint">Click a bar or segment to see its items</span></div>
+      <div id="ch-func" class="hbars"></div>
+    </div>
+    <div class="panel" data-sec="lob" data-sec-label="By LOB">
+      <div class="ph"><h2>By LOB</h2><span class="hint">Click a bar or segment to see its items</span></div>
+      <div id="ch-lob" class="hbars"></div>
+    </div>
+  </section>
+
+  <section class="panel" data-sec="quarter" data-sec-label="By quarter">
+    <div class="ph"><h2>By quarter</h2><span class="hint">Current and future quarters are only checked for PO coverage and budget</span></div>
+    <div id="ch-q" class="qchart"></div>
+  </section>
+
+  <section class="panel" data-sec="owners" data-sec-label="Ownership">
+    <div class="ph"><h2>Ownership</h2><span class="hint">Budget Manager › LOB › Function · LOB Dedicated items only · <a href="#/guide?s=owners" class="hlink">How the $ add up</a></span></div>
+    <div id="owners" class="owners"></div>
+  </section>
+
+  <section class="panel" id="yb-panel" data-sec="yearly" data-sec-label="Allocation vs approved forecast">
+    <div class="ph"><h2>Atlas allocation vs approved forecast</h2><span id="yb-sub" class="hint"></span></div>
+    <div id="yb"></div>
+  </section>
+
+
+  <section class="panel" data-sec="items" data-sec-label="Audit items">
+    <div class="ph" id="au-items">
+      <div>
+        <h2>Audit items <span id="count" class="muted"></span></h2>
+        <div id="chips" class="chips"></div>
+      </div>
+      <div class="pager"><button id="prev" class="ghost">‹</button><span id="page"></span><button id="next" class="ghost">›</button></div>
+    </div>
+    <div class="tablewrap"><table id="tbl"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="panel" id="au-method" data-sec="method" data-sec-label="Methodology &amp; exclusions">
+    <div class="ph"><h2>Methodology &amp; exclusions</h2></div>
+    <div id="method"></div>
   </section>
 </main>
-<div class="taskbar">
-  <div style="display:flex;gap:6px;align-items:center"><a class="bev" href="/" style="font-weight:bold;padding:4px 10px;text-decoration:none">Lvovich Online</a><span class="bev on" style="padding:4px 8px;font-size:12px">TrueUp</span></div>
-  <div id="clock" class="tray"></div>
-</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
-<script src="/win95.js"></script>
-<script src="trueup-core.js"></script>
-<script>
-(function(){
-const T = window.TrueUp, $ = s => document.querySelector(s), app = $('#app');
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const S = { tab:'overview', org:'', ftab:'calc', rule:'', resolved:{}, notes:{}, comments:{}, submitted:false };
-const lobOk = id => !S.org || T.LOBS.find(l=>l.id===id).org === S.org;
-function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('show'),2600); }
+<main id="page-staffing" class="page">
+  <div class="aubar"><button type="button" class="ghost" id="st-fold">Collapse all charts</button><button type="button" id="st-jump"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Jump to contractors</button></div>
+  <section class="panel stsum" data-sec="cards" data-sec-label="Summary cards"><div class="ph"><h2>Summary</h2></div><div class="cards" id="st-cards"></div></section>
+  <section class="grid2">
+    <div class="panel" data-sec="inv" data-sec-label="% of forecast invoiced by quarter"><div class="ph"><h2>% of forecast invoiced by quarter</h2><span class="hint"><span class="dot" style="background:var(--green)"></span>Invoiced <span class="dot" style="background:var(--yellow);margin-left:8px"></span>Un-invoiced balance (yellow $) · click it for the AIDs</span></div><div id="st-q" class="qchart"></div></div>
+    <div class="panel" data-sec="vendor" data-sec-label="By vendor"><div class="ph"><h2>By vendor</h2><span class="hint">Click a vendor to filter the contractors</span></div><div id="st-vendor" class="hbars"></div></div>
+  </section>
+  <section class="panel" id="st-roster" data-sec="roster" data-sec-label="Contractors">
+    <div class="ph" id="st-roster-h">
+      <div><h2>Contractors <span id="st-count" class="muted"></span><span class="ptip" tabindex="0" aria-label="About this table">i<span class="ptipb">One row per staffing AID and FY · Org, Budget Manager, LOB, Function, Function Manager and FY filters apply</span></span></h2></div>
+      <div class="pager"><label class="minesw"><input type="checkbox" id="st-issues"><i></i>Only with audit items</label><label class="minesw" title="Staffing AIDs with forecast but no Position ID in Atlas"><input type="checkbox" id="st-nopos"><i></i>No Position ID</label><span id="st-ub" class="fchip" hidden></span><input id="st-vendor-f" type="search" placeholder="Vendor / name / AID" class="vf"><button id="st-prev" class="ghost">‹</button><span id="st-page"></span><button id="st-next" class="ghost">›</button></div>
+    </div>
+    <div class="tablewrap"><table id="st-tbl"><thead></thead><tbody></tbody></table></div>
+  </section>
+  <section class="panel" id="st-items" data-sec="items" data-sec-label="Audit items">
+    <div class="ph" id="st-items-h">
+      <div><h2>Audit items <span id="st-icount" class="muted"></span></h2></div>
+      <div class="pager"><button id="st-prev" class="ghost">‹</button><span id="st-page"></span><button id="st-next" class="ghost">›</button></div>
+    </div>
+    <div class="tablewrap"><table id="st-itbl"><thead></thead><tbody></tbody></table></div>
+  </section>
+</main>
 
-function openFlags(){ return T.runAudit().filter(f=>!S.resolved[f.key] && lobOk(T.LOBS.find(l=>l.name===f.lob).id)); }
+<main id="page-tracking" class="page">
+  <div class="aubar"><button type="button" class="ghost" id="tr-fold">Collapse all charts</button><button type="button" id="tr-jump"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Jump to LOB table</button></div>
+  <section class="panel" id="tr-sum-p" data-sec="summary" data-sec-label="Org summary (budget, allocation, forecast, invoiced)"><div class="ph"><h2>Org summary</h2><span class="hint">Budget → allocation → forecast → invoiced, by quarter</span></div>
+    <div id="tr-qsum" class="qsum"></div></section>
+  <section class="panel" id="tr-tbl-p" data-sec="table" data-sec-label="LOB table"><div class="ph" id="tr-tbl-h"><h2>By LOB</h2><div class="seg" id="tr-per"></div><span class="hint">Click an LOB for its functions · → opens its audit items</span></div>
+    <div class="tablewrap" style="max-height:none"><table id="tr-tbl"><thead></thead><tbody></tbody></table></div>
+    <div class="legend" style="margin:10px 0 0" id="tr-legend"></div>
+  </section>
+</main>
 
-function render(){
-  const flags = openFlags();
-  const tabs = [['overview','Overview'],['audit','Audit'],['forecast','Forecast'],['accruals','Accruals']];
-  app.innerHTML = `
-  <div class="top">
-    <div class="logo"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 64 64"><path d="M14 34 L28 48 L50 18" stroke="#1F3A5F" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></i>TrueUp</div>
-    <div class="org" role="group" aria-label="Organization">${[['','All orgs'],['Content','Content'],['Marketing','Marketing']].map(([v,l])=>`<button data-org="${v}" aria-pressed="${S.org===v}">${l}</button>`).join('')}</div>
-    <span class="badge">Demo · Nimbus Media (fictional)</span>
-  </div>
-  <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" data-tab="${k}" aria-selected="${S.tab===k}">${l}${k==='audit'&&flags.length?`<span class="n">${flags.length}</span>`:''}</button>`).join('')}</div>
-  <div class="body">${({overview,audit,forecast,accruals})[S.tab](flags)}</div>`;
-}
+<main id="page-ledgr" class="page"><section class="panel" id="pv-root"></section></main>
 
-// ---------- Overview ----------
-function overview(flags){
-  const sm = T.summary(S.org), tot = k => sm.reduce((t,x)=>t+x[k],0);
-  const acc = T.ACCRUALS.filter(a=>lobOk(a.lob)).reduce((t,a)=>t+T.accrualAmount(a),0);
-  const max = Math.max(...sm.map(x=>Math.max(x.allocation,x.forecast)));
-  return `
-  <div class="cards">
-    <div class="card"><div class="k">FY allocation</div><div class="v">${T.fmtK(tot('allocation'))}</div><div class="s">${sm.length} lines of business</div></div>
-    <div class="card"><div class="k">Full-year forecast</div><div class="v">${T.fmtK(tot('forecast'))}</div><div class="s">Actuals + open POs + judgment</div></div>
-    <div class="card"><div class="k">Variance to allocation</div><div class="v ${tot('variance')<0?'neg':''}">${T.fmtK(tot('variance'))}</div><div class="s">${T.pct(tot('variance')/tot('allocation'))} of allocation</div></div>
-    <div class="card"><div class="k">Open audit flags</div><div class="v ${flags.length?'neg':''}">${flags.length}</div><div class="s">${flags.filter(f=>f.ruleObj.sev==='High').length} high severity</div></div>
-    <div class="card"><div class="k">${T.CUR_Q.name} accrual</div><div class="v">${T.fmtK(acc)}</div><div class="s">${S.submitted?'Submitted for close':'Not yet submitted'}</div></div>
-  </div>
-  <div class="panel"><h2>Try it in three steps</h2><p class="sub">This is how budget managers used it every week.</p>
-    <div class="steps">
-      <button class="step" data-tab="audit"><b>1. Clear the audit</b><span>TrueUp scans every project and invoice overnight and flags what will cause problems at close. Resolve a flag with a note.</span></button>
-      <button class="step" data-tab="forecast"><b>2. Build the forecast</b><span>Adjust a judgment, watch the variance move, then export a workbook whose formulas still work in Excel.</span></button>
-      <button class="step" data-tab="accruals"><b>3. Close the quarter</b><span>Set % complete on open work, review the accrual and submit the journal entry.</span></button>
-    </div></div>
-  <div class="panel"><h2>Allocation vs forecast by line of business</h2><p class="sub">Navy is forecast; the tick is allocation. Red means the forecast is over.</p>
-    <table><tbody>${sm.map(x=>`<tr><td style="width:180px"><b>${x.lob.name}</b><div style="font-size:12px;color:var(--muted)">${x.lob.org}</div></td>
-      <td><div class="bar"><i class="${x.forecast>x.allocation?'over':''}" style="width:${(x.forecast/max*100).toFixed(1)}%"></i><span style="position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);left:${(x.allocation/max*100).toFixed(1)}%"></span></div></td>
-      <td class="num" style="width:110px">${T.fmtK(x.forecast)}</td><td class="num ${x.variance<0?'neg':''}" style="width:110px">${T.fmtK(x.variance)}</td></tr>`).join('')}</tbody></table></div>`;
-}
+<main id="page-forecast" class="page">
+  <section class="panel">
+    <div class="trhead">
+      <h2>Forecast · FY27 · <span id="fc-vlab" class="fcvlab">Content · Functions</span><span class="ptip" tabindex="0" aria-label="About this page">i<span class="ptipb" id="fc-tipb"></span></span></h2>
+      <div class="fcbar">
+        
+        <div class="seg" id="fc-layout"><button data-l="calc" class="on">Calculation</button><button data-l="sum">Summary</button><button data-l="fc">Finance Commentary</button></div>
+        <div class="seg" id="fc-q"><button data-q="Q1" class="on">Q1</button><button data-q="Q2">Q2</button><button data-q="Q3">Q3</button><button data-q="Q4">Q4</button></div>
+        <label class="minesw" id="fc-intlw" hidden><input type="checkbox" id="fc-intl"><i></i><span>Intl</span></label>
+        <label class="minesw" id="fc-chgw" hidden><input type="checkbox" id="fc-chg"><i></i><span>Change Log</span></label>
+        <span id="fc-chgo" class="fcchgo" hidden><div class="ms chdatebtn" data-dk="from"><span class="flab">From</span><button type="button" class="msb" id="fc-chgfrom" aria-label="From"></button></div><div class="ms chdatebtn" data-dk="to"><span class="flab">To</span><button type="button" class="msb" id="fc-chgto" aria-label="To"></button></div><span class="chrulewrap"><button type="button" class="rlink" id="fc-rpct" data-f="pct"></button><button type="button" class="rlinkm" id="fc-rmode" data-f="mode"></button><button type="button" class="rlink" id="fc-ramt" data-f="amt"></button></span></span>
+        <input id="fc-find" type="search" placeholder="Find LOB, function, item…" class="vf">
+        <div class="fcopts" id="fc-opts">
+          <button type="button" class="ghost sm fcoptsb" id="fc-optsb" aria-haspopup="menu" aria-expanded="false">Options <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="fcoptsm" role="menu">
+            <div class="fcoptsg"><b>View</b>
+              <span id="fc-mine"></span>
+              <label class="minesw" id="fc-xlobw" hidden><input type="checkbox" id="fc-xlob" checked><i></i>Include XLOB <span id="fc-xlob-t" class="s"></span></label>
+              <label class="minesw"><input type="checkbox" id="fc-showall"><i></i><span id="fc-showall-l">$0 rows</span></label>
+              <button type="button" id="fc-expand" class="freset fact"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4-3.5L12 6M4 10l4 3.5 4-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Expand / collapse</button>
+              <button type="button" id="fc-reset" class="freset fact" title="Clear the search and the view switches, and collapse every row"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M2 1.8v3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Reset</button>
+            </div>
+            <div class="fcoptsg"><b>Forecast</b>
+              <button type="button" id="fc-hist" class="freset fact" hidden><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>History</button>
+              <button type="button" id="fc-vers" class="freset fact" hidden><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5l5.5 3L8 8.5l-5.5-3zM2.5 8.5L8 11.5l5.5-3M2.5 11L8 14l5.5-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Versions</button>
+              <button type="button" id="fc-freeze" class="freset fact" hidden><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5v13M2.4 4.75l11.2 6.5M2.4 11.25l11.2-6.5M6.2 2.6L8 4.2l1.8-1.6M6.2 13.4L8 11.8l1.8 1.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="fc-freeze-l">Atlas Freeze</span></button>
+              <button type="button" id="fc-export" class="freset fact"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M4.8 6.8L8 10l3.2-3.2M2.5 12.5v1h11v-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Export to Excel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sub" id="fc-sub"></div>
+    </div>
+    <div class="snapbar" id="fc-snap" hidden></div>
+    <div class="fccardsw" id="fc-cardsw"><button type="button" class="fccardst" id="fc-cardst" aria-expanded="true"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Totals</button><div class="fcards" id="fc-cards"></div></div>
+    <div class="tablewrap fcwrap"><table id="fc-tbl"><thead id="fc-head"></thead><tbody id="fc-body"></tbody></table></div>
+  </section>
+</main>
 
-// ---------- Audit ----------
-function audit(){
-  const all = T.runAudit().filter(f=>lobOk(T.LOBS.find(l=>l.name===f.lob).id));
-  const counts = r => all.filter(f=>f.rule===r && !S.resolved[f.key]).length;
-  const rows = all.filter(f=>!S.rule || f.rule===S.rule);
-  return `<div class="panel"><div class="row"><div><h2>Audit</h2><p class="sub">Last run: this morning, 6:00 AM. Six rules across ${T.PROJECTS.length} projects, ${T.LEDGER.length} invoices and ${T.CONTRACTORS.length} contractors.</p></div><span class="sp"></span><button class="btn ghost" data-act="rerun">Re-run audit</button></div>
-    <div class="chips"><button class="chip" data-rule="" aria-pressed="${!S.rule}">All rules (${all.filter(f=>!S.resolved[f.key]).length})</button>${T.RULES.map(r=>`<button class="chip" data-rule="${r.id}" aria-pressed="${S.rule===r.id}" title="${esc(r.desc)}">${r.name} (${counts(r.id)})</button>`).join('')}</div>
-    <div class="scroll"><table><thead><tr><th>Severity</th><th>Rule</th><th>Item</th><th>LOB</th><th>What we found</th><th></th></tr></thead><tbody>
-    ${rows.map(f=>{ const done=S.resolved[f.key]; return `<tr class="${done?'resolved':''}"><td><span class="sev ${f.ruleObj.sev}">${f.ruleObj.sev}</span></td><td>${f.ruleObj.name}</td><td><b>${esc(f.item)}</b></td><td>${f.lob}</td><td>${esc(f.detail)}${done?`<div style="font-size:12px;color:var(--green);margin-top:2px">Resolved: ${esc(S.notes[f.key]||'')}</div>`:''}</td>
-      <td style="white-space:nowrap">${done?`<button class="btn ghost" data-undo="${f.key}">Reopen</button>`:S.editing===f.key?`<div class="row" style="flex-wrap:nowrap"><input class="jin" style="width:200px;text-align:left" data-noteinput="${f.key}" aria-label="Resolution note" placeholder="e.g. PO raised: PO-78123" value="Fixed with vendor"><button class="btn" data-save="${f.key}">Save</button></div>`:`<button class="btn" data-resolve="${f.key}">Resolve</button>`}</td></tr>`; }).join('') || `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">Nothing flagged. Clean books.</td></tr>`}
-    </tbody></table></div></div>`;
-}
+<main id="page-accruals" class="page"><section class="panel" id="ac-root"></section></main>
+<main id="page-changes" class="page"><section class="panel" id="ch-root"></section></main>
 
-// ---------- Forecast ----------
-function forecast(){
-  const st = [['calc','Calculation'],['sum','Summary'],['com','Finance commentary']];
-  return `<div class="panel"><div class="row"><div><h2>Full-year forecast</h2><p class="sub">Forecast = actuals to date + open PO balance + judgment. Actuals are closed through ${T.MONTHS[T.CLOSED_THROUGH]}; yellow cells are yours to change.</p></div><span class="sp"></span>
-    <button class="btn" data-act="export-fc">Export to Excel</button></div>
-    <div class="sub-tabs">${st.map(([k,l])=>`<button class="chip" data-ftab="${k}" aria-pressed="${S.ftab===k}">${l}</button>`).join('')}</div>
-    ${S.ftab==='calc'?calcTable():S.ftab==='sum'?sumTable():commentary()}</div>`;
-}
-function calcTable(){
-  let html = `<div class="scroll"><table><thead><tr><th>Project</th><th>Vendor</th><th class="num">Allocation</th><th class="num">Actuals YTD</th><th class="num">Open PO</th><th class="num">Judgment</th><th class="num">Forecast</th><th class="num">Variance</th></tr></thead><tbody>`;
-  T.LOBS.filter(l=>lobOk(l.id)).forEach(l=>{
-    const rows = T.PROJECTS.filter(p=>p.lob===l.id).map(T.calcRow);
-    html += `<tr class="grp"><td colspan="8">${l.name} <span style="font-weight:400;color:var(--muted)">· ${l.org}</span></td></tr>`;
-    rows.forEach(r=>{ html += `<tr><td><b>${esc(r.p.title)}</b><div style="font-size:12px;color:var(--muted)">${r.p.id} · ${r.p.poNum||'no PO'} · ${r.p.owner}</div></td><td>${esc(r.p.vendor)}</td>
-      <td class="num">${T.fmt(r.allocation)}</td><td class="num">${T.fmt(r.actuals)}</td><td class="num">${T.fmt(r.open)}</td>
-      <td class="num"><input class="jin" type="number" step="1000" aria-label="Judgment for ${esc(r.p.title)}" data-j="${r.p.id}" value="${r.judgment}"></td>
-      <td class="num" data-fc="${r.p.id}">${T.fmt(r.forecast)}</td><td class="num ${r.variance<0?'neg':''}" data-var="${r.p.id}">${T.fmt(r.variance)}</td></tr>`; });
-  });
-  return html + `</tbody></table></div>`;
-}
-function sumTable(){
-  const sm = T.summary(S.org), tot = k => sm.reduce((t,x)=>t+x[k],0);
-  return `<div class="scroll"><table><thead><tr><th>Line of business</th><th>Org</th><th class="num">Allocation</th><th class="num">Actuals YTD</th><th class="num">Open PO</th><th class="num">Judgment</th><th class="num">Forecast</th><th class="num">Variance</th><th class="num">Var %</th></tr></thead><tbody>
-  ${sm.map(x=>`<tr><td><b>${x.lob.name}</b></td><td>${x.lob.org}</td>${['allocation','actuals','open','judgment','forecast'].map(k=>`<td class="num">${T.fmt(x[k])}</td>`).join('')}<td class="num ${x.variance<0?'neg':''}">${T.fmt(x.variance)}</td><td class="num">${T.pct(x.pct)}</td></tr>`).join('')}
-  <tr class="tot"><td>Total</td><td></td>${['allocation','actuals','open','judgment','forecast','variance'].map(k=>`<td class="num ${k==='variance'&&tot(k)<0?'neg':''}">${T.fmt(tot(k))}</td>`).join('')}<td class="num">${T.pct(tot('variance')/tot('allocation'))}</td></tr></tbody></table></div>`;
-}
-function autoNote(x){
-  const over = x.variance < 0, big = T.PROJECTS.filter(p=>p.lob===x.lob.id).map(T.calcRow).sort((a,b)=>a.variance-b.variance)[0];
-  return over ? `Over allocation by ${T.fmt(-x.variance)} (${T.pct(-x.pct)}), driven mostly by ${big.p.title} (${T.fmt(big.variance)}).`
-              : `Under allocation by ${T.fmt(x.variance)} (${T.pct(x.pct)}). Largest open item: ${big.p.title} with ${T.fmt(big.open)} still on PO.`;
-}
-function commentary(){
-  return T.summary(S.org).map(x=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="row"><b>${x.lob.name}</b><span class="sp"></span><span class="${x.variance<0?'neg':''}">${x.variance<0?'Over by ':'Under by '}${T.fmt(Math.abs(x.variance))}</span></div>
-    <div class="auto">Suggested: ${esc(autoNote(x))}</div>
-    <textarea class="note" data-com="${x.lob.id}" aria-label="Commentary for ${x.lob.name}" placeholder="Write the story behind the number…">${esc(S.comments[x.lob.id]||'')}</textarea></div>`).join('') +
-    `<p class="sub" style="margin-top:10px">Commentary goes into the export next to live variance formulas, so finance sees the number and the reason together.</p>`;
-}
+<main id="page-config" class="page"><div id="cfg-root"></div></main>
 
-// ---------- Accruals ----------
-function accruals(){
-  const items = T.ACCRUALS.filter(a=>lobOk(a.lob));
-  const tot = items.reduce((t,a)=>t+T.accrualAmount(a),0), allRev = items.every(a=>a.reviewed);
-  const byLob = T.LOBS.filter(l=>lobOk(l.id)).map(l=>({l, amt: items.filter(a=>a.lob===l.id).reduce((t,a)=>t+T.accrualAmount(a),0)})).filter(x=>x.amt>0);
-  return `<div class="panel"><div class="row"><div><h2>${T.CUR_Q.name} accruals</h2><p class="sub">Work done this quarter that hasn't been invoiced yet. Accrual = quarter scope × % complete − invoiced in quarter.</p></div><span class="sp"></span>
-    ${S.submitted?`<span class="stamp">SUBMITTED FOR CLOSE</span>`:''}</div>
-    <div class="scroll"><table><thead><tr><th>Reviewed</th><th>Vendor / project</th><th>PO</th><th class="num">Quarter scope</th><th>% complete</th><th class="num">Invoiced</th><th class="num">Accrual</th></tr></thead><tbody>
-    ${items.map(a=>`<tr><td><input type="checkbox" data-rev="${a.id}" ${a.reviewed?'checked':''} ${S.submitted?'disabled':''} aria-label="Reviewed ${esc(a.title)}"></td>
-      <td><b>${esc(a.vendor)}</b><div style="font-size:12px;color:var(--muted)">${esc(a.title)} · ${a.lob}</div></td><td>${a.poNum}</td><td class="num">${T.fmt(a.scope)}</td>
-      <td><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="range" min="0" max="100" step="5" value="${a.pctComplete}" data-pct="${a.id}" ${S.submitted?'disabled':''} aria-label="Percent complete ${esc(a.title)}"><span data-pv="${a.id}" style="width:38px">${a.pctComplete}%</span></div></td>
-      <td class="num">${T.fmt(a.invoiced)}</td><td class="num" data-acc="${a.id}"><b>${T.fmt(T.accrualAmount(a))}</b></td></tr>`).join('')}
-    <tr class="tot"><td colspan="6">Total accrual</td><td class="num" id="acctot">${T.fmt(tot)}</td></tr></tbody></table></div></div>
-  <div class="panel"><h2>Journal entry preview</h2><p class="sub">One debit per line of business, one credit to accrued liabilities. Reverses on day one of next quarter.</p>
-    <table><thead><tr><th>Account</th><th>LOB</th><th class="num">Debit</th><th class="num">Credit</th></tr></thead><tbody id="je">
-    ${byLob.map(x=>`<tr><td>Production &amp; marketing expense</td><td>${x.l.name}</td><td class="num">${T.fmt(x.amt)}</td><td></td></tr>`).join('')}
-    <tr><td>Accrued liabilities</td><td></td><td></td><td class="num">${T.fmt(tot)}</td></tr></tbody></table>
-    <div class="row" style="margin-top:12px"><button class="btn ghost" data-act="rev-all" ${S.submitted?'disabled':''}>Mark all reviewed</button><button class="btn ghost" data-act="export-acc">Export JE to Excel</button><span class="sp"></span>
-      <button class="btn" data-act="submit" ${!allRev||S.submitted?'disabled':''} title="${allRev?'':'Review every line first'}">${S.submitted?'Submitted':'Submit for close'}</button></div></div>`;
-}
+<main id="page-guide" class="page"><div class="guidedoc"><nav class="guideside" id="guide-nav"></nav><section class="panel guide" id="guide-root"></section></div></main>
 
-// ---------- events ----------
-app.addEventListener('click', async e=>{
-  const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.org!==undefined){ S.org=b.dataset.org; render(); }
-  else if (b.dataset.tab){ S.tab=b.dataset.tab; render(); window.scrollTo({top:0,behavior:'smooth'}); }
-  else if (b.dataset.rule!==undefined){ S.rule=b.dataset.rule; render(); }
-  else if (b.dataset.ftab){ S.ftab=b.dataset.ftab; render(); }
-  else if (b.dataset.resolve){ S.editing=b.dataset.resolve; render(); const inp=app.querySelector(`[data-noteinput="${S.editing}"]`); if(inp){ inp.focus(); inp.select(); } }
-  else if (b.dataset.save){ const k=b.dataset.save, inp=app.querySelector(`[data-noteinput="${k}"]`); S.resolved[k]=true; S.notes[k]=(inp&&inp.value.trim())||'Resolved'; S.editing=null; render(); toast('Flag resolved. It won\u2019t come back unless the data changes.'); }
-  else if (b.dataset.undo){ delete S.resolved[b.dataset.undo]; render(); }
-  else if (b.dataset.act==='rerun'){ b.disabled=true; b.textContent='Scanning…'; setTimeout(()=>{ render(); toast('Audit re-run: '+openFlags().length+' open flags.'); },900); }
-  else if (b.dataset.act==='export-fc'){ await download(await T.forecastWorkbook(ExcelJS, S.comments), 'TrueUp_Forecast_Nimbus.xlsx'); toast('Exported. Change a yellow Judgment cell in Excel and watch Summary update.'); }
-  else if (b.dataset.act==='export-acc'){ await download(await T.accrualWorkbook(ExcelJS), 'TrueUp_'+T.CUR_Q.name+'_Accruals_Nimbus.xlsx'); toast('Journal entry exported with live formulas.'); }
-  else if (b.dataset.act==='rev-all'){ T.ACCRUALS.forEach(a=>{ if(lobOk(a.lob)) a.reviewed=true; }); render(); }
-  else if (b.dataset.act==='submit'){ S.submitted=true; render(); toast(T.CUR_Q.name+' accrual submitted. Close checklist: done.'); }
-});
-app.addEventListener('input', e=>{
-  const t = e.target;
-  if (t.dataset.j){ const p=T.PROJECTS.find(x=>x.id===t.dataset.j); p.judgment=Number(t.value)||0; const r=T.calcRow(p);
-    app.querySelector(`[data-fc="${p.id}"]`).textContent=T.fmt(r.forecast); const v=app.querySelector(`[data-var="${p.id}"]`); v.textContent=T.fmt(r.variance); v.classList.toggle('neg',r.variance<0);
-    const n=openFlags().length, badge=app.querySelector('.tabs .n'); if(badge) badge.textContent=n; }
-  if (t.dataset.com){ S.comments[t.dataset.com]=t.value; }
-  if (t.dataset.pct){ const a=T.ACCRUALS.find(x=>x.id===t.dataset.pct); a.pctComplete=Number(t.value); app.querySelector(`[data-pv="${a.id}"]`).textContent=a.pctComplete+'%'; app.querySelector(`[data-acc="${a.id}"]`).innerHTML='<b>'+T.fmt(T.accrualAmount(a))+'</b>'; }
-});
-app.addEventListener('keydown', e=>{ const t=e.target; if(t.dataset.noteinput && e.key==='Enter'){ const btn=app.querySelector(`[data-save="${t.dataset.noteinput}"]`); if(btn) btn.click(); } });
-app.addEventListener('change', e=>{ const t=e.target;
-  if (t.dataset.rev){ T.ACCRUALS.find(x=>x.id===t.dataset.rev).reviewed=t.checked; render(); }
-  if (t.dataset.pct){ render(); }
-  if (t.dataset.j && S.tab==='forecast'){ /* keep focus; badge already updated */ }
-});
-async function download(wb, name){
-  if (!window.ExcelJS){ toast('Excel library is still loading. Try again in a second.'); return; }
-  const buf = await wb.xlsx.writeBuffer(); const url = URL.createObjectURL(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
-  const a = document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000);
-}
-
-Win95.enableDrag(document.getElementById('desk'));
-Win95.clock(document.getElementById('clock'));
-render();
-})();
-</script>
+<div id="live" class="live" hidden></div>
+<dialog id="fc-dlg" class="updlg fcdlg"></dialog>
+<dialog id="up-dlg" class="updlg">
+  <form method="dialog" id="up-form">
+    <h2>Publish a new Atlas export</h2>
+    <p class="sub">The audit is built in your browser, so the raw export never leaves your computer. You'll see a summary before anything is published. Publishing updates the dashboard for everyone viewing it.</p>
+    <label class="upf"><span>Atlas export <b>(required)</b></span><input type="file" name="export" accept=".csv" required><em>export_all_….csv</em></label>
+    <label class="upf"><span>Marketing forecast <i>(optional; otherwise the current file is reused)</i></span><input type="file" name="marketing" accept=".xlsx"></label>
+    <label class="upf"><span>Content forecast <i>(optional; otherwise the current file is reused)</i></span><input type="file" name="content" accept=".xlsx"></label>
+    <div id="up-msg" class="upmsg"></div>
+    <div class="upact"><button type="button" class="ghost" id="up-cancel">Close</button><button type="button" id="up-go">Build audit</button></div>
+  </form>
+</dialog>
+<script src="js/mockboost.js"></script>
+<script src="js/orglabels.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/scope.js"></script>
+<script src="js/scopewire.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/health.js"></script>
+<script src="js/search.js"></script>
+<script src="js/mywork.js"></script>
+<script src="js/learn.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/mobilenav.js"></script>
+<script src="js/aidlinks.js"></script>
+<script src="js/forecast.js"></script>
+<script src="js/pivot.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/guide.js"></script>
+<script src="js/ask.js"></script>
+<script src="js/mine.js"></script>
+<script src="js/accruals.js"></script>
+<script src="js/changes.js"></script>
+<script src="js/sections.js"></script>
+<script src="js/config.js"></script>
+<script src="js/status.js"></script>
+<script src="js/comments.js"></script>
+<script src="js/atlasfix.js"></script>
+<script src="js/refresh.js"></script>
+<script src="js/share.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
