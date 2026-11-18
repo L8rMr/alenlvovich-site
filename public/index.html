@@ -16,7 +16,21 @@
 <style>
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 16px}
 .desk{padding:24px 24px 0;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1280px;margin:0 auto;width:100%}
-.col{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.desk{flex-direction:column;align-items:stretch;container-type:inline-size}
+.drow{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.drow1{align-items:stretch}
+.wide{flex:999 1 560px;min-width:0}
+.side{flex:1 1 280px;min-width:0;max-width:100%}
+.pfwrap{display:flex;flex-direction:column}
+.pfbody{padding:10px;flex:1;display:flex;flex-direction:column;min-height:0}
+.pfbody .well{flex:1;overflow:auto;min-height:0}
+@container (min-width:880px){.pfbody{height:0}}
+.drow{align-items:stretch}
+.drow>div{display:flex;flex-direction:column}
+.drow>div>.win{flex:1}
+[data-win=welcome],[data-win=im]{display:flex;flex-direction:column}
+[data-win=im]>div:last-child{flex:1;display:flex;flex-direction:column}
+[data-win=im] [role=log]{flex:1}
 .below{padding:20px 24px 24px;max-width:1280px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;align-items:center}
 .chans{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
@@ -129,8 +143,7 @@ function viewSignon(){
       <label for="pw">Enter Password:</label>
       <input id="pw" class="well" type="password" value="hireme" style="padding:4px">
     </div>
-    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
-      <button data-a="skip" style="background:none;border:0;color:var(--link);text-decoration:underline;padding:8px 0;min-height:44px">Skip to the résumé</button>
+    <div style="display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;align-items:center">
       <button class="bev" data-a="signon" style="font-weight:bold;min-width:110px;min-height:40px">Sign On</button>
     </div>
   </div></div></div>`;
@@ -188,17 +201,15 @@ function viewOnline(){
 
   const profileRows = [
     ['Screen name','AlenL'],
-    ['Location','Long Island, NY'],
     ['Occupation','Content and Marketing Budget Manager, Apple'],
     ['Finance systems','NetSuite (ERP implementation), QuickBooks'],
     ['Productivity','Microsoft Office full suite'],
     ['AI','Claude and agentic AI workflows, MCP tool integrations, AI-assisted analysis and automation'],
     ['Tool building','Self-hosted web apps and dashboards (Docker, GitHub, Cloudflare), HTML/JavaScript, Stripe e-commerce'],
-    ['Languages','English, Russian'],
     ['Personal quote','"I like Chinese food"']
   ].map(([k,v])=>`<div style="padding:6px 0;border-bottom:1px dotted var(--sh2)"><b style="display:block;font-size:12px;color:var(--accent)">${k}</b><span style="font-size:13px;line-height:1.4">${esc(v)}</span></div>`).join('');
-  const profile = win('profile','',`${bar('Member Profile: AlenL','profile')}
-    <div style="padding:10px"><div class="well" style="padding:6px 12px">${profileRows}</div></div>`);
+  const profile = win('profile','flex:1;display:flex;flex-direction:column',`${bar('Member Profile: AlenL','profile')}
+    <div class="pfbody"><div class="well" style="padding:6px 12px">${profileRows}</div></div>`);
 
   const buddy = win('buddy','',`${bar('Buddy List','buddy')}
     <div style="padding:10px;display:flex;flex-direction:column;gap:10px">
@@ -225,7 +236,7 @@ function viewOnline(){
         <p style="margin:0">Alen</p>
       </div></div>`) : '';
 
-  return `<div class="desk"><div class="col">${welcome}${imw}</div><div style="flex:1 1 280px;max-width:100%;display:flex;flex-direction:column;gap:20px">${buddy}${profile}</div></div><div class="below">${mail}</div>${viewSettings()}`;
+  return `<div class="desk"><div class="drow drow1"><div class="wide">${welcome}</div><div class="side pfwrap">${profile}</div></div><div class="drow"><div class="side">${buddy}</div><div class="wide">${imw}</div></div></div><div class="below">${mail}</div>${viewSettings()}`;
 }
 const THEMES = [
   ['win95','Windows 95','The original: flat navy title bars, cool grey, teal desktop.','#008080','#000080','#C0C0C0'],
