@@ -54,5 +54,5 @@ window.Win95 = (function(){
     const tick = () => el.textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
     tick(); setInterval(tick, 30000);
   }
-  return { restore, enableDrag, clock };
+  return { restore, enableDrag, clock, front: focus };
 })();
