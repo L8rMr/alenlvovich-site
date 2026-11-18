@@ -62,6 +62,9 @@
 /* Settings window: centered, never wider or taller than the screen (zoom-aware for Large text) */
 .dpwin{position:fixed;top:72px;left:max(8px,calc(50vw/var(--z,1) - 230px));width:min(460px,calc((100vw - 16px)/var(--z,1)));max-height:calc((100dvh - 120px)/var(--z,1));overflow:auto}
 @media (max-width:520px){.dpwin{top:56px;left:8px;max-height:calc((100dvh - 70px)/var(--z,1))}.dp-tab{padding:4px 6px;font-size:12px}.dp-list{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}}
+/* minimize/restore: the outline that flies to and from the taskbar */
+.zoomr{position:fixed;z-index:9000;pointer-events:none;border:2px solid var(--text);background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px var(--hi),2px 2px 0 rgba(0,0,0,.35)}
+.zoomr::before{content:"";display:block;height:14px;background:var(--ttl)}
 </style>
 </head>
 <body>
@@ -297,19 +300,57 @@ function renderTasks(){
     const b = document.createElement('button');
     b.className = 'bev'+(S.closed[id]?'':' on'); b.textContent = WINS[id];
     b.style.cssText = 'padding:2px 8px;min-height:32px;font-size:12px';
-    b.onclick = ()=>{ S.closed[id] = !S.closed[id]; render(); };
+    b.dataset.w = id;
+    b.onclick = ()=>{ if (S.closed[id]) restoreWin(id); else minimizeWin(id); };
     t.appendChild(b);
   });
   const g = document.createElement('button');
   g.className = 'bev'+(S.settings?' on':''); g.title = 'Wallpaper, theme and effects';
   g.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" style="vertical-align:-2px;margin-right:5px"><rect x="1.5" y="2" width="13" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 14h6M8 11v3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9l3-3 2 2 2-3 2 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>Settings';
   g.style.cssText = 'padding:2px 8px;min-height:32px;font-size:12px';
+  g.dataset.w = 'settings';
   g.onclick = ()=>{
     const w = app.querySelector('[data-win=settings]');
     if (w && w.classList.contains('inactive')) { bringSettingsFront(); return; }  // open but behind: bring it forward
-    S.settings = !S.settings; S.closed.settings=false; render(); if (S.settings) bringSettingsFront();
+    if (S.settings) { minimizeWin('settings'); return; }
+    S.settings = true; S.closed.settings=false; render(); bringSettingsFront(); zoomFrom('settings');
   };
   t.appendChild(g);
+}
+// Minimize / restore: a window-outline "zoom" flies between the window and its taskbar button,
+// the way Windows 9x and classic Mac OS showed a window being put away or brought back.
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function taskRect(id){
+  const b = document.querySelector(`#tasks [data-w="${id}"]`), bar = document.querySelector('.taskbar');
+  const r = (b||bar).getBoundingClientRect(), br = bar.getBoundingClientRect();
+  const x = Math.min(Math.max(r.left, br.left), br.right - Math.min(r.width, 120));
+  return { left:x, top:r.top, width:Math.max(40, Math.min(r.width, 160)), height:r.height };
+}
+function zoomRect(from, to, done){
+  if (calm()) { done && done(); return; }
+  const z = document.createElement('div'); z.className = 'zoomr'; document.body.appendChild(z);
+  const k = r => ({ left:r.left+'px', top:r.top+'px', width:r.width+'px', height:r.height+'px' });
+  const anim = z.animate([ {...k(from), opacity:1}, {...k(to), opacity:.85} ], { duration:260, easing:'cubic-bezier(.4,0,.2,1)' });
+  anim.onfinish = () => { z.remove(); done && done(); };
+}
+function minimizeWin(id){
+  const w = app.querySelector(`[data-win="${id}"]`);
+  const hide = () => { if (id==='settings') S.settings=false; S.closed[id]=true; render(); };
+  if (!w || calm()) return hide();
+  const from = w.getBoundingClientRect(), to = taskRect(id);
+  w.animate([{opacity:1},{opacity:0}], {duration:180, fill:'forwards'});
+  zoomRect(from, to, hide);
+}
+function zoomFrom(id){
+  const w = app.querySelector(`[data-win="${id}"]`); if (!w || calm()) return;
+  const to = w.getBoundingClientRect(), from = taskRect(id);
+  w.style.visibility = 'hidden';
+  zoomRect(from, to, () => { w.style.visibility = ''; w.animate([{opacity:.4},{opacity:1}], {duration:140}); });
+}
+function restoreWin(id){
+  S.closed[id] = false; render();
+  const w = app.querySelector(`[data-win="${id}"]`); if (w) Win95.front(w);
+  zoomFrom(id);
 }
 function render(){
   app.innerHTML = S.stage==='signon' ? viewSignon() : S.stage==='connecting' ? viewConnecting() : viewOnline();
@@ -326,7 +367,7 @@ app.addEventListener('click', e=>{
   else if(a==='ch') set({ch:i});
   else if(a==='im') { S.closed.im=false; set({im:i}); }
   else if(a==='mail') { S.closed.mail=false; set({mail:true}); setTimeout(()=>{const m=app.querySelector('[data-win=mail]'); if(m) m.scrollIntoView({behavior:'smooth',block:'center'});},50); }
-  else if(a==='close') { if(b.dataset.w==='settings') S.settings=false; S.closed[b.dataset.w]=true; render(); }
+  else if(a==='close') minimizeWin(b.dataset.w);
   else if(a==='dp-tab') set({dpTab:b.dataset.t});
   else if(a==='dp-wall') saveDisplay({wall:b.dataset.w});
   else if(a==='dp-theme') saveDisplay({theme:b.dataset.t, wall:window.LO_THEME_WALL[b.dataset.t]});
