@@ -108,3 +108,7 @@ html[data-ui=swiss] .tablewrap tbody tr:hover>td,html[data-ui=swiss] .hwrap tr:h
 html[data-ui=swiss] .aclink,html[data-ui=swiss] .hlink{color:#000;text-decoration:underline dotted #9A9A9A;text-underline-offset:3px}
 html[data-ui=swiss] .aclink:hover,html[data-ui=swiss] .hlink:hover{text-decoration:underline solid #000}
 html[data-ui=swiss] .aclink.acct-neg{color:var(--accent)}
+html[data-ui=swiss] #uibar .uir{gap:12px 22px}
+html[data-ui=swiss] .uihome{font-size:13px;font-weight:600;color:#000;padding-bottom:3px;border-bottom:2px solid #000}
+html[data-ui=swiss] .uihome:hover{color:var(--accent);border-bottom-color:var(--accent)}
+@media (max-width:1000px){html[data-ui=swiss] .tabs .navtools{background:none;padding-left:0;position:static}}

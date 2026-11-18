@@ -124,3 +124,8 @@ html[data-ui=hw] .tablewrap tbody tr:hover>td,html[data-ui=hw] .hwrap tr:hover>t
 html[data-ui=hw] .aclink,html[data-ui=hw] .hlink{color:var(--ink);text-decoration:underline dotted #B0B1AC;text-underline-offset:3px}
 html[data-ui=hw] .aclink:hover,html[data-ui=hw] .hlink:hover{color:var(--accent);text-decoration-color:var(--accent)}
 html[data-ui=hw] .aclink.acct-neg{color:var(--red)}
+html[data-ui=hw] #uibar{align-items:center}
+html[data-ui=hw] .uihome{padding:7px 14px 7px 11px;border-radius:999px;background:var(--key);color:var(--ink);font-size:13px;font-weight:500;box-shadow:0 2px 0 var(--key-edge)}
+html[data-ui=hw] .uihome:hover{background:#FFF}
+html[data-ui=hw] .uihome:active{transform:translateY(2px);box-shadow:none}
+@media (max-width:1000px){html[data-ui=hw] .tabs .navtools{background:none;padding-left:0;position:static}}

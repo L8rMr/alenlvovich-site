@@ -76,7 +76,6 @@
       var b = e.target.closest('button[data-ui]');
       if (b) setUI(b.getAttribute('data-ui'));
     });
-    top.appendChild(sw);
 
     // Page header bar (modern) — title + breadcrumb, with search and data health moved into it
     bar = el('div', { id: 'uibar' });
@@ -87,8 +86,14 @@
     bar.appendChild(left);
     var util = document.querySelector('.utilrow');
     if (util) util.parentNode.insertBefore(bar, util);
+    // Right side of the page header: search, interface switch, and a way back to the main site
+    var right = el('div', { 'class': 'uir' });
     var ctl = document.querySelector('.utilctl');
-    if (ctl) bar.appendChild(ctl);
+    if (ctl) right.appendChild(ctl);
+    right.appendChild(sw);
+    right.appendChild(el('a', { 'class': 'uihome', href: '/', title: 'Back to alenlvovich.com' },
+      '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5L8 2.5l6 5M3.8 6.3V13.5h3v-4h2.4v4h3V6.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span>alenlvovich.com</span>'));
+    bar.appendChild(right);
 
     // 1995 chrome: title bar and status bar
     w95title = el('div', { id: 'w95title', 'aria-hidden': 'true' },

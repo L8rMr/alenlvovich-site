@@ -136,3 +136,11 @@ html[data-ui=modern] .tabs .navtools>#opts-btn{background:none!important}
 html[data-ui=modern] .tabs .navtools>#opts-btn:hover,html[data-ui=modern] .tabs .navtools>#opts-btn[aria-expanded="true"]{background:rgba(255,255,255,.06)!important}
 html[data-ui=modern] .tabs a,html[data-ui=modern] #tab-accruals,html[data-ui=modern] #tab-forecast{font-weight:500!important}
 html[data-ui=modern] .navsub a,html[data-ui=modern] .navdrop>a.navtop{font-weight:400!important}
+/* interface switch + home now live in the page header */
+html[data-ui=modern] #uibar .uiswitch{margin:0;flex-wrap:nowrap;background:#EEF1F5;border:1px solid var(--line);padding:2px}
+html[data-ui=modern] #uibar .uisw-l{flex-basis:auto;color:var(--muted);padding:0 6px}
+html[data-ui=modern] #uibar .uiswitch button{color:var(--muted);padding:4px 9px}
+html[data-ui=modern] #uibar .uiswitch button[aria-pressed=true]{background:#FFF;color:var(--ink);box-shadow:0 1px 2px rgba(16,24,40,.12)}
+html[data-ui=modern] .uihome{font-size:12.5px;font-weight:500;color:var(--ink);padding:6px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}
+html[data-ui=modern] .uihome:hover{border-color:#C4CBD4}
+@media (max-width:1000px){html[data-ui=modern] .tabs .navtools{background:none}html[data-ui=modern] #uibar{flex-wrap:wrap}}

@@ -2040,3 +2040,8 @@ body.sharemode #f-xlw{display:none!important}
 .fccolm .fccolq .minesw{display:inline-flex;padding:3px 0;gap:6px}
 
 #db-xlobw,#fc-xlobw,#f-xlobw,label:has(>#f-xlob),label:has(>#fc-xlob),label:has(>#db-xlob){display:none!important}
+/* page-header right group (all interfaces): search · interface switch · home */
+#uibar .uir{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-left:auto}
+.uihome{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none}
+.uihome:hover{text-decoration:none}
+@media (max-width:760px){#uibar .uir{flex-basis:100%;margin-left:0}#uibar .uir .utilctl{flex:1 1 100%}#uibar .uir .gsbtn{width:100%}#uibar .uisw-l{display:none}}
