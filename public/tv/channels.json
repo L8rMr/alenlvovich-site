@@ -1,0 +1,13 @@
+{
+  "_help": "Channels on alenlvovich.com/tv. Set \"show\" to false to hide a channel, change \"name\" to relabel it, and reorder lines to change the dial order. \"number\" must match the ErsatzTV channel number. Save on GitHub and it's live within about a minute.",
+  "channels": [
+    { "number": "101", "name": "Cartoon Classics",         "show": true },
+    { "number": "102", "name": "Animation Domination",     "show": true },
+    { "number": "103", "name": "Sitcom Central",           "show": true },
+    { "number": "104", "name": "Drama Network",            "show": true },
+    { "number": "105", "name": "Anime and Heroes",         "show": true },
+    { "number": "106", "name": "Motors and Docs",          "show": true },
+    { "number": "107", "name": "Movie Night",              "show": true },
+    { "number": "108", "name": "Action and Sci-Fi Movies", "show": true }
+  ]
+}

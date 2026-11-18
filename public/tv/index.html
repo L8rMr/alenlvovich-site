@@ -134,7 +134,7 @@
         </div>
       </div>
     </div>
-    <div class="help" id="help"><b>Heads up:</b> channels can take a few seconds to tune in. Drag the channel dial (or use ← →), tap the side of the set to smack it, shake your phone to smack it, and tap the screen with three fingers (or the ⚙) for the service menu.</div>
+    <div class="help" id="help"><b>Heads up:</b> channels can take up to 20 seconds to tune in. Drag the channel dial (or use ← →), tap the side of the set to smack it, shake your phone to smack it, and tap the screen with three fingers (or the ⚙) for the service menu.</div>
   </section>
   <div class="legs" aria-hidden="true" style="display:none"><i></i><i></i></div>
 </main>
@@ -221,15 +221,24 @@ requestAnimationFrame(drawSnow);
 // ---------- channels ----------
 let chans = FALLBACK.slice(), idx = 0, on = false, hls = null, tuneT = null, osdT = null, ok = false;
 async function loadChannels(){
+  // channels.json (in the repo) decides which channels show, their names and dial order.
+  let list = null;
   try{
-    const r = await fetch(BASE+'/channels.m3u',{cache:'no-store'}); if(!r.ok) throw 0;
-    const t = await r.text(), out = [];
-    t.split('\n').forEach(line=>{
-      const m = line.match(/tvg-chno="([^"]+)".*?,(.*)$/) || line.match(/channel-number="([^"]+)".*?,(.*)$/);
-      if (m) out.push({n:m[1].trim(), name:m[2].trim()});
-    });
-    if (out.length) chans = out;
+    const r = await fetch('/tv/channels.json',{cache:'no-store'});
+    if (r.ok){ const j = await r.json(); list = (j.channels||[]).filter(c=>c.show!==false).map(c=>({n:String(c.number), name:c.name||('Channel '+c.number)})); }
   }catch(e){}
+  if (!list || !list.length){
+    // No list file: fall back to every channel ErsatzTV publishes.
+    try{
+      const r = await fetch(BASE+'/channels.m3u',{cache:'no-store'}); if(!r.ok) throw 0;
+      const out = [];
+      (await r.text()).replace(/\r/g,'').split('\n').forEach(line=>{
+        const m = line.match(/tvg-chno="([^"]+)".*?,(.*)$/); if (m) out.push({n:m[1].trim(), name:m[2].trim()});
+      });
+      if (out.length) list = out;
+    }catch(e){}
+  }
+  if (list && list.length) chans = list;
   const last = store.get('ch', chans[0].n);
   idx = Math.max(0, chans.findIndex(c=>c.n===last));
   setDial(idx);
@@ -245,17 +254,23 @@ function tune(i){
   if (!on) return;
   showOSD('CH '+c.n, c.name, 3500);
   snowAmt = .9; hiss(1); ok = false;
-  nosig.innerHTML = '<span>TUNING…</span><small style="font-size:.5em;letter-spacing:1px;margin-top:8px">channels can take a few seconds</small>'; nosig.classList.add('show');
+  nosig.innerHTML = '<span>TUNING…</span><small style="font-size:.5em;letter-spacing:1px;margin-top:8px">channels can take up to 20 seconds</small>'; nosig.classList.add('show');
   const url = BASE + '/channel/' + encodeURIComponent(c.n) + '.m3u8?mode=segmenter';
   if (hls){ hls.destroy(); hls=null; }
   vid.removeAttribute('src');
   const fail = () => { if(!on) return; ok=false; snowAmt=.55; hiss(.6); nosig.textContent='NO SIGNAL'; nosig.classList.add('show'); $('led').classList.remove('on'); };
   const good = () => { ok=true; snowAmt=0; hiss(0); nosig.classList.remove('show'); $('led').classList.add('on'); };
   vid.onplaying = good; vid.onerror = fail;
-  clearTimeout(tuneT); tuneT = setTimeout(()=>{ if(!ok) fail(); }, 9000);
+  clearTimeout(tuneT); tuneT = setTimeout(()=>{ if(!ok) fail(); }, 45000);
   if (window.Hls && Hls.isSupported()){
-    hls = new Hls({liveSyncDurationCount:3, maxBufferLength:20});
-    hls.on(Hls.Events.ERROR, (e,d)=>{ if(d.fatal) fail(); });
+    hls = new Hls({liveSyncDurationCount:3, maxBufferLength:20,
+      manifestLoadingTimeOut:40000, manifestLoadingMaxRetry:2, levelLoadingTimeOut:40000, fragLoadingTimeOut:40000});
+    let retried = false;
+    hls.on(Hls.Events.ERROR, (e,d)=>{
+      if (!d.fatal) return;
+      if (!retried && on){ retried = true; const h = hls; setTimeout(()=>{ if(hls===h){ h.loadSource(url); } }, 3000); return; }
+      fail();
+    });
     hls.loadSource(url); hls.attachMedia(vid);
     hls.on(Hls.Events.MANIFEST_PARSED, ()=>vid.play().catch(()=>{}));
   } else if (vid.canPlayType('application/vnd.apple.mpegurl')){
