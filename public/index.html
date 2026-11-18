@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://alenlvovich.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/win95.css?v=2">
-<link rel="stylesheet" href="/themes.css?v=4">
+<link rel="stylesheet" href="/themes.css?v=6">
 <script src="/display.js?v=2"></script>
 <style>
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 16px}
@@ -67,13 +67,19 @@
 @keyframes fall{0%{transform:translateY(-10px) rotate(0)}100%{transform:translateY(60px) rotate(200deg)}}
 .step.todo{opacity:.55}
 @media (prefers-reduced-motion:reduce){.step *{animation:none!important}}
-@media (max-width:520px){.grid2{grid-template-columns:1fr}.desk{padding:12px 12px 0}.below{padding:12px}}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}.desk{padding:12px 12px 0}.below{padding:12px}.center{padding:16px 10px}
+  .chans{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #sn,#pw{width:100%;min-width:0}
+  .step{width:min(96px,24vw);height:min(96px,24vw)}.step svg{width:88%;height:88%}}
+/* Settings window: centered, never wider or taller than the screen (zoom-aware for Large text) */
+.dpwin{position:fixed;top:72px;left:max(8px,calc(50vw/var(--z,1) - 230px));width:min(460px,calc((100vw - 16px)/var(--z,1)));max-height:calc((100dvh - 120px)/var(--z,1));overflow:auto}
+@media (max-width:520px){.dpwin{top:56px;left:8px;max-height:calc((100dvh - 70px)/var(--z,1))}.dp-tab{padding:4px 6px;font-size:12px}.dp-list{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}}
 </style>
 </head>
 <body>
 <main id="app" style="flex:1;display:flex;flex-direction:column"></main>
 <div class="taskbar">
-  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;min-width:0">
+  <div class="tbl" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;min-width:0">
     <button class="bev" id="task" style="font-weight:bold;padding:2px 10px;min-height:32px">Sign On</button>
     <span id="tasks" style="display:flex;gap:4px;flex-wrap:wrap"></span>
     <span id="conn" style="padding:0 6px">Lvovich Online: not connected</span>
@@ -206,7 +212,7 @@ function viewOnline(){
       <div style="padding:14px;display:flex;flex-wrap:wrap;gap:14px">
         <div class="well" style="flex:2 1 320px;padding:18px;display:flex;flex-direction:column;gap:10px">
           <div style="font-size:12px;color:#CC0000;font-weight:bold">Top story</div>
-          <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15">Long Island budget manager runs the numbers, then builds the tools to run them faster</h1>
+          <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,6vw,30px);line-height:1.15">Long Island budget manager runs the numbers, then builds the tools to run them faster</h1>
           <p style="margin:0;line-height:1.55">Alen Lvovich manages the content and marketing budget for ${SERVICES} at Apple. In between closes, he builds the software he wishes finance already had.</p>
         </div>
         <div style="flex:1 1 200px;display:flex;flex-direction:column;gap:10px">
@@ -293,7 +299,7 @@ function viewSettings(){
       <p style="font-size:12px;margin:10px 0 0">Picking a theme also switches to its wallpaper. You can change the wallpaper afterwards.</p>`;
   else body = `<label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px"><input type="checkbox" id="dp-crt"${v.crt?' checked':''} style="margin-top:3px"><span><b>CRT monitor</b><br><span style="font-size:12px">Scanlines and a curved-glass vignette over the whole desktop.</span></span></label>
       <label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="dp-big"${v.big?' checked':''} style="margin-top:3px"><span><b>Large text</b><br><span style="font-size:12px">Makes everything about 15% bigger.</span></span></label>`;
-  return `<section class="win" data-win="settings" role="dialog" aria-label="Display settings" style="position:fixed;top:72px;left:max(12px,calc(50% - 230px));width:min(460px,calc(100vw - 24px));max-height:calc(100vh - 140px);overflow:auto;z-index:40">
+  return `<section class="win dpwin" data-win="settings" role="dialog" aria-label="Display settings" style="z-index:40">
     ${bar(mac?'Appearance':'Display Properties','settings')}
     <div class="dp-tabs" role="tablist">${tabs}</div>
     <div class="dp-body">${body}</div>
