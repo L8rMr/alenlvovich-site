@@ -22,7 +22,17 @@
 .cover p{margin:0;color:#F4E4C1;max-width:520px;line-height:1.5}
 .status{display:flex;gap:4px;padding:3px;font-size:12px}
 .status span{flex:1;border:1px solid;border-color:#808080 #FFF #FFF #808080;padding:2px 6px}
-@media (max-width:600px){.wrap{padding:8px}.screen{aspect-ratio:3/4}}
+/* The game draws its own screen and CRT look: skip the site-wide zoom and scanline overlay here
+   (both upset canvas rendering and touch positions inside the iframe on iPhone Safari). */
+html.big body{zoom:1}
+html.crt body::after{display:none}
+@media (max-width:600px){
+  .wrap{padding:6px}
+  .menu a,.menu button{padding:0 8px;font-size:12px}
+  #newtab,#cred{display:none}
+  /* phones: give the handheld the rest of the screen instead of a fixed shape, so the d-pad and buttons always fit */
+  .screen{aspect-ratio:auto;height:calc(100dvh - 165px);min-height:430px}
+}
 </style>
 </head>
 <body>
@@ -70,7 +80,7 @@
       f.title = 'Bagel Quest game';
       f.allow = 'autoplay; fullscreen; gamepad; accelerometer; gyroscope';
       f.allowFullscreen = true;
-      f.onload = () => { st.textContent = 'Running. Click the game to give it the keyboard.'; f.focus(); };
+      f.onload = () => { st.textContent = matchMedia('(pointer:coarse)').matches ? 'Running. Use the on-screen d-pad and buttons.' : 'Running. Click the game to give it the keyboard.'; f.focus(); };
       screen.appendChild(f);
     }
     f.dataset.src = GAME; f.src = GAME;
@@ -86,7 +96,9 @@
   document.getElementById('fs').onclick = () => {
     load();
     const el = screen;
-    (el.requestFullscreen || el.webkitRequestFullscreen || function(){ window.open(GAME,'_blank'); }).call(el);
+    // iPhone Safari has no element full screen: open the game on its own page instead (Back returns here)
+    const go = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (go) go.call(el); else location.href = GAME;
   };
   Win95.enableDrag(document.getElementById('desk'));
   Win95.clock(document.getElementById('clock'));
