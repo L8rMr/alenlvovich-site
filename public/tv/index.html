@@ -245,7 +245,7 @@ function tune(i){
   if (!on) return;
   showOSD('CH '+c.n, c.name, 3500);
   snowAmt = .9; hiss(1); nosig.classList.remove('show'); ok = false;
-  const url = BASE + '/channel/' + encodeURIComponent(c.n) + '.m3u8';
+  const url = BASE + '/channel/' + encodeURIComponent(c.n) + '.m3u8?mode=segmenter';
   if (hls){ hls.destroy(); hls=null; }
   vid.removeAttribute('src');
   const fail = () => { if(!on) return; ok=false; snowAmt=.55; hiss(.6); nosig.classList.add('show'); $('led').classList.remove('on'); };
