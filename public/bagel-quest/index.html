@@ -30,8 +30,8 @@
     <nav class="menu" aria-label="Game menu">
       <a href="/">← Lvovich Online</a>
       <button id="fs" type="button">Full screen</button>
-      <button id="ver" type="button">Classic version</button>
-      <a href="https://bagel.lvovichtv.com/" target="_blank" rel="noopener">Open in new tab</a>
+      <button id="ver" type="button">HD version</button>
+      <a id="newtab" href="/bagel-quest/classic/" target="_blank" rel="noopener">Open in new tab</a>
     </nav>
     <div style="padding:6px">
       <div class="well" style="padding:0">
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="status"><span id="st">Ready.</span><span>Godot 4 · built by Alen with Claude</span></div>
+    <div class="status"><span id="st">Ready.</span><span id="cred">Classic edition · built by Alen with Claude</span></div>
   </section>
 </main>
 <div class="taskbar">
@@ -56,12 +56,12 @@
 <script>
 (function(){
   const HD = 'https://bagel.lvovichtv.com/', CLASSIC = '/bagel-quest/classic/';
-  let GAME = HD;
-  const screen = document.getElementById('screen'), st = document.getElementById('st'), ver = document.getElementById('ver');
+  let GAME = CLASSIC;
+  const screen = document.getElementById('screen'), st = document.getElementById('st'), ver = document.getElementById('ver'), cred = document.getElementById('cred'), newtab = document.getElementById('newtab');
   function load(){
     let f = screen.querySelector('iframe');
     if (f && f.dataset.src === GAME) return;
-    st.textContent = GAME === HD ? 'Loading BAGELQST.EXE… (about 20 MB the first time)' : 'Loading the classic version…';
+    st.textContent = GAME === HD ? 'Loading the HD edition… (about 20 MB the first time)' : 'Loading BAGELQST.EXE…';
     const cover = document.getElementById('cover'); if (cover) cover.remove();
     if (!f){
       f = document.createElement('iframe');
@@ -76,6 +76,8 @@
   ver.onclick = () => {
     GAME = GAME === HD ? CLASSIC : HD;
     ver.textContent = GAME === HD ? 'Classic version' : 'HD version';
+    cred.textContent = GAME === HD ? 'HD edition · Godot 4 · built by Alen with Claude' : 'Classic edition · built by Alen with Claude';
+    newtab.href = GAME;
     load();
   };
   document.getElementById('start').onclick = load;
