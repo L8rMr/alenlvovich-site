@@ -30,7 +30,7 @@
     <nav class="menu" aria-label="Game menu">
       <a href="/">← Lvovich Online</a>
       <button id="fs" type="button">Full screen</button>
-      <a href="/bagel-quest/classic/">Classic version</a>
+      <button id="ver" type="button">Classic version</button>
       <a href="https://bagel.lvovichtv.com/" target="_blank" rel="noopener">Open in new tab</a>
     </nav>
     <div style="padding:6px">
@@ -55,19 +55,29 @@
 <script src="/win95.js"></script>
 <script>
 (function(){
-  const GAME = 'https://bagel.lvovichtv.com/';
-  const screen = document.getElementById('screen'), st = document.getElementById('st');
+  const HD = 'https://bagel.lvovichtv.com/', CLASSIC = '/bagel-quest/classic/';
+  let GAME = HD;
+  const screen = document.getElementById('screen'), st = document.getElementById('st'), ver = document.getElementById('ver');
   function load(){
-    if (screen.querySelector('iframe')) return;
-    st.textContent = 'Loading BAGELQST.EXE… (about 20 MB the first time)';
-    const f = document.createElement('iframe');
-    f.src = GAME; f.title = 'Bagel Quest game';
-    f.allow = 'autoplay; fullscreen; gamepad; accelerometer; gyroscope';
-    f.allowFullscreen = true;
-    f.onload = () => { st.textContent = 'Running. Click the game to give it the keyboard.'; f.focus(); };
-    document.getElementById('cover').remove();
-    screen.appendChild(f);
+    let f = screen.querySelector('iframe');
+    if (f && f.dataset.src === GAME) return;
+    st.textContent = GAME === HD ? 'Loading BAGELQST.EXE… (about 20 MB the first time)' : 'Loading the classic version…';
+    const cover = document.getElementById('cover'); if (cover) cover.remove();
+    if (!f){
+      f = document.createElement('iframe');
+      f.title = 'Bagel Quest game';
+      f.allow = 'autoplay; fullscreen; gamepad; accelerometer; gyroscope';
+      f.allowFullscreen = true;
+      f.onload = () => { st.textContent = 'Running. Click the game to give it the keyboard.'; f.focus(); };
+      screen.appendChild(f);
+    }
+    f.dataset.src = GAME; f.src = GAME;
   }
+  ver.onclick = () => {
+    GAME = GAME === HD ? CLASSIC : HD;
+    ver.textContent = GAME === HD ? 'Classic version' : 'HD version';
+    load();
+  };
   document.getElementById('start').onclick = load;
   document.getElementById('fs').onclick = () => {
     load();
