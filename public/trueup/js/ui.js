@@ -1,12 +1,15 @@
 /* TrueUp shell: two interface themes over the same app.
    - "modern": a finance-suite layout (left navigation, page header, accounting number formats)
    - "w95":    the same program as if it shipped in 1995 (title bar, menu bar, toolbar, status bar)
+   - "hw":     a hardware control panel (moulded panels, round keys, display tiles)
+   - "swiss":  Swiss grid typography (black on white, one red, heavy rules, big numbers)
    The choice is stored per browser in localStorage("tu-ui"). */
 (function () {
   var KEY = 'tu-ui';
   var ui = 'modern';
   try { ui = localStorage.getItem(KEY) || 'modern'; } catch (e) {}
-  if (ui !== 'modern' && ui !== 'w95') ui = 'modern';
+  var UIS = ['w95', 'modern', 'hw', 'swiss'];
+  if (UIS.indexOf(ui) < 0) ui = 'modern';
   document.documentElement.setAttribute('data-ui', ui);
 
   var ROUTES = {
@@ -65,8 +68,10 @@
     // Theme switch, at the foot of the sidebar (modern) or in the menu bar (1995)
     sw = el('div', { 'class': 'uiswitch', role: 'group', 'aria-label': 'Interface' },
       '<span class="uisw-l">Interface</span>' +
-      '<button type="button" data-ui="modern">Modern</button>' +
-      '<button type="button" data-ui="w95">1995</button>');
+      '<button type="button" data-ui="w95" title="Windows 95">1995</button>' +
+      '<button type="button" data-ui="modern" title="Modern finance suite">Modern</button>' +
+      '<button type="button" data-ui="hw" title="Hardware panel">Panel</button>' +
+      '<button type="button" data-ui="swiss" title="Swiss grid">Swiss</button>');
     sw.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-ui]');
       if (b) setUI(b.getAttribute('data-ui'));

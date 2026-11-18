@@ -1,0 +1,126 @@
+/* TrueUp · Hardware panel interface
+   The app as a piece of desk hardware (think Braun calculators and Teenage Engineering synths):
+   warm grey moulded panels, round tactile keys that press down, an orange "live" key,
+   dark display tiles for the headline figures, lowercase labels, Schibsted Grotesk with Sometype Mono figures. */
+
+@font-face{font-family:"Schibsted";src:url(../fonts/schibsted-grotesk-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Schibsted";src:url(../fonts/schibsted-grotesk-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Schibsted";src:url(../fonts/schibsted-grotesk-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Schibsted";src:url(../fonts/schibsted-grotesk-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Schibsted";src:url(../fonts/schibsted-grotesk-latin-800-normal.woff2) format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:"Sometype";src:url(../fonts/sometype-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Sometype";src:url(../fonts/sometype-mono-latin-500-normal.woff2) format("woff2");font-weight:500 800;font-display:swap}
+
+html[data-ui=hw]{
+  --bg:#D9DAD6;--panel:#ECECE8;--ink:#1C1C1C;--muted:#6B6C67;--line:#CACBC6;--accent:#FF5A1F;
+  --red:#D4380D;--orange:#E8590C;--yellow:#A86A00;--green:#2F7D4F;--purple:#5B4FC4;--teal:#1B7F86;--pink:#C2477A;--indigo:#3B4A9C;--gray:#8A8B86;--blue:#2E5E9E;
+  --redbg:#F8E1D8;--orangebg:#FBE6D6;--yellowbg:#F5ECD2;--greenbg:#DDEBE1;--purplebg:#E6E3F5;--tealbg:#D9ECEC;--bluebg:#DEE6F1;--pinkbg:#F3E0E8;--indigobg:#E0E3F0;--graybg:#E2E3DE;
+  --shadow:none;
+  --key:#F7F7F4;--key-edge:#B9BAB5;--mould:0 1px 0 #FFFFFF inset,0 3px 0 #BDBEB9;--display:#2A2A2A;
+  --c-act:#8A8B86;--c-alloc:#3B4A9C;--c-fc:#1C1C1C;--c-inv:#FF5A1F;--c-gap:#A86A00;--c-over:#D4380D;--c-under:#5B4FC4;--c-out:#1B7F86;
+  color-scheme:light;
+}
+html[data-ui=hw] body{font-family:"Schibsted",-apple-system,"Segoe UI",sans-serif;font-size:14px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+html[data-ui=hw] button,html[data-ui=hw] input,html[data-ui=hw] select,html[data-ui=hw] textarea{font-family:inherit}
+html[data-ui=hw] td.r,html[data-ui=hw] th.r,html[data-ui=hw] .card .v,html[data-ui=hw] .fcard b,html[data-ui=hw] .num,html[data-ui=hw] kbd{font-family:"Sometype",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+html[data-ui=hw] .uigrp{display:none}
+
+/* ---------- Top panel: brand, keys, status light ---------- */
+html[data-ui=hw] header.top{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin:18px 22px 0;padding:14px 18px;background:var(--panel);border-radius:20px;box-shadow:var(--mould)}
+html[data-ui=hw] header.top .brand{display:none}
+html[data-ui=hw] header.top .home{text-decoration:none;color:var(--ink)}
+html[data-ui=hw] header.top .home h1{display:flex;flex-direction:column;gap:1px;font-size:22px;font-weight:800;letter-spacing:-.03em;text-transform:lowercase;color:var(--ink)}
+html[data-ui=hw] header.top .tagline{font-family:"Sometype",monospace;font-size:11px;font-weight:400;letter-spacing:0;color:var(--muted)}
+html[data-ui=hw] .tabs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:none;padding:0;border-radius:0}
+html[data-ui=hw] .tabs>a,html[data-ui=hw] .navmenu>a,html[data-ui=hw] .tabs .navtools>#opts-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 15px 8px 12px;border-radius:999px;background:var(--key)!important;color:var(--ink);font-size:13.5px;font-weight:500!important;text-transform:lowercase;text-decoration:none;border:0;box-shadow:0 2px 0 var(--key-edge),inset 0 -1px 0 rgba(0,0,0,.05);transition:transform .06s,box-shadow .06s}
+html[data-ui=hw] .tabs>a::before,html[data-ui=hw] .navmenu>a::before,html[data-ui=hw] .tabs .navtools>#opts-btn::before{content:"";width:8px;height:8px;border-radius:50%;background:#C4C5C0;box-shadow:inset 0 1px 1px rgba(0,0,0,.25);flex:none}
+html[data-ui=hw] .tabs>a:hover,html[data-ui=hw] .navmenu:hover>a,html[data-ui=hw] .tabs .navtools>#opts-btn:hover{background:#FFFFFF!important;text-decoration:none}
+html[data-ui=hw] .tabs>a:active,html[data-ui=hw] .navmenu>a:active,html[data-ui=hw] .tabs .navtools>#opts-btn:active{transform:translateY(2px);box-shadow:0 0 0 var(--key-edge)}
+html[data-ui=hw] .tabs>a.on,html[data-ui=hw] .navmenu:has(.on,.uion)>a{background:var(--ink)!important;color:#F2F2EE;box-shadow:0 2px 0 #000}
+html[data-ui=hw] .tabs>a.on::before,html[data-ui=hw] .navmenu:has(.on,.uion)>a::before{background:var(--accent);box-shadow:0 0 7px var(--accent)}
+html[data-ui=hw] #tab-count{color:inherit;opacity:.6}
+html[data-ui=hw] .navmenu .car,html[data-ui=hw] #opts-btn .car{opacity:.5}
+html[data-ui=hw] .navmenu::after{height:10px}
+html[data-ui=hw] .navdrop,html[data-ui=hw] .navsub,html[data-ui=hw] .optmenu,html[data-ui=hw] .expmenu,html[data-ui=hw] .submenu{background:var(--panel)!important;border:0!important;border-radius:16px!important;box-shadow:var(--mould),0 14px 30px rgba(0,0,0,.18)!important;padding:8px!important}
+html[data-ui=hw] .navdrop{top:calc(100% + 8px)}
+html[data-ui=hw] .navdrop>a.navtop,html[data-ui=hw] .navsub a,html[data-ui=hw] .navorg>span{border-radius:10px;font-weight:500;color:var(--ink);text-transform:lowercase}
+html[data-ui=hw] .navdrop>a.navtop:hover,html[data-ui=hw] .navsub a:hover,html[data-ui=hw] .navorg:hover>span{background:var(--key)}
+html[data-ui=hw] #nav-fc a.navtop.on,html[data-ui=hw] .navsub a.on,html[data-ui=hw] .navsub a.uion{background:var(--ink);color:#F2F2EE}
+html[data-ui=hw] header.top .actions{margin-left:auto;display:flex;align-items:center}
+html[data-ui=hw] .fq{display:inline-flex;align-items:center;gap:7px;font-family:"Sometype",monospace;font-size:12px;font-weight:400;color:var(--muted);background:none;padding:0}
+html[data-ui=hw] .fq::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent);flex:none}
+html[data-ui=hw] .fq span{color:var(--muted)}
+
+/* interface selector: a four-position key row */
+html[data-ui=hw] .uiswitch{display:flex;align-items:center;gap:3px;padding:3px;border-radius:999px;background:#DCDDD8;box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}
+html[data-ui=hw] .uisw-l{font-size:11.5px;color:var(--muted);padding:0 6px 0 8px;text-transform:lowercase}
+html[data-ui=hw] .uiswitch button{background:none;color:var(--ink);padding:5px 11px;border-radius:999px;font-size:12px;font-weight:500;text-transform:lowercase}
+html[data-ui=hw] .uiswitch button[aria-pressed=true]{background:var(--key);box-shadow:0 2px 0 var(--key-edge)}
+
+/* ---------- Page header ---------- */
+html[data-ui=hw] #uibar{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px 20px;margin:20px 30px 0}
+html[data-ui=hw] .uicrumbs{font-family:"Sometype",monospace;font-size:11.5px;color:var(--muted);white-space:pre;text-transform:lowercase}
+html[data-ui=hw] .uititle{font-size:36px;font-weight:800;letter-spacing:-.035em;line-height:1.05;text-transform:lowercase}
+html[data-ui=hw] #uibar .utilctl{height:auto;margin:0}
+html[data-ui=hw] .gsbtn{background:var(--key);border:0;border-radius:999px;box-shadow:0 2px 0 var(--key-edge);color:var(--muted);padding:7px 14px;min-width:240px}
+html[data-ui=hw] .gsbtn kbd{margin-left:auto}
+html[data-ui=hw] .hl{border-radius:999px}
+html[data-ui=hw] .utilrow{margin:14px 22px 0}
+html[data-ui=hw] .utilrow:not(:has(.mywork:not([hidden]))){display:none}
+html[data-ui=hw] .wrap{margin:0 22px}
+html[data-ui=hw] .page{padding:16px 22px 60px}
+html[data-ui=hw] .filters{margin:16px 22px 0}
+
+/* ---------- Surfaces: moulded panels and display tiles ---------- */
+html[data-ui=hw] .panel{background:var(--panel);border:0;border-radius:20px;box-shadow:var(--mould);padding:20px 22px}
+html[data-ui=hw] .panel>.trhead h2,html[data-ui=hw] .panel>.ph h2,html[data-ui=hw] h2{font-weight:700;letter-spacing:-.02em;text-transform:lowercase}
+html[data-ui=hw] .card,html[data-ui=hw] .panel .card{position:relative;background:var(--display);color:#F2F2EE;border:0;border-radius:14px;box-shadow:0 2px 0 #111;padding:14px 16px}
+html[data-ui=hw] .card::after{content:"";position:absolute;top:14px;right:14px;width:8px;height:8px;border-radius:50%;background:var(--cc,var(--accent));box-shadow:0 0 6px var(--cc,var(--accent))}
+html[data-ui=hw] .card:hover{transform:none;background:#323232}
+html[data-ui=hw] .card .k{color:#A7A8A3;font-weight:500;text-transform:lowercase;padding-right:16px}
+html[data-ui=hw] .card .v{color:#F2F2EE;font-weight:500;letter-spacing:-.02em}
+html[data-ui=hw] .card .d,html[data-ui=hw] .card .s{color:#8C8D88}
+html[data-ui=hw] .card .acct-neg{color:#FF8A65}
+html[data-ui=hw] .fcard,html[data-ui=hw] .panel .fcard,html[data-ui=hw] .tbx,html[data-ui=hw] .panel .tbx,html[data-ui=hw] .qtile{background:var(--key);border:0;border-radius:14px;box-shadow:0 2px 0 var(--key-edge)}
+html[data-ui=hw] .fcard span{text-transform:lowercase}
+html[data-ui=hw] .fcard.offb{background:var(--redbg)}
+
+/* ---------- Controls ---------- */
+/* :where() keeps these at element specificity so the app's own classed buttons (menus, icons) keep their styling */
+:where(html[data-ui=hw]) button{border-radius:999px;font-weight:600;background:var(--accent);color:#FFFFFF}
+:where(html[data-ui=hw]) button:active:not(:disabled){transform:translateY(1px)}
+:where(html[data-ui=hw]) button:where(.ghost){background:var(--key);color:var(--ink);box-shadow:0 2px 0 var(--key-edge)}
+html[data-ui=hw] .seg,html[data-ui=hw] .seg.sm{border:0;border-radius:999px;background:#DCDDD8;padding:3px;gap:2px;box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}
+html[data-ui=hw] .seg button{background:none;color:var(--ink);border:0;border-radius:999px;box-shadow:none;font-weight:500}
+html[data-ui=hw] .seg button.on{background:var(--ink);color:#F2F2EE}
+:where(html[data-ui=hw]) :is(select,input[type=text],input[type=search],input[type=number],input:not([type]),textarea,.vf){border-radius:10px;border:1px solid var(--line);background:#F7F7F4;color:var(--ink)}
+html[data-ui=hw] input:focus,html[data-ui=hw] select:focus,html[data-ui=hw] textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+html[data-ui=hw] .tag,html[data-ui=hw] .chip,html[data-ui=hw] .fchip{border-radius:999px}
+html[data-ui=hw] :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- Tables: tape-printout rows ---------- */
+html[data-ui=hw] table{font-size:13px}
+html[data-ui=hw] th{background:var(--panel);color:var(--muted);font-weight:500;font-size:12px;text-transform:lowercase;border-bottom:2px solid var(--ink);padding:8px 10px}
+html[data-ui=hw] th.sorted{color:var(--ink)}
+html[data-ui=hw] td{padding:8px 10px;border-bottom:1px dashed #C4C5C0}
+html[data-ui=hw] .acct-neg{color:var(--red)}
+html[data-ui=hw] tr.grp td{background:#E3E4DF}
+html[data-ui=hw] tr.grand>td,html[data-ui=hw] tr.total>td,html[data-ui=hw] tr.tot>td,html[data-ui=hw] tfoot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:4px double var(--ink);background:#E3E4DF}
+html[data-ui=hw] .tablewrap tbody tr:hover>td,html[data-ui=hw] .hwrap tr:hover>td{background:#FFF3EC!important}
+
+@media (max-width:760px){
+  html[data-ui=hw] header.top{margin:10px 10px 0;padding:12px;border-radius:16px;gap:10px}
+  html[data-ui=hw] .tabs{gap:6px}
+  html[data-ui=hw] .tabs>a,html[data-ui=hw] .navmenu>a,html[data-ui=hw] .tabs .navtools>#opts-btn{padding:7px 12px 7px 10px;font-size:13px}
+  html[data-ui=hw] .uisw-l{display:none}
+  html[data-ui=hw] #uibar{margin:14px 14px 0}
+  html[data-ui=hw] .uititle{font-size:28px}
+  html[data-ui=hw] .gsbtn{min-width:0}
+  html[data-ui=hw] .page,html[data-ui=hw] .filters{padding-left:10px;padding-right:10px;margin-left:0;margin-right:0}
+  html[data-ui=hw] .panel{padding:14px;border-radius:16px}
+}
+@media (prefers-reduced-motion:reduce){html[data-ui=hw] *{transition:none!important}}
+/* drillable figures read as figures; the orange key colour stays for live state */
+html[data-ui=hw] .aclink,html[data-ui=hw] .hlink{color:var(--ink);text-decoration:underline dotted #B0B1AC;text-underline-offset:3px}
+html[data-ui=hw] .aclink:hover,html[data-ui=hw] .hlink:hover{color:var(--accent);text-decoration-color:var(--accent)}
+html[data-ui=hw] .aclink.acct-neg{color:var(--red)}

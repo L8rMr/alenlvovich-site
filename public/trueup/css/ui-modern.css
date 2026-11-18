@@ -72,9 +72,9 @@ html[data-ui=modern] .tabs .navtools>#opts-btn{width:100%;justify-content:flex-s
 html[data-ui=modern] .tabs .navtools>#opts-btn:hover,html[data-ui=modern] .tabs .navtools>#opts-btn[aria-expanded="true"]{background:rgba(255,255,255,.05);color:var(--nav-hi);border-color:rgba(255,255,255,.25)}
 html[data-ui=modern] .tabs .navtools .optitem>.submenu,html[data-ui=modern] .tabs .navtools .optgrp>.submenu{left:calc(100% + 6px);right:auto}
 html[data-ui=modern] .tabs .navtools>.optmenu,html[data-ui=modern] .top .optmenu{position:fixed;left:calc(var(--side) - 14px)!important;top:auto!important;bottom:16px;right:auto}
-html[data-ui=modern] .uiswitch{margin:auto 16px 16px;display:flex;align-items:center;gap:2px;background:#0F2B44;border-radius:7px;padding:3px}
-html[data-ui=modern] .uisw-l{font-size:11px;color:#6F849A;padding:0 6px}
-html[data-ui=modern] .uiswitch button{flex:1;background:none;color:#93A7BB;padding:5px 8px;border-radius:5px;font-size:12px;font-weight:500}
+html[data-ui=modern] .uiswitch{margin:auto 16px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:2px;background:#0F2B44;border-radius:7px;padding:3px}
+html[data-ui=modern] .uisw-l{flex-basis:100%;font-size:11px;color:#6F849A;padding:2px 6px 3px}
+html[data-ui=modern] .uiswitch button{flex:1;background:none;color:#93A7BB;padding:5px 4px;border-radius:5px;font-size:12px;font-weight:500}
 html[data-ui=modern] .uiswitch button[aria-pressed=true]{background:#1B4467;color:#FFF}
 
 /* ---------- Page header ---------- */

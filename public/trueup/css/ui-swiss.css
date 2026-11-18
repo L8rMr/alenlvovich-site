@@ -1,0 +1,110 @@
+/* TrueUp · Swiss grid interface
+   International Typographic Style applied to a ledger: white page, black type, one signal red,
+   a strict left-aligned grid, heavy rules instead of boxes, and numbers set large in expanded Archivo.
+   No shadows, no rounded corners, no tinted cards. Red is reserved for what needs attention. */
+
+@font-face{font-family:"ArchivoX";src:url(../fonts/archivo-latin-wdth-normal.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+
+html[data-ui=swiss]{
+  --bg:#FFFFFF;--panel:#FFFFFF;--ink:#000000;--muted:#5E5E5E;--line:#D6D6D6;--accent:#E3120B;
+  --red:#E3120B;--orange:#E3120B;--yellow:#8C6A00;--green:#000000;--purple:#5E5E5E;--teal:#2B2B2B;--pink:#B0B0B0;--indigo:#3D3D3D;--gray:#9A9A9A;--blue:#000000;
+  --redbg:#FDE8E7;--orangebg:#FDE8E7;--yellowbg:#F5F0E1;--greenbg:#EFEFEF;--purplebg:#F2F2F2;--tealbg:#F2F2F2;--bluebg:#F2F2F2;--pinkbg:#F2F2F2;--indigobg:#F2F2F2;--graybg:#F2F2F2;
+  --shadow:none;
+  --c-act:#000000;--c-alloc:#BDBDBD;--c-fc:#8C8C8C;--c-inv:#E3120B;--c-gap:#BDBDBD;--c-over:#E3120B;--c-under:#5E5E5E;--c-out:#000000;
+  --gut:40px;
+  color-scheme:light;
+}
+html[data-ui=swiss] *{border-radius:0!important;box-shadow:none!important}
+html[data-ui=swiss] body{font-family:"ArchivoX","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;background:#FFFFFF;color:#000;font-variant-numeric:tabular-nums}
+html[data-ui=swiss] button,html[data-ui=swiss] input,html[data-ui=swiss] select,html[data-ui=swiss] textarea{font-family:inherit}
+html[data-ui=swiss] h1,html[data-ui=swiss] h2,html[data-ui=swiss] h3{letter-spacing:-.02em}
+html[data-ui=swiss] a{color:#000}
+html[data-ui=swiss] .uigrp{display:none}
+
+/* ---------- Masthead ---------- */
+html[data-ui=swiss] header.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 34px;padding:26px var(--gut) 0;background:#FFF}
+html[data-ui=swiss] header.top .brand{display:none}
+html[data-ui=swiss] header.top .home{text-decoration:none;color:#000}
+html[data-ui=swiss] header.top .home h1{display:flex;align-items:baseline;gap:12px;font-size:23px;font-weight:900;font-stretch:125%;letter-spacing:-.03em;color:#000}
+html[data-ui=swiss] header.top .tagline{font-size:12px;font-weight:400;font-stretch:100%;letter-spacing:0;color:var(--muted)}
+html[data-ui=swiss] .tabs{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;background:none;padding:0}
+html[data-ui=swiss] .tabs>a,html[data-ui=swiss] .navmenu>a,html[data-ui=swiss] .tabs .navtools>#opts-btn{display:inline-flex;align-items:baseline;gap:5px;padding:0 0 5px;background:none!important;color:#000;font-size:15px;font-weight:500!important;text-decoration:none;border:0;border-bottom:3px solid transparent}
+html[data-ui=swiss] .tabs>a:hover,html[data-ui=swiss] .navmenu:hover>a,html[data-ui=swiss] .tabs .navtools>#opts-btn:hover{border-bottom-color:#000;text-decoration:none}
+html[data-ui=swiss] .tabs>a.on,html[data-ui=swiss] .navmenu:has(.on,.uion)>a{font-weight:800!important;border-bottom-color:var(--accent)}
+html[data-ui=swiss] #tab-count{color:var(--muted)}
+html[data-ui=swiss] .navmenu .car,html[data-ui=swiss] #opts-btn .car{opacity:.6}
+html[data-ui=swiss] .navdrop,html[data-ui=swiss] .navsub,html[data-ui=swiss] .optmenu,html[data-ui=swiss] .expmenu,html[data-ui=swiss] .submenu{background:#FFF!important;border:2px solid #000!important;padding:6px 0!important}
+html[data-ui=swiss] .navdrop{top:calc(100% + 2px)}
+html[data-ui=swiss] .navdrop>a.navtop,html[data-ui=swiss] .navsub a,html[data-ui=swiss] .navorg>span{padding:7px 14px;font-weight:500;color:#000}
+html[data-ui=swiss] .navdrop>a.navtop:hover,html[data-ui=swiss] .navsub a:hover,html[data-ui=swiss] .navorg:hover>span,html[data-ui=swiss] .optrow:hover,html[data-ui=swiss] .expmenu button:hover:not(:disabled){background:#000!important;color:#FFF!important}
+html[data-ui=swiss] .optrow:hover *,html[data-ui=swiss] .expmenu button:hover *{color:#FFF!important}
+html[data-ui=swiss] #nav-fc a.navtop.on,html[data-ui=swiss] .navsub a.on,html[data-ui=swiss] .navsub a.uion{font-weight:800;color:var(--accent)}
+html[data-ui=swiss] header.top .actions{margin-left:auto}
+html[data-ui=swiss] .fq{background:none;padding:0;font-size:13px;font-weight:400;color:var(--muted)}
+html[data-ui=swiss] .fq span{color:var(--muted)}
+
+html[data-ui=swiss] .uiswitch{display:flex;align-items:baseline;gap:14px}
+html[data-ui=swiss] .uisw-l{font-size:13px;color:var(--muted)}
+html[data-ui=swiss] .uiswitch button{background:none;color:#000;padding:0 0 3px;font-size:13px;font-weight:500;border-bottom:2px solid transparent}
+html[data-ui=swiss] .uiswitch button:hover{border-bottom-color:#000}
+html[data-ui=swiss] .uiswitch button[aria-pressed=true]{font-weight:800;border-bottom-color:var(--accent)}
+
+/* ---------- Page title: the one loud thing on every page ---------- */
+html[data-ui=swiss] #uibar{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px 24px;margin:30px var(--gut) 0;padding-top:12px;border-top:6px solid #000}
+html[data-ui=swiss] .uicrumbs{font-size:13px;color:var(--muted);white-space:pre}
+html[data-ui=swiss] .uititle{font-size:64px;font-weight:900;font-stretch:125%;letter-spacing:-.045em;line-height:.92;margin-top:8px}
+html[data-ui=swiss] #uibar .utilctl{height:auto;margin:0}
+html[data-ui=swiss] .gsbtn{background:#FFF;border:2px solid #000;color:#000;padding:7px 12px;min-width:240px}
+html[data-ui=swiss] .gsbtn kbd{margin-left:auto}
+html[data-ui=swiss] .utilrow{margin:16px var(--gut) 0}
+html[data-ui=swiss] .utilrow:not(:has(.mywork:not([hidden]))){display:none}
+html[data-ui=swiss] .wrap{margin:0 var(--gut)}
+html[data-ui=swiss] .page{padding:22px var(--gut) 72px}
+html[data-ui=swiss] .filters{margin:18px var(--gut) 0}
+
+/* ---------- Surfaces: rules, not boxes ---------- */
+html[data-ui=swiss] .panel{background:#FFF;border:0;border-top:3px solid #000;padding:14px 0 22px;margin-bottom:28px}
+html[data-ui=swiss] .panel>.trhead h2,html[data-ui=swiss] .panel>.ph h2,html[data-ui=swiss] h2{font-size:20px;font-weight:800;font-stretch:112%;letter-spacing:-.025em}
+html[data-ui=swiss] .card,html[data-ui=swiss] .panel .card{background:#FFF;border:0;border-top:6px solid var(--cc,#000);padding:10px 0 4px}
+html[data-ui=swiss] .card:hover{transform:none;background:#FFF}
+html[data-ui=swiss] .card:hover .v{color:var(--accent)}
+html[data-ui=swiss] .card .k{color:var(--muted);font-weight:400;font-size:13px}
+html[data-ui=swiss] .card .v,html[data-ui=swiss] #db-cards .card .v{font-size:34px;font-weight:800;font-stretch:112%;letter-spacing:-.035em;line-height:1.05}
+html[data-ui=swiss] .fcard,html[data-ui=swiss] .panel .fcard,html[data-ui=swiss] .tbx,html[data-ui=swiss] .panel .tbx,html[data-ui=swiss] .qtile{background:#FFF;border:0;border-top:2px solid #000;padding:8px 0}
+html[data-ui=swiss] .fcard b{font-weight:800;font-stretch:112%}
+html[data-ui=swiss] .fcard.offb{background:#FFF;border-top-color:var(--accent)}
+
+/* ---------- Controls ---------- */
+:where(html[data-ui=swiss]) button{background:var(--accent);color:#FFF;font-weight:700}
+:where(html[data-ui=swiss]) button:where(.ghost){background:#FFF;color:#000;outline:2px solid #000;outline-offset:-2px}
+:where(html[data-ui=swiss]) button:where(.ghost):hover:not(:disabled){background:#000;color:#FFF}
+html[data-ui=swiss] .seg,html[data-ui=swiss] .seg.sm{border:2px solid #000;background:#FFF}
+html[data-ui=swiss] .seg button{background:#FFF;color:#000;border:0;border-right:2px solid #000;font-weight:500}
+html[data-ui=swiss] .seg button:last-child{border-right:0}
+html[data-ui=swiss] .seg button.on{background:#000;color:#FFF;font-weight:700}
+:where(html[data-ui=swiss]) :is(select,input[type=text],input[type=search],input[type=number],input:not([type]),textarea,.vf){border:1px solid #000;background:#FFF;color:#000}
+html[data-ui=swiss] :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+html[data-ui=swiss] .tag,html[data-ui=swiss] .chip,html[data-ui=swiss] .fchip{font-weight:600}
+
+/* ---------- Tables: heavy head rule, hairline rows, double-ruled totals ---------- */
+html[data-ui=swiss] table{font-size:13.5px}
+html[data-ui=swiss] th{background:#FFF;color:#000;font-weight:700;font-size:12.5px;border-bottom:3px solid #000;padding:8px 10px}
+html[data-ui=swiss] th.sorted{color:var(--accent)}
+html[data-ui=swiss] td{padding:9px 10px;border-bottom:1px solid #CFCFCF}
+html[data-ui=swiss] .acct-neg{color:var(--accent)}
+html[data-ui=swiss] tr.grp td{background:#FFF;border-bottom:1px solid #000;font-weight:800}
+html[data-ui=swiss] tr.grand>td,html[data-ui=swiss] tr.total>td,html[data-ui=swiss] tr.tot>td,html[data-ui=swiss] tfoot td{font-weight:800;background:#FFF;border-top:2px solid #000;border-bottom:6px double #000}
+html[data-ui=swiss] .tablewrap tbody tr:hover>td,html[data-ui=swiss] .hwrap tr:hover>td{background:#F2F2F2!important}
+
+@media (max-width:760px){
+  html[data-ui=swiss]{--gut:14px}
+  html[data-ui=swiss] header.top{padding-top:16px;gap:10px 18px}
+  html[data-ui=swiss] .uisw-l{display:none}
+  html[data-ui=swiss] .uititle{font-size:42px}
+  html[data-ui=swiss] .gsbtn{min-width:0}
+  html[data-ui=swiss] .card .v,html[data-ui=swiss] #db-cards .card .v{font-size:26px}
+}
+/* drillable figures stay black; red is kept for negatives and the current position */
+html[data-ui=swiss] .aclink,html[data-ui=swiss] .hlink{color:#000;text-decoration:underline dotted #9A9A9A;text-underline-offset:3px}
+html[data-ui=swiss] .aclink:hover,html[data-ui=swiss] .hlink:hover{text-decoration:underline solid #000}
+html[data-ui=swiss] .aclink.acct-neg{color:var(--accent)}
