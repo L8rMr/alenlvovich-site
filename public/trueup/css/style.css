@@ -2038,3 +2038,5 @@ body.sharemode #f-xlw{display:none!important}
 
 .fccolm .fccolq{display:flex;flex-wrap:wrap;gap:2px 12px;padding-bottom:8px;margin-bottom:4px;border-bottom:1px solid var(--line)}
 .fccolm .fccolq .minesw{display:inline-flex;padding:3px 0;gap:6px}
+
+#db-xlobw,#fc-xlobw,#f-xlobw,label:has(>#f-xlob),label:has(>#fc-xlob),label:has(>#db-xlob){display:none!important}
