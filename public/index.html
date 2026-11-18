@@ -11,6 +11,15 @@
 <meta property="og:url" content="https://alenlvovich.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='%23FFD23F'/%3E%3Cellipse cx='32' cy='32' rx='30' ry='10' fill='none' stroke='%23000080' stroke-width='4' transform='rotate(-25 32 32)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/win95.css">
+<link rel="stylesheet" href="/themes.css">
+<script>
+// Apply saved display settings before first paint (see Settings in the taskbar).
+window.LO_WALLS={teal:'#008080',w2k:'#3A6EA5',clouds:'radial-gradient(ellipse 22% 9% at 18% 28%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%),radial-gradient(ellipse 28% 10% at 68% 18%,rgba(255,255,255,.9),rgba(255,255,255,0) 70%),radial-gradient(ellipse 24% 9% at 42% 62%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%),radial-gradient(ellipse 30% 10% at 86% 74%,rgba(255,255,255,.8),rgba(255,255,255,0) 70%),linear-gradient(180deg,#2F6FD6,#8DBDF3)',meadow:'radial-gradient(ellipse 95% 45% at 28% 100%,#56A82F 60%,rgba(86,168,47,0) 61%),radial-gradient(ellipse 85% 38% at 88% 102%,#3F9126 60%,rgba(63,145,38,0) 61%),linear-gradient(180deg,#1F62D4 0%,#6FB0F0 50%,#CFE8FB 68%,#78B843 68%)',stars:'radial-gradient(1px 1px at 20px 30px,#FFF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1px 1px at 130px 90px,#CCF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1.5px 1.5px at 70px 150px,#FFF,rgba(255,255,255,0)) 0 0/200px 180px,radial-gradient(1px 1px at 170px 20px,#FFD23F,rgba(255,255,255,0)) 0 0/200px 180px,#06072A',platinum:'radial-gradient(#7E7EC4 1px,rgba(0,0,0,0) 1.4px) 0 0/4px 4px,#5B5BA6',dither:'repeating-conic-gradient(#000 0 25%,#FFF 0 50%) 0 0/2px 2px'};
+window.LO_THEME_WALL={win95:'teal',win2k:'w2k',winxp:'meadow',mac8:'platinum',sys7:'dither'};
+window.LO_SET=(function(){let v={};try{v=JSON.parse(localStorage.getItem('lo-display')||'{}')}catch(e){}return Object.assign({theme:'win95',wall:'teal',color:'#008080',crt:false,big:false},v)})();
+window.LO_APPLY=function(){const v=window.LO_SET,h=document.documentElement;h.dataset.theme=v.theme;h.style.setProperty('--desk',v.wall==='custom'?v.color:(window.LO_WALLS[v.wall]||'#008080'));h.classList.toggle('crt',!!v.crt);h.classList.toggle('big',!!v.big);try{localStorage.setItem('lo-display',JSON.stringify(v))}catch(e){}};
+window.LO_APPLY();
+</script>
 <style>
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 16px}
 .desk{padding:24px 24px 0;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1280px;margin:0 auto;width:100%}
@@ -21,9 +30,9 @@
 .chan{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;min-height:88px}
 .chan i{width:34px;height:34px;color:#FFF;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-size:13px;font-style:normal;border:1px solid #000}
 .buddy{width:100%;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 22px;min-height:44px;border:0;text-align:left;background:transparent;color:#000}
-.buddy.on{background:#000080;color:#FFF}
+.buddy.on{background:var(--sel);color:var(--sel-fg)}
 .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;border:1px solid #000}
-.step{width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:2px solid;border-color:#808080 #FFF #FFF #808080;font-family:'Arial Black',Arial,sans-serif;font-size:26px}
+.step{width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:2px solid;border-color:var(--sh2) var(--hi) var(--hi) var(--sh2);font-family:'Arial Black',Arial,sans-serif;font-size:26px}
 @keyframes blink{50%{opacity:.2}}
 .lit{animation:blink .45s steps(1) 3}
 @media (prefers-reduced-motion:reduce){.lit{animation:none}}
@@ -45,7 +54,7 @@
 <script>
 (function(){
 const RESUME_URL = '/Alen_Lvovich_Resume.pdf';
-const S = { stage:'signon', step:0, im:0, ch:0, mail:false, who:'Recruiter99', closed:{} };
+const S = { stage:'signon', step:0, im:0, ch:0, mail:false, who:'Recruiter99', closed:{}, settings:false, dpTab:'bg' };
 let timers = [];
 const app = document.getElementById('app');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -98,7 +107,7 @@ const CH = [
 ];
 const SL = ['Dialing','Connecting','Checking password'];
 const ST = ['Dialing 1-555-HIRE-ALN…','Connected at 56,000 bps. Handshaking…','Checking password…','Welcome! Loading your desktop…'];
-const WINS = { welcome:'Welcome', im:'Instant Message', buddy:'Buddy List', profile:'Member Profile', mail:'Read Mail' };
+const WINS = { welcome:'Welcome', im:'Instant Message', buddy:'Buddy List', profile:'Member Profile', mail:'Read Mail', settings:'Settings' };
 
 function set(p){ Object.assign(S,p); render(); }
 function go(stage){ timers.forEach(clearTimeout); timers=[]; S.closed={}; set({stage, step:0}); }
@@ -108,15 +117,15 @@ function signOn(){
   [1,2,3].forEach((n,i)=>timers.push(setTimeout(()=>set({step:n}), 900*(i+1))));
   timers.push(setTimeout(()=>set({stage:'online'}), 3600));
 }
-const bar = (title, id) => `<div class="ttl" data-drag><span>${title}</span><span class="tb"><button class="tbtn" aria-label="Minimize ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">_</button><button class="tbtn" aria-label="Close ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">×</button></span></div>`;
-const fixed = title => `<div class="ttl"><span>${title}</span><span class="tb" aria-hidden="true"><span class="tbtn">_</span><span class="tbtn">×</span></span></div>`;
+const bar = (title, id) => `<div class="ttl" data-drag><span><span class="tt">${title}</span></span><span class="tb"><button class="tbtn" aria-label="Minimize ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">_</button><button class="tbtn" aria-label="Close ${esc(WINS[id]||'')}" data-a="close" data-w="${id}">×</button></span></div>`;
+const fixed = title => `<div class="ttl"><span><span class="tt">${title}</span></span><span class="tb" aria-hidden="true"><span class="tbtn">_</span><span class="tbtn">×</span></span></div>`;
 const win = (id, style, inner) => S.closed[id] ? '' : `<section class="win" data-win="${id}" style="${style||''}">${inner}</section>`;
 
 function viewSignon(){
   return `<div class="center"><div class="win" style="width:100%;max-width:460px">
   ${fixed('Sign On')}
   <div style="padding:20px;display:flex;flex-direction:column;gap:16px">
-    <div style="display:flex;align-items:center;gap:14px;background:#000080;padding:16px;border:2px solid;border-color:#808080 #FFF #FFF #808080">
+    <div style="display:flex;align-items:center;gap:14px;background:#000080;padding:16px;border:2px solid;border-color:var(--sh2) var(--hi) var(--hi) var(--sh2)">
       <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Lvovich Online logo"><circle cx="32" cy="32" r="20" fill="#FFD23F"/><path d="M12 32 h40 M32 12 c-10 10 -10 30 0 40 M32 12 c10 10 10 30 0 40" fill="none" stroke="#000080" stroke-width="2"/><ellipse cx="32" cy="32" rx="30" ry="10" fill="none" stroke="#FFF" stroke-width="3" transform="rotate(-25 32 32)"/></svg>
       <div><h1 style="margin:0;font-family:'Arial Black',Arial,sans-serif;font-size:26px;color:#FFF;font-style:italic;line-height:1">Lvovich Online</h1>
       <div style="color:#FFD23F;font-size:12px;margin-top:4px">Version 4.0 for Recruiters</div></div>
@@ -128,7 +137,7 @@ function viewSignon(){
       <input id="pw" class="well" type="password" value="hireme" style="padding:4px">
     </div>
     <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
-      <button data-a="skip" style="background:none;border:0;color:#0000CC;text-decoration:underline;padding:8px 0;min-height:44px">Skip to the résumé</button>
+      <button data-a="skip" style="background:none;border:0;color:var(--link);text-decoration:underline;padding:8px 0;min-height:44px">Skip to the résumé</button>
       <button class="bev" data-a="signon" style="font-weight:bold;min-width:110px;min-height:40px">Sign On</button>
     </div>
   </div></div></div>`;
@@ -194,7 +203,7 @@ function viewOnline(){
     ['Tool building','Self-hosted web apps and dashboards (Docker, GitHub, Cloudflare), HTML/JavaScript, Stripe e-commerce'],
     ['Languages','English, Russian'],
     ['Personal quote','"If it gets done by hand twice, it gets a tool."']
-  ].map(([k,v])=>`<div style="padding:6px 0;border-bottom:1px dotted #C0C0C0"><b style="display:block;font-size:12px;color:#000080">${k}</b><span style="font-size:13px;line-height:1.4">${esc(v)}</span></div>`).join('');
+  ].map(([k,v])=>`<div style="padding:6px 0;border-bottom:1px dotted var(--sh2)"><b style="display:block;font-size:12px;color:var(--accent)">${k}</b><span style="font-size:13px;line-height:1.4">${esc(v)}</span></div>`).join('');
   const profile = win('profile','',`${bar('Member Profile: AlenL','profile')}
     <div style="padding:10px"><div class="well" style="padding:6px 12px">${profileRows}</div></div>`);
 
@@ -223,19 +232,56 @@ function viewOnline(){
         <p style="margin:0">Alen</p>
       </div></div>`) : '';
 
-  return `<div class="desk"><div class="col">${welcome}${imw}</div><div style="flex:1 1 280px;max-width:100%;display:flex;flex-direction:column;gap:20px">${buddy}${profile}</div></div><div class="below">${mail}</div>`;
+  return `<div class="desk"><div class="col">${welcome}${imw}</div><div style="flex:1 1 280px;max-width:100%;display:flex;flex-direction:column;gap:20px">${buddy}${profile}</div></div><div class="below">${mail}</div>${viewSettings()}`;
+}
+const THEMES = [
+  ['win95','Windows 95','The classic: teal desktop, navy title bars.','#008080','linear-gradient(90deg,#000080,#1084D0)','#C0C0C0'],
+  ['win2k','Windows 2000','Warmer grey, faded blue title bars.','#3A6EA5','linear-gradient(90deg,#0A246A,#A6CAF0)','#D4D0C8'],
+  ['winxp','Windows XP','Rounded blue windows and a green Start button.','linear-gradient(180deg,#2C6FD8,#78B843 75%)','linear-gradient(180deg,#0997FF,#0050EE)','#ECE9D8'],
+  ['mac8','Mac OS 8','Platinum: pinstriped title bars, menu bar on top.','#5B5BA6','repeating-linear-gradient(180deg,#DDD 0 1px,#AAA 1px 2px)','#DDD'],
+  ['sys7','System 7','One-bit black and white, the way it shipped.','repeating-conic-gradient(#000 0 25%,#FFF 0 50%) 0 0/2px 2px','repeating-linear-gradient(180deg,#FFF 0 1px,#000 1px 2px)','#FFF']
+];
+const WALLS = [['teal','Teal'],['w2k','Blue'],['clouds','Clouds'],['meadow','Meadow'],['stars','Starfield'],['platinum','Platinum'],['dither','Dither']];
+function saveDisplay(p){ Object.assign(window.LO_SET,p); window.LO_APPLY(); render(); }
+function viewSettings(){
+  if (!S.settings) return '';
+  const v = window.LO_SET, mac = v.theme==='mac8'||v.theme==='sys7';
+  const cur = v.wall==='custom' ? v.color : window.LO_WALLS[v.wall];
+  const tabs = [['bg','Background'],['ap','Appearance'],['fx','Effects']].map(([k,l])=>`<button class="dp-tab" role="tab" aria-selected="${S.dpTab===k}" data-a="dp-tab" data-t="${k}">${l}</button>`).join('');
+  let body = '';
+  if (S.dpTab==='bg') body = `<div class="dp-mon" aria-hidden="true"><div class="dp-scr" style="background:${cur}"><i></i></div></div>
+      <div style="font-weight:bold;margin-bottom:6px">Wallpaper</div>
+      <div class="dp-list">${WALLS.map(([k,l])=>`<button class="bev dp-sw" data-a="dp-wall" data-w="${k}" aria-pressed="${v.wall===k}"><b style="background:${window.LO_WALLS[k]}"></b>${l}</button>`).join('')}</div>
+      <div class="dp-row"><label for="dp-color">Custom color</label><input type="color" id="dp-color" value="${esc(v.color)}" style="width:52px;height:30px;padding:0;border:1px solid #000;background:none">${v.wall==='custom'?'<span style="font-size:12px">(in use)</span>':''}</div>`;
+  else if (S.dpTab==='ap') body = `<div style="font-weight:bold;margin-bottom:6px">Desktop theme</div><div class="dp-themes">${THEMES.map(([k,l,d,desk,ttl,face])=>`<button class="bev dp-th" data-a="dp-theme" data-t="${k}" aria-pressed="${v.theme===k}"><span class="pv" aria-hidden="true" style="background:${desk}"><i style="background:${face}"><span style="display:block;height:8px;background:${ttl};border-bottom:1px solid #000"></span></i></span><span><b>${l}</b><br><span style="font-size:12px">${d}</span></span></button>`).join('')}</div>
+      <p style="font-size:12px;margin:10px 0 0">Picking a theme also switches to its wallpaper. You can change the wallpaper afterwards.</p>`;
+  else body = `<label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px"><input type="checkbox" id="dp-crt"${v.crt?' checked':''} style="margin-top:3px"><span><b>CRT monitor</b><br><span style="font-size:12px">Scanlines and a curved-glass vignette over the whole desktop.</span></span></label>
+      <label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="dp-big"${v.big?' checked':''} style="margin-top:3px"><span><b>Large text</b><br><span style="font-size:12px">Makes everything about 15% bigger.</span></span></label>`;
+  return `<section class="win" data-win="settings" role="dialog" aria-label="Display settings" style="position:fixed;top:72px;left:max(12px,calc(50% - 230px));width:min(460px,calc(100vw - 24px));max-height:calc(100vh - 140px);overflow:auto;z-index:40">
+    ${bar(mac?'Appearance':'Display Properties','settings')}
+    <div class="dp-tabs" role="tablist">${tabs}</div>
+    <div class="dp-body">${body}</div>
+    <div class="dp-foot"><button class="bev" data-a="dp-reset">Restore defaults</button><button class="bev" data-a="dp-ok" style="min-width:90px;font-weight:bold">OK</button></div>
+  </section>`;
 }
 function renderTasks(){
   const t = document.getElementById('tasks'); t.innerHTML='';
   if (S.stage!=='online') return;
   Object.keys(WINS).forEach(id=>{
     if (id==='mail' && !S.mail) return;
+    if (id==='settings') return;
     const b = document.createElement('button');
     b.className = 'bev'+(S.closed[id]?'':' on'); b.textContent = WINS[id];
     b.style.cssText = 'padding:2px 8px;min-height:32px;font-size:12px';
     b.onclick = ()=>{ S.closed[id] = !S.closed[id]; render(); };
     t.appendChild(b);
   });
+  const g = document.createElement('button');
+  g.className = 'bev'+(S.settings?' on':''); g.title = 'Wallpaper, theme and effects';
+  g.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" style="vertical-align:-2px;margin-right:5px"><rect x="1.5" y="2" width="13" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 14h6M8 11v3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9l3-3 2 2 2-3 2 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>Settings';
+  g.style.cssText = 'padding:2px 8px;min-height:32px;font-size:12px';
+  g.onclick = ()=>{ S.settings = !S.settings; S.closed.settings=false; render(); };
+  t.appendChild(g);
 }
 function render(){
   app.innerHTML = S.stage==='signon' ? viewSignon() : S.stage==='connecting' ? viewConnecting() : viewOnline();
@@ -252,9 +298,21 @@ app.addEventListener('click', e=>{
   else if(a==='ch') set({ch:i});
   else if(a==='im') { S.closed.im=false; set({im:i}); }
   else if(a==='mail') { S.closed.mail=false; set({mail:true}); setTimeout(()=>{const m=app.querySelector('[data-win=mail]'); if(m) m.scrollIntoView({behavior:'smooth',block:'center'});},50); }
-  else if(a==='close') { S.closed[b.dataset.w]=true; render(); }
+  else if(a==='close') { if(b.dataset.w==='settings') S.settings=false; S.closed[b.dataset.w]=true; render(); }
+  else if(a==='dp-tab') set({dpTab:b.dataset.t});
+  else if(a==='dp-wall') saveDisplay({wall:b.dataset.w});
+  else if(a==='dp-theme') saveDisplay({theme:b.dataset.t, wall:window.LO_THEME_WALL[b.dataset.t]});
+  else if(a==='dp-reset') saveDisplay({theme:'win95',wall:'teal',color:'#008080',crt:false,big:false});
+  else if(a==='dp-ok') set({settings:false});
 });
-app.addEventListener('change', e=>{ if(e.target.id==='sn') S.who = e.target.value; });
+app.addEventListener('change', e=>{
+  if(e.target.id==='sn') S.who = e.target.value;
+  else if(e.target.id==='dp-crt') saveDisplay({crt:e.target.checked});
+  else if(e.target.id==='dp-big') saveDisplay({big:e.target.checked});
+  else if(e.target.id==='dp-color') saveDisplay({wall:'custom',color:e.target.value});
+});
+app.addEventListener('input', e=>{ if(e.target.id==='dp-color'){ window.LO_SET.wall='custom'; window.LO_SET.color=e.target.value; window.LO_APPLY(); const scr=app.querySelector('.dp-scr'); if(scr) scr.style.background=e.target.value; } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && S.settings) set({settings:false}); });
 document.getElementById('task').addEventListener('click', ()=> S.stage==='online' ? go('signon') : signOn());
 Win95.enableDrag(app);
 Win95.clock(document.getElementById('clock'));

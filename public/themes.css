@@ -1,0 +1,82 @@
+/* Desktop themes for Lvovich Online. Picked in Settings › Appearance and stored per browser. */
+
+/* ---------- Windows 2000 ---------- */
+html[data-theme=win2k]{--face:#D4D0C8;--sh:#404040;--sh2:#808080;--accent:#0A246A;--sel:#0A246A;--ttl:linear-gradient(90deg,#0A246A,#A6CAF0);--ttl-off:linear-gradient(90deg,#808080,#C0C0C0);--font:Tahoma,'Segoe UI',sans-serif}
+
+/* ---------- Windows XP ---------- */
+html[data-theme=winxp]{--face:#ECE9D8;--hi:#FFF;--sh:#ACA899;--sh2:#ACA899;--edge:transparent;--accent:#0A3F9E;--sel:#316AC5;--link:#0B4FB3;--ttl:linear-gradient(180deg,#0997FF 0%,#0053EE 8%,#0050EE 40%,#06F 88%,#0034C9 100%);--ttl-off:linear-gradient(180deg,#7A96DF,#A6B9EF 40%,#7A96DF);--font:Tahoma,'Segoe UI',sans-serif}
+html[data-theme=winxp] .win{border:3px solid #0831D9;border-top:0;border-radius:8px 8px 0 0;box-shadow:2px 3px 8px rgba(0,0,0,.35);overflow:hidden}
+html[data-theme=winxp] .win.inactive{border-color:#7A96DF}
+html[data-theme=winxp] .ttl{padding:6px 6px 6px 10px;font-size:13px;text-shadow:1px 1px #0F1089;border-radius:6px 6px 0 0}
+html[data-theme=winxp] .tbtn{width:21px;height:21px;border:1px solid #FFF;border-radius:3px;background:linear-gradient(180deg,#3C8CF3,#2161E3);color:#FFF;font-size:12px}
+html[data-theme=winxp] .tb .tbtn:last-child{background:linear-gradient(180deg,#E37B5F,#C24A28)}
+html[data-theme=winxp] .bev{border:1px solid #003C74;border-radius:3px;background:linear-gradient(180deg,#FFF,#ECEBE6 85%,#D6D0C5);box-shadow:none}
+html[data-theme=winxp] .bev.on,html[data-theme=winxp] .bev:active{background:linear-gradient(180deg,#E3E3DB,#F2F1EC);border-color:#003C74}
+html[data-theme=winxp] .well{border:1px solid #7F9DB9}
+html[data-theme=winxp] .taskbar{background:linear-gradient(180deg,#3168D5,#4993E6 8%,#2157D7 40%,#2257D8 88%,#1941A5);border-top:0;color:#FFF}
+html[data-theme=winxp] .taskbar .bev{color:#FFF;background:linear-gradient(180deg,#3C81F3,#2E6FE7);border:1px solid #1C4ABF}
+html[data-theme=winxp] .taskbar .bev.on{background:linear-gradient(180deg,#1E52B7,#1B4BA8)}
+html[data-theme=winxp] #task{background:linear-gradient(180deg,#5EAC56,#3C8F3C 60%,#2F7A2F);border:0;border-radius:0 10px 10px 0;font-style:italic;font-size:15px;text-shadow:1px 1px #1A4D1A;padding:2px 18px 2px 12px!important;margin:-4px 4px -4px -6px;min-height:40px!important}
+html[data-theme=winxp] .tray{background:linear-gradient(180deg,#0C59B9,#139EE9 8%,#18B9F1 30%,#139EE9 85%,#0D69C9);border:0;border-left:1px solid #092E80;color:#FFF;margin:-4px -6px -4px 0;padding:10px 14px}
+
+/* ---------- Mac OS 8 · Platinum ---------- */
+html[data-theme=mac8]{--face:#DDD;--hi:#FFF;--sh:#777;--sh2:#999;--edge:#000;--accent:#3333A0;--sel:#CCF;--sel-fg:#000;--link:#00E;--link-hov:#C00;--ttl:repeating-linear-gradient(180deg,#DDD 0 1px,#AAA 1px 2px);--ttl-fg:#000;--ttl-off:#DDD;--ttl-off-fg:#888;--font:Charcoal,'Chicago','Geneva','Helvetica Neue',Arial,sans-serif}
+html[data-theme=mac8] .win{border:1px solid #000;box-shadow:1px 1px 0 #000,inset 1px 1px 0 #FFF,inset -1px -1px 0 #999}
+html[data-theme=mac8] .ttl{flex-direction:row-reverse;justify-content:flex-start;padding:3px 5px;font-size:12px;background-clip:content-box;border-bottom:1px solid #999}
+html[data-theme=mac8] .tbtn{width:13px;height:13px;border:1px solid #444;background:linear-gradient(135deg,#FFF,#AAA);box-shadow:inset -1px -1px 0 #777;font-size:0;border-radius:0}
+html[data-theme=mac8] .bev{border:1px solid #000;border-radius:5px;background:linear-gradient(180deg,#F4F4F4,#CFCFCF);box-shadow:inset 1px 1px 0 #FFF,inset -1px -1px 0 #999}
+html[data-theme=mac8] .bev.on,html[data-theme=mac8] .bev:active{background:linear-gradient(180deg,#888,#AAA);color:#FFF}
+html[data-theme=mac8] .well{border:1px solid;border-color:#777 #FFF #FFF #777;box-shadow:inset 1px 1px 0 #000}
+html[data-theme=mac8] .taskbar{order:-1;top:0;bottom:auto;background:linear-gradient(180deg,#F4F4F4,#DADADA);border-top:0;border-bottom:1px solid #000;padding:2px 10px;font-size:13px}
+html[data-theme=mac8] .taskbar .bev{border:0;border-radius:0;background:none;box-shadow:none;min-height:24px!important;padding:2px 10px!important}
+html[data-theme=mac8] .taskbar .bev.on{background:none;color:#000;text-decoration:underline}
+html[data-theme=mac8] .taskbar .bev:hover{background:#33339A;color:#FFF}
+html[data-theme=mac8] .tray{border:0}
+html[data-theme=mac8] .buddy.on{background:var(--sel);color:#000}
+
+/* ---------- System 7 · 1-bit ---------- */
+html[data-theme=sys7]{--face:#FFF;--hi:#FFF;--sh:#000;--sh2:#000;--edge:#000;--text:#000;--accent:#000;--sel:#000;--sel-fg:#FFF;--link:#000;--link-hov:#000;--ttl:repeating-linear-gradient(180deg,#FFF 0 1px,#000 1px 2px);--ttl-fg:#000;--ttl-off:#FFF;--ttl-off-fg:#000;--font:'Chicago',Charcoal,Geneva,'Helvetica Neue',Arial,sans-serif}
+html[data-theme=sys7] .win{border:1px solid #000;box-shadow:2px 2px 0 #000}
+html[data-theme=sys7] .ttl{flex-direction:row-reverse;justify-content:flex-start;padding:3px 6px;border-bottom:1px solid #000;font-size:12px;background-clip:content-box}
+html[data-theme=sys7] .tbtn{width:13px;height:13px;border:1px solid #000;background:#FFF;font-size:0;border-radius:0}
+html[data-theme=sys7] .bev{border:2px solid #000;border-radius:8px;background:#FFF;box-shadow:none}
+html[data-theme=sys7] .bev.on,html[data-theme=sys7] .bev:active{background:#000;color:#FFF}
+html[data-theme=sys7] .well{border:1px solid #000;box-shadow:none}
+html[data-theme=sys7] a{text-decoration:underline}
+html[data-theme=sys7] .taskbar{order:-1;top:0;bottom:auto;background:#FFF;border-top:0;border-bottom:1px solid #000;padding:2px 10px}
+html[data-theme=sys7] .taskbar .bev{border:0;border-radius:0;min-height:24px!important;padding:2px 10px!important}
+html[data-theme=sys7] .taskbar .bev.on{background:#FFF;color:#000;text-decoration:underline}
+html[data-theme=sys7] .taskbar .bev:hover{background:#000;color:#FFF}
+html[data-theme=sys7] .tray{border:0}
+html[data-theme=sys7] .chan i{filter:grayscale(1) contrast(1.4)}
+
+/* Mac title text sits on a plain patch over the stripes */
+html[data-theme=mac8] .ttl>span:first-child,html[data-theme=sys7] .ttl>span:first-child{flex:1;display:flex;justify-content:center;color:#000;font-weight:bold}
+html[data-theme=mac8] .ttl>span:first-child>.tt,html[data-theme=sys7] .ttl>span:first-child>.tt{background:var(--face);padding:0 8px}
+
+/* ---------- Effects ---------- */
+html.crt body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.35));mix-blend-mode:multiply}
+
+/* ---------- Settings window ---------- */
+.dp-tabs{display:flex;gap:2px;padding:10px 10px 0}
+.dp-tab{background:var(--face);border:2px solid;border-color:var(--hi) var(--sh) transparent var(--hi);border-bottom:0;padding:4px 12px;color:var(--text);position:relative;top:2px}
+.dp-tab[aria-selected=true]{z-index:1;padding-bottom:6px;top:0;font-weight:bold}
+.dp-body{margin:0 10px;border:2px solid;border-color:var(--hi) var(--sh) var(--sh) var(--hi);padding:12px}
+.dp-mon{width:180px;margin:0 auto 12px;background:var(--face);border:2px solid;border-color:var(--hi) var(--sh) var(--sh) var(--hi);padding:8px 8px 18px;position:relative}
+.dp-mon::after{content:"";position:absolute;left:50%;bottom:-12px;width:70px;margin-left:-35px;height:10px;background:var(--face);border:2px solid;border-color:var(--hi) var(--sh) var(--sh) var(--hi)}
+.dp-scr{height:96px;border:2px solid;border-color:var(--sh2) var(--hi) var(--hi) var(--sh2);background-size:auto;position:relative;overflow:hidden}
+.dp-scr i{position:absolute;left:18px;top:14px;width:90px;height:52px;background:#C0C0C0;border:1px solid #000}
+.dp-scr i::before{content:"";display:block;height:9px;background:linear-gradient(90deg,#000080,#1084D0)}
+.dp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.dp-sw{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;min-height:auto;font-size:12px}
+.dp-sw b{display:block;width:100%;height:40px;border:1px solid #000;background-size:auto}
+.dp-sw[aria-pressed=true]{outline:2px solid var(--sel);outline-offset:1px}
+.dp-themes{display:flex;flex-direction:column;gap:6px}
+.dp-th{display:flex;align-items:center;gap:10px;text-align:left;padding:6px 10px;min-height:auto}
+.dp-th[aria-pressed=true]{outline:2px solid var(--sel);outline-offset:1px}
+.dp-th .pv{flex:0 0 76px;height:44px;border:1px solid #000;position:relative;overflow:hidden}
+.dp-th .pv i{position:absolute;left:8px;top:7px;right:8px;bottom:6px;border:1px solid #000}
+.dp-th .pv i::before{content:"";display:block;height:8px}
+.dp-row{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dp-foot{display:flex;justify-content:space-between;gap:8px;padding:10px;flex-wrap:wrap}
+html.big body{zoom:1.15}
