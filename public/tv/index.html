@@ -134,7 +134,7 @@
         </div>
       </div>
     </div>
-    <div class="help" id="help">Drag the channel dial (or use ← →), tap the side of the set to smack it, shake your phone to smack it, and tap the screen with three fingers (or the ⚙) for the service menu.</div>
+    <div class="help" id="help"><b>Heads up:</b> channels can take a few seconds to tune in. Drag the channel dial (or use ← →), tap the side of the set to smack it, shake your phone to smack it, and tap the screen with three fingers (or the ⚙) for the service menu.</div>
   </section>
   <div class="legs" aria-hidden="true" style="display:none"><i></i><i></i></div>
 </main>
@@ -244,11 +244,12 @@ function tune(i){
   store.set('ch', c.n); setDial(idx);
   if (!on) return;
   showOSD('CH '+c.n, c.name, 3500);
-  snowAmt = .9; hiss(1); nosig.classList.remove('show'); ok = false;
+  snowAmt = .9; hiss(1); ok = false;
+  nosig.innerHTML = 'TUNING…<br><small style="font-size:.5em;letter-spacing:1px">channels can take a few seconds</small>'; nosig.style.textAlign='center'; nosig.classList.add('show');
   const url = BASE + '/channel/' + encodeURIComponent(c.n) + '.m3u8?mode=segmenter';
   if (hls){ hls.destroy(); hls=null; }
   vid.removeAttribute('src');
-  const fail = () => { if(!on) return; ok=false; snowAmt=.55; hiss(.6); nosig.classList.add('show'); $('led').classList.remove('on'); };
+  const fail = () => { if(!on) return; ok=false; snowAmt=.55; hiss(.6); nosig.textContent='NO SIGNAL'; nosig.classList.add('show'); $('led').classList.remove('on'); };
   const good = () => { ok=true; snowAmt=0; hiss(0); nosig.classList.remove('show'); $('led').classList.add('on'); };
   vid.onplaying = good; vid.onerror = fail;
   clearTimeout(tuneT); tuneT = setTimeout(()=>{ if(!ok) fail(); }, 9000);
