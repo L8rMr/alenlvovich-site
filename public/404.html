@@ -77,10 +77,13 @@ const st=document.getElementById('st'),pk=document.getElementById('pk');
 let ac=null;const beep=(f,d=.08,type='square',slide=0)=>{try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),v=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,ac.currentTime);if(slide)o.frequency.exponentialRampToValueAtTime(slide,ac.currentTime+d);v.gain.setValueAtTime(.05,ac.currentTime);v.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(v).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}};
 // ---- input
 const KM={ArrowLeft:'L',KeyA:'L',ArrowRight:'R',KeyD:'R',Space:'J',ArrowUp:'J',KeyW:'J'};
-addEventListener('keydown',e=>{const k=KM[e.code];if(k){keys[k]=true;e.preventDefault()}if(e.code==='Enter'&&won)location.href='/'});
+addEventListener('keydown',e=>{const k=KM[e.code];if(k){if(k==='J'&&!e.repeat)jumpBuf=10;keys[k]=true;e.preventDefault()}if(e.code==='Enter'&&won)location.href='/'});
 addEventListener('keyup',e=>{const k=KM[e.code];if(k)keys[k]=false});
-document.querySelectorAll('.pad button').forEach(b=>{const k=b.dataset.k;const on=v=>e=>{e.preventDefault();keys[k]=v;b.classList.toggle('on',v)};b.addEventListener('pointerdown',on(true));['pointerup','pointercancel','pointerleave'].forEach(t=>b.addEventListener(t,on(false)))});
-let jumpHeld=false;
+document.querySelectorAll('.pad button').forEach(b=>{const k=b.dataset.k;const on=v=>e=>{e.preventDefault();if(v&&k==='J'&&!keys.J)jumpBuf=10;keys[k]=v;b.classList.toggle('on',v)};b.addEventListener('pointerdown',on(true));['pointerup','pointercancel','pointerleave'].forEach(t=>b.addEventListener(t,on(false)))});
+// Jumps are buffered (a quick tap between frames still counts) and allowed for a few frames after
+// stepping off a ledge, so presses near an edge or mid-landing don't get swallowed.
+let jumpBuf=0,coyote=0,jumpT=99;
+addEventListener('blur',()=>{keys={}});
 // ---- physics
 const collide=(ax)=>{const x0=Math.floor(P.x/T),x1=Math.floor((P.x+P.w-1)/T),y0=Math.floor(P.y/T),y1=Math.floor((P.y+P.h-1)/T);
   for(let r=y0;r<=y1;r++)for(let c=x0;c<=x1;c++)if(solid(c,r)){
@@ -92,9 +95,10 @@ function step(){
   if(!won){
     const ax=(keys.R?1:0)-(keys.L?1:0);
     P.vx+=ax*.35;P.vx*=P.on?.78:.9;if(Math.abs(P.vx)<.05)P.vx=0;P.vx=Math.max(-2.2,Math.min(2.2,P.vx));if(ax)P.face=ax;
-    if(keys.J&&!jumpHeld&&P.on){P.vy=-4.6;P.on=false;beep(520,.12,'square',900)}
-    if(!keys.J&&P.vy<-1.5)P.vy=-1.5; // short hop when released
-    jumpHeld=!!keys.J;
+    if(P.on)coyote=7;else if(coyote>0)coyote--;
+    if(jumpBuf>0){jumpBuf--;if(coyote>0){P.vy=-4.6;P.on=false;coyote=0;jumpBuf=0;jumpT=0;beep(520,.12,'square',900)}}
+    jumpT++;
+    if(!keys.J&&jumpT>8&&P.vy<-1.5)P.vy=-1.5; // let go early for a short hop (after a guaranteed minimum)
   }else{P.vx=0}
   P.vy=Math.min(P.vy+.25,5);
   P.x+=P.vx;collide('x');P.on=false;P.y+=P.vy;collide('y');
