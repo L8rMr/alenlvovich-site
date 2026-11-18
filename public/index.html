@@ -81,7 +81,7 @@
 <script src="/win95.js?v=2"></script>
 <script>
 (function(){
-const RESUME_URL = '/Alen_Lvovich_Resume.pdf?v=4';
+const RESUME_URL = '/Alen_Lvovich_Resume.pdf?v=5';
 const S = { stage:'signon', step:0, im:0, ch:0, mail:false, who:'Recruiter99', closed:{}, settings:false, dpTab:'bg' };
 let timers = [];
 const app = document.getElementById('app');
@@ -131,7 +131,10 @@ const CH = [
     link:{ href:'/bagel-quest/', label:'Play Bagel Quest' } },
   { mono:'TV', color:'#660099', name:'LvovichTV',
     desc:'My own TV station: live, always-on channels with era-matched commercials, playing on a CRT you can tune, degauss and smack.',
-    link:{ href:'/tv/', label:'Turn on LvovichTV' } }
+    link:{ href:'/tv/', label:'Turn on LvovichTV' } },
+  { mono:'PB', color:'#2B6CB0', icon:'/img/puzzlebro.png', name:'PuzzleBro',
+    desc:'My jigsaw puzzle app for iPhone and iPad, live on the App Store: real photos, daily puzzles, puzzles from your own pictures, and pieces that snap together anywhere on the table. $1.99, no ads, works offline.',
+    link:{ href:'https://apps.apple.com/us/app/puzzlebro/id6831681198', label:'Get PuzzleBro on the App Store', ext:true } }
 ];
 const SL = ['Dialing','Connecting','Checking password'];
 const ST = ['Dialing 1-555-HIRE-ALN…','Connected at 56,000 bps. Handshaking…','Checking password…','Welcome! Loading your desktop…'];
@@ -188,7 +191,7 @@ function viewConnecting(){
 }
 function viewOnline(){
   const im = IM[S.im], ch = CH[S.ch];
-  const chans = CH.map((c,i)=>`<button class="bev chan ${S.ch===i?'on':''}" data-a="ch" data-i="${i}" aria-pressed="${S.ch===i}"><i aria-hidden="true" style="background:${c.color}">${c.mono}</i><span style="font-size:12px;text-align:center;line-height:1.2">${c.name}</span></button>`).join('');
+  const chans = CH.map((c,i)=>`<button class="bev chan ${S.ch===i?'on':''}" data-a="ch" data-i="${i}" aria-pressed="${S.ch===i}">${c.icon?`<i aria-hidden="true" style="background:${c.color} url(${c.icon}) center/cover;font-size:0">${c.mono}</i>`:`<i aria-hidden="true" style="background:${c.color}">${c.mono}</i>`}<span style="font-size:12px;text-align:center;line-height:1.2">${c.name}</span></button>`).join('');
   const lines = im.lines.map(([w,t])=>`<div><b style="color:${w==='a'?'#0000CC':'#CC0000'}">${w==='a'?'AlenL':esc(S.who)}:</b> ${esc(t)}</div>`).join('');
   const buddies = IM.map((b,i)=>`<button class="buddy ${S.im===i?'on':''}" data-a="im" data-i="${i}" aria-pressed="${S.im===i}"><span class="dot" aria-hidden="true" style="background:${b.dot}"></span><span style="display:flex;flex-direction:column"><b>${b.co}</b><span style="font-size:12px">${b.status}</span></span></button>`).join('');
   const link = ch.link ? ` <a href="${ch.link.href}"${ch.link.ext?' target="_blank" rel="noopener"':''}>${ch.link.label}</a>` : '';
