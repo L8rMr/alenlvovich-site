@@ -71,6 +71,10 @@ html.crt body::after{display:none}
   function load(){
     let f = screen.querySelector('iframe');
     if (f && f.dataset.src === GAME) return;
+    if (!document.createElement('canvas').getContext('webgl2')){
+      st.textContent = 'This browser has 3D graphics (WebGL 2) turned off, which the game needs. In Chrome: Settings → System → turn on \u201cUse graphics acceleration when available\u201d, then relaunch. Safari and iPhone work as-is.';
+      return;
+    }
     st.textContent = 'Loading BAGELQST.EXE… (about 10 MB the first time)';
     const cover = document.getElementById('cover'); if (cover) cover.remove();
     if (!f){
