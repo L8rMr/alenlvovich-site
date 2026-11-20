@@ -9,7 +9,7 @@ Edit anything in [`public/`](public/) and commit to `main`. The site picks up th
 - `public/index.html` is the whole site: HTML, CSS and JS in one file.
 - `public/Alen_Lvovich_Resume.pdf` is the résumé the "Download résumé" button links to.
 - `public/win95.css` and `public/win95.js` hold the shared Windows 95 look and the draggable windows.
-- `public/bagel-quest/` is the Bagel Quest page (`classic/` is the original single-file version). It frames the live game from `bagel.lvovichtv.com`, which deploys from the `L8rMr/bagel-quest` repo.
+- `public/bagel-quest/` is the Bagel Quest page. It frames `play/`, the Godot web build of the classic edition from the `L8rMr/bagel-quest` repo (`godot-2d-legacy`). To update the game, re-export `index.pck` from that project and replace `play/index.pck`, then set its byte size in `play/index.html` (`fileSizes`). `engine.wasm.gz` is the stock Godot 4.3 single-threaded web engine.
 - `public/tv/` is LvovichTV: a CRT set with a channel dial, volume, power, degauss, smack and a service menu. It plays ErsatzTV channels through `/iptv/`, which nginx proxies to ErsatzTV on the PC (port 8409). Edit `public/tv/channels.json` to choose which channels show, rename them or reorder the dial.
 - Signal Terminal (the "ST" entry in `index.html`) links out to `signal.alenlvovich.com`, which runs from the `L8rMr/signal-terminal` repo on the same PC (port 8098, read-only public view).
 - `public/trueup/` is the TrueUp demo: a from-scratch recreation of Alen's work budget platform on fictional data (`trueup-core.js` holds the data, rules, math and Excel export).
