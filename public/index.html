@@ -192,6 +192,10 @@ function viewConnecting(){
     <div style="display:flex;justify-content:flex-end"><button class="bev" data-a="skip">Cancel</button></div>
   </div></div></div>`;
 }
+// the parts that change when a project or a buddy is picked, so a tap only updates those (no full re-render, no jump)
+function chDesc(){ const ch = CH[S.ch]; const link = ch.link ? ` <a href="${ch.link.href}"${ch.link.ext?' target="_blank" rel="noopener"':''}>${ch.link.label}</a>` : ''; return `<b>${ch.name}:</b> ${esc(ch.desc)}${link}`; }
+function imLines(){ return IM[S.im].lines.map(([w,t])=>`<div><b style="color:${w==='a'?'#0000CC':'#CC0000'}">${w==='a'?'AlenL':esc(S.who)}:</b> ${esc(t)}</div>`).join(''); }
+function pick(sel, i){ app.querySelectorAll(sel).forEach((el,k)=>{ el.classList.toggle('on', k===i); el.setAttribute('aria-pressed', String(k===i)); }); }
 function viewOnline(){
   const im = IM[S.im], ch = CH[S.ch];
   const chans = CH.map((c,i)=>`<button class="bev chan ${S.ch===i?'on':''}" data-a="ch" data-i="${i}" aria-pressed="${S.ch===i}">${c.icon?`<i aria-hidden="true" style="background:${c.color} url(${c.icon}) center/cover;font-size:0">${c.mono}</i>`:`<i aria-hidden="true" style="background:${c.color}">${c.mono}</i>`}<span style="font-size:12px;text-align:center;line-height:1.2">${c.name}</span></button>`).join('');
@@ -218,7 +222,7 @@ function viewOnline(){
       <div style="padding:0 14px 14px">
         <div style="font-weight:bold;margin-bottom:8px">Channels: things I build after hours</div>
         <div class="chans">${chans}</div>
-        <div class="well" style="margin-top:10px;padding:12px 14px;line-height:1.5"><b>${ch.name}:</b> ${esc(ch.desc)}${link}</div>
+        <div class="well" id="chdesc" aria-live="polite" style="margin-top:10px;padding:12px 14px;line-height:1.5">${chDesc()}</div>
       </div>`);
 
   const imw = win('im','',`${bar('Instant Message: '+im.co,'im')}
@@ -359,19 +363,25 @@ function restoreWin(id){
   zoomFrom(id);
 }
 function render(){
+  const y = window.scrollY;
   app.innerHTML = S.stage==='signon' ? viewSignon() : S.stage==='connecting' ? viewConnecting() : viewOnline();
   Win95.restore(app);
   renderTasks();
   document.getElementById('task').textContent = S.stage==='online' ? 'Sign Off' : 'Sign On';
   document.getElementById('conn').textContent = S.stage==='online' ? 'Lvovich Online: connected at 56K' : 'Lvovich Online: not connected';
+  if (S.stage==='online' && Math.abs(window.scrollY - y) > 2) window.scrollTo(0, y);
 }
 app.addEventListener('click', e=>{
   const b = e.target.closest('[data-a]'); if(!b) return;
   const a = b.dataset.a, i = +b.dataset.i;
   if(a==='signon') signOn();
   else if(a==='skip') go('online');
-  else if(a==='ch') set({ch:i});
-  else if(a==='im') { S.closed.im=false; set({im:i}); }
+  else if(a==='ch') { S.ch=i; const d=app.querySelector('#chdesc'); if(!d) return render(); pick('.chan', i); d.innerHTML=chDesc(); }
+  else if(a==='im') {
+    if (S.closed.im) { S.closed.im=false; return set({im:i}); }
+    S.im=i; const w=app.querySelector('[data-win=im]'); if(!w) return render();
+    pick('.buddy', i); w.querySelector('.tt').textContent='Instant Message: '+IM[i].co; w.querySelector('[role=log]').innerHTML=imLines();
+  }
   else if(a==='mail') { S.closed.mail=false; set({mail:true}); setTimeout(()=>{const m=app.querySelector('[data-win=mail]'); if(m) m.scrollIntoView({behavior:'smooth',block:'center'});},50); }
   else if(a==='close') minimizeWin(b.dataset.w);
   else if(a==='dp-tab') set({dpTab:b.dataset.t});
