@@ -14,7 +14,7 @@ html, body, #canvas {
 
 body {
 	color: white;
-	background-color: black;
+	background-color: #1d234f;
 	overflow: hidden;
 	touch-action: none;
 }
@@ -39,7 +39,7 @@ body {
 }
 
 #status {
-	background-color: #242424;
+	background-color: #1d234f;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -51,6 +51,8 @@ body {
 	max-height: 100%;
 	max-width: 100%;
 	margin: auto;
+	image-rendering: pixelated;
+	object-fit: contain;
 }
 
 #status-progress, #status-notice {
@@ -79,7 +81,7 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
-<style>html,body{background:#101018;margin:0;overflow:hidden;position:fixed;inset:0;overscroll-behavior:none;touch-action:none;-webkit-user-select:none;user-select:none}canvas{touch-action:none}</style><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bagel Quest HD"><meta name="theme-color" content="#101018">
+<style>html,body{background:#1d234f;margin:0;overflow:hidden;position:fixed;inset:0;overscroll-behavior:none;touch-action:none;-webkit-user-select:none;user-select:none}canvas{touch-action:none}</style><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bagel Quest HD"><meta name="theme-color" content="#101018">
 	</head>
 	<body>
 		<canvas id="canvas">
@@ -105,7 +107,7 @@ body {
 </script>
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":2679616,"index.wasm":35376909},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":2690112,"index.wasm":35376909},"focusCanvas":true,"gdextensionLibs":[]};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -181,7 +183,7 @@ const engine = new Engine(GODOT_CONFIG);
 			});
 		} else {
 			// Display the message as usual
-			const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+			const missingMsg = 'Bagel Quest cannot start in this browser. It needs:\n';
 			displayFailureNotice(missingMsg + missing.join('\n'));
 		}
 	} else {
